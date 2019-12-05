@@ -5,9 +5,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 public class Like {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long likeID;
@@ -39,5 +41,28 @@ public class Like {
     }
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(o == null) {
+            return false;
+        }
+        if(getClass() != o.getClass()) {
+            return false;
+        }
+        final Like other = (Like) o;
+        if(!Objects.equals(likeID, other.likeID)) {
+            return false;
+        }
+        return true;
+    }
+    @Override
+    public int hashCode(){
+        if(likeID == (Long)null) {
+            return 0;
+        } else {
+            return Long.hashCode(likeID);
+        }
     }
 }

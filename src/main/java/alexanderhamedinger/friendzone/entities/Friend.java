@@ -1,10 +1,8 @@
 package alexanderhamedinger.friendzone.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 public class Friend {
@@ -40,5 +38,28 @@ public class Friend {
     }
     public void setFriendsSince(Date friendsSince) {
         this.friendsSince = friendsSince;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(o == null) {
+            return false;
+        }
+        if(getClass() != o.getClass()) {
+            return false;
+        }
+        final Friend other = (Friend) o;
+        if(!Objects.equals(friendID, other.friendID)) {
+            return false;
+        }
+        return true;
+    }
+    @Override
+    public int hashCode(){
+        if(friendID == (Long)null) {
+            return 0;
+        } else {
+            return Long.hashCode(friendID);
+        }
     }
 }

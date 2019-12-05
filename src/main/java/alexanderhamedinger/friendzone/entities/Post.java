@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 public class Post {
@@ -47,5 +48,28 @@ public class Post {
     }
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(o == null) {
+            return false;
+        }
+        if(getClass() != o.getClass()) {
+            return false;
+        }
+        final Post other = (Post) o;
+        if(!Objects.equals(postID, other.postID)) {
+            return false;
+        }
+        return true;
+    }
+    @Override
+    public int hashCode(){
+        if(postID == (Long)null) {
+            return 0;
+        } else {
+            return Long.hashCode(postID);
+        }
     }
 }

@@ -1,10 +1,10 @@
 package alexanderhamedinger.friendzone.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import javax.persistence.*;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 public class User {
@@ -61,5 +61,28 @@ public class User {
     }
     public void setLatestRegistration(Date latestRegistration) {
         this.latestRegistration = latestRegistration;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(o == null) {
+            return false;
+        }
+        if(getClass() != o.getClass()) {
+            return false;
+        }
+        final User other = (User) o;
+        if(!Objects.equals(userID, other.userID)) {
+            return false;
+        }
+        return true;
+    }
+    @Override
+    public int hashCode(){
+        if(userID == (Long)null) {
+            return 0;
+        } else {
+            return Long.hashCode(userID);
+        }
     }
 }
