@@ -13,7 +13,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long userID;
-    private String eMail;
+    private String email;
     @NotEmpty(message = "username is required")
     @Column(unique = true)
     private String username;
@@ -30,11 +30,11 @@ public class User {
     public void setUserID(long userID) {
         this.userID = userID;
     }
-    public String geteMail() {
-        return eMail;
+    public String getEmail() {
+        return email;
     }
-    public void seteMail(String eMail) {
-        this.eMail = eMail;
+    public void setEmail(String eMail) {
+        this.email = eMail;
     }
     public String getUsername() {
         return username;

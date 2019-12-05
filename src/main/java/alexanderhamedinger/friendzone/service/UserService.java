@@ -10,14 +10,9 @@ public class UserService implements UserServiceIF {
     private UserRepository userRepository;
 
     @Override
-    public User registryUser(User user) {
-        //prüft ob es bereits einen Eintrag mit dieser Email oder Usernamen gibt
-        if(userRepository.findByUsername(user.getUsername()) == null) {
-            if(userRepository.findByeMail(user.geteMail()) == null) {
-                User neu = userRepository.save(user);
-                return neu;
-            }
-        }
-        return null;
+    public User createUser(User user) {
+        User neu = userRepository.save(user);
+        return neu;
+
     }
 }

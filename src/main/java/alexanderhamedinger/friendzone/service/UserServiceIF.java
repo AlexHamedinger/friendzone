@@ -4,5 +4,5 @@ import alexanderhamedinger.friendzone.entities.User;
 
 public interface UserServiceIF {
 
-    public User registryUser(User user);
+    public User createUser(User user);
 }
