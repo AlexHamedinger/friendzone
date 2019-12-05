@@ -3,6 +3,7 @@ package alexanderhamedinger.friendzone.entities;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.Date;
 import java.util.Objects;
 
@@ -13,7 +14,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long userID;
     private String eMail;
+    @NotEmpty(message = "username is required")
+    @Column(unique = true)
     private String username;
+    @NotEmpty(message = "username is required")
     private String password;
     private byte[] profileImage;
     private Date initialRegistration;
