@@ -1,14 +1,16 @@
 package alexanderhamedinger.friendzone.entities;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Objects;
 
 @Entity
-public class User {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -67,6 +69,29 @@ public class User {
         this.latestRegistration = latestRegistration;
     }
 
+    //UserDetails Override
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return AuthorityUtils.createAuthorityList("ROLE_USER");
+    }
+
+    //Override lang
     @Override
     public boolean equals(Object o) {
         if(o == null) {
@@ -88,5 +113,16 @@ public class User {
         } else {
             return Long.hashCode(userID);
         }
+    }
+    @Override
+    public String toString() {
+        return "#########################################################################\n" +
+                "UserID: " + userID + "\n" +
+                "Username: " + username + "\n" +
+                "Password: " + password + "\n" +
+                "EMail: " + email + "\n" +
+                "Latest Registration: " + latestRegistration + "\n" +
+                "Member since: " + initialRegistration + "\n" +
+                "#########################################################################\n";
     }
 }
