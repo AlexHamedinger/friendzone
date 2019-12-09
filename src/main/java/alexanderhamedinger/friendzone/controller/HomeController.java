@@ -7,7 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.security.Principal;
 import java.util.Date;
 
 @Controller
@@ -21,19 +23,21 @@ public class HomeController {
         return "home";
     }
 
-    @RequestMapping("/home")
-    public String home() {
-        return "home";
-    }
-
     @RequestMapping("/login")
-    public String login() {
+    public String login(
+            Principal user
+    ) {
         return "login";
     }
 
     @RequestMapping("/login/register")
     public String loginRegister() {
         return "register";
+    }
+
+    @RequestMapping("/home")
+    public String home() {
+        return "home";
     }
 
     @RequestMapping("/register")
@@ -51,7 +55,8 @@ public class HomeController {
         user.setInitialRegistration(new Date());
         user = userService.createUser(user);
         System.out.println(user);
-        return "home";
+        model.addAttribute("user", user);
+        return "login";
     }
 
 }

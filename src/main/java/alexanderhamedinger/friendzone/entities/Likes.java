@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.Objects;
 
 @Entity
-public class Like {
+public class Likes {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -51,7 +51,7 @@ public class Like {
         if(getClass() != o.getClass()) {
             return false;
         }
-        final Like other = (Like) o;
+        final Likes other = (Likes) o;
         if(!Objects.equals(likeID, other.likeID)) {
             return false;
         }
