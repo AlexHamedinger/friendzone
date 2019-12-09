@@ -24,8 +24,12 @@ public class UserService implements UserServiceIF, UserDetailsService {
     @Override
     public User createUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        User neu = userRepository.save(user);
-        return neu;
+        if(userRepository.findByUsername(user.getUsername()) != null) {
+            return null;
+        } else {
+            User neu = userRepository.save(user);
+            return neu;
+        }
     }
 
     @Override

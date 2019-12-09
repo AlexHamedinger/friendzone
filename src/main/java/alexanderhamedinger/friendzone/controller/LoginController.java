@@ -13,7 +13,7 @@ import java.security.Principal;
 import java.util.Date;
 
 @Controller
-public class HomeController {
+public class LoginController {
 
     @Autowired
     private UserServiceIF userService;
@@ -47,6 +47,7 @@ public class HomeController {
             @ModelAttribute("password") String password,
             Model model
     ) {
+        //neuen User anlegen und ins Repository schreiben
         User user = new User();
         user.setEmail(email);
         user.setUsername(username);
@@ -55,8 +56,17 @@ public class HomeController {
         user.setInitialRegistration(new Date());
         user = userService.createUser(user);
         System.out.println(user);
-        model.addAttribute("user", user);
-        return "login";
+
+        //Falls der Username bereits existiert wird null returned
+        if(user == null) {
+            model.addAttribute("invalidUsername", "Invalid Username!");
+            return "register";
+        } else {
+            model.addAttribute("successfully_registered", "You registered successfully to FriendZone!");
+            model.addAttribute("username", user.getUsername());
+            model.addAttribute("password", password);
+            return "login";
+        }
     }
 
 }
