@@ -4,10 +4,11 @@
 <head th:replace="common/fragments :: friendzone_head"/>
 <body>
 <header th:replace="common/fragments :: friendzone_header"/>
+
+
 <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
-<form th:action="@{/logout}" method="post">
-    <input type="submit" value="Sign Out"/>
-</form>
+
+
 <footer th:replace="common/fragments :: friendzone_footer" />
 </body>
 </html>

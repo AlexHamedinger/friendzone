@@ -1,18 +1,50 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head th:fragment="friendzone_head">
-    <meta charset="UTF-8">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <title>FriendZone</title>
 </head>
 <body>
 <header th:fragment="friendzone_header">
-    <div>
-        <p>Hier könnte Ihre Werbung stehen!</p>
-    </div>
+    
+    <nav class="sticky-top navbar-toggler navbar-expand-sm navbar-light" style="background-color: #e3f2fd;">
+        <div class="navbar-collapse" id="collapsibleNavbar">
+            <ul class="nav navbar-nav mr-auto align-items-center">
+        
+                <li class="nav-item p-2">
+                    <a class="nav-link" href="#">Meine Pinnwand</a>
+                </li>
+                <li class="nav-item p-2">
+                    <a class="nav-link" href="#">Freunde</a>
+                </li>
+                <li class="nav-item p-2">
+                    <a class="nav-link" href="#">Suchen...</a>
+                </li>
+                <li class="nav-item p-2">
+                    <a class="nav-link" href="#">Mein Profil</a>
+                </li>
+                <li class="nav-item p-2">
+                    <a class="nav-link" href="#">Neueste Posts</a>
+                </li>    
+            </ul>
+            <form th:action="@{/logout}" method="post" style="text-align:right">
+                <input type="submit" value="Sign Out" class="btn btn-light btn-outline-dark my-sm-0"/>
+            </form>
+        </div>  
+    </nav>
+    
 </header>
+    
+    
+    
 <footer>
     <div th:fragment="friendzone_footer">
-        <p>Auch unten kann Werbung stehen!</p>
+        <p>Hier steht der Footer</p>
     </div>
 </footer>
 </body>
