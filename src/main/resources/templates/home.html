@@ -1,14 +1,9 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-<head th:replace="common/fragments :: friendzone_head"/>
+<head th:replace="common/fragments :: friendzone_head" />
 <body>
-<header th:replace="common/fragments :: friendzone_header"/>
-
-
-<h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
-
-
-<footer th:replace="common/fragments :: friendzone_footer" />
+<header th:replace="common/fragments :: friendzone_header" />
+    <h1 th:inline="text" class="container text-center">Hallo [[${#httpServletRequest.remoteUser}]]!</h1>
 </body>
 </html>

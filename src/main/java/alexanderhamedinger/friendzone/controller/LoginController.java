@@ -7,8 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
 import java.security.Principal;
 import java.util.Date;
 
@@ -19,7 +17,11 @@ public class LoginController {
     private UserServiceIF userService;
 
     @RequestMapping("/")
-    public String start() {
+    public String start(
+            Principal principal
+    ) {
+        userService.setLatestRegistrationDate(principal.getName());
+        System.out.println("User " + principal.getName() + " wurde eingeloggt. ");
         return "home";
     }
 
@@ -45,6 +47,7 @@ public class LoginController {
             @ModelAttribute("password") String password,
             Model model
     ) {
+        System.out.println("Trying to register new User...");
         //neuen User anlegen und ins Repository schreiben
         User user = new User();
         user.setEmail(email);
@@ -53,13 +56,14 @@ public class LoginController {
         user.setLatestRegistration(new Date());
         user.setInitialRegistration(new Date());
         user = userService.createUser(user);
-        System.out.println(user);
 
         //Falls der Username bereits existiert wird null returned
         if(user == null) {
-            model.addAttribute("invalidUsername", "Invalid Username!");
+            System.out.println("Could not create User. Username " + username + " was already taken!");
+            model.addAttribute("invalidUsername", "Invalid Username! Username already in use.");
             return "register";
         } else {
+            System.out.println("Created User: \n" + user);
             model.addAttribute("successfully_registered", "You registered successfully to FriendZone!");
             model.addAttribute("username", user.getUsername());
             model.addAttribute("password", password);

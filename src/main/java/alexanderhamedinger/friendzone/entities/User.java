@@ -111,10 +111,10 @@ public class User implements UserDetails {
     }
     @Override
     public int hashCode(){
-        if(userID == (Long)null) {
+        if(userID == 0L) {
             return 0;
         } else {
-            return Long.hashCode(userID);
+            return (int)userID;
         }
     }
     @Override

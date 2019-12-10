@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import java.util.Date;
 
 @Service
 @Qualifier("labresources")
@@ -33,9 +34,16 @@ public class UserService implements UserServiceIF, UserDetailsService {
     }
 
     @Override
+    public void setLatestRegistrationDate(String username) {
+        User user = userRepository.findByUsername(username);
+        user.setLatestRegistration(new Date());
+        userRepository.save(user);
+    }
+
+
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
-        System.out.println(user);
         return user;
     }
 }

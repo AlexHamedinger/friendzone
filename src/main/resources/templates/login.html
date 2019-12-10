@@ -2,11 +2,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-    <title>Spring Security Example </title>
+    <title>Login @FriendZone </title>
 </head>
 <body>
 <div th:if="${param.error}">
-    <p>Invalid username and password.</p>
+    <p>Invalid username or password.</p>
 </div>
 <div th:if="${param.logout}">
     <p>You have been logged out.</p>
