@@ -12,6 +12,7 @@ public class Friend {
     private long friendID;
     private long user;
     private long friend;
+    @Column(name = "friendssince")
     private Date friendsSince;
 
     //getter & setter

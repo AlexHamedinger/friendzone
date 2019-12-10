@@ -24,9 +24,7 @@ public class LoginController {
     }
 
     @RequestMapping("/login")
-    public String login(
-            Principal user
-    ) {
+    public String login() {
         return "login";
     }
 

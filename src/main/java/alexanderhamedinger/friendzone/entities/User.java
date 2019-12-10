@@ -5,6 +5,7 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Objects;
@@ -22,7 +23,9 @@ public class User implements UserDetails {
     @NotEmpty(message = "username is required")
     private String password;
     private byte[] profileImage;
+    @Column(name = "initialregistration")
     private Date initialRegistration;
+    @Column(name = "latestregistration")
     private Date latestRegistration;
 
     //getter & setter
@@ -116,13 +119,14 @@ public class User implements UserDetails {
     }
     @Override
     public String toString() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy kk:mm:ss");
         return "#########################################################################\n" +
                 "UserID: " + userID + "\n" +
                 "Username: " + username + "\n" +
                 "Password: " + password + "\n" +
                 "EMail: " + email + "\n" +
-                "Latest Registration: " + latestRegistration + "\n" +
-                "Member since: " + initialRegistration + "\n" +
+                "Latest Registration: " + dateFormat.format(latestRegistration) + "\n" +
+                "Member since: " + dateFormat.format(initialRegistration) + "\n" +
                 "#########################################################################\n";
     }
 }

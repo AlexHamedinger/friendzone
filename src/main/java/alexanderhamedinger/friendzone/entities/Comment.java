@@ -1,9 +1,6 @@
 package alexanderhamedinger.friendzone.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
 
@@ -16,6 +13,7 @@ public class Comment {
     private long commenter;
     private long commentedPost;
     private String text;
+    @Column(name = "creationdate")
     private Date creationDate;
 
     //getter & setter

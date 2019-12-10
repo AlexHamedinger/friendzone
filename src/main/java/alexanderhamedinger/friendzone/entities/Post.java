@@ -1,9 +1,9 @@
 package alexanderhamedinger.friendzone.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import alexanderhamedinger.friendzone.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
 
@@ -16,6 +16,7 @@ public class Post {
     private long poster;
     private String title;
     private byte[] postImage;
+    @Column(name = "creationdate")
     private Date creationDate;
 
     //getter & setter
@@ -71,5 +72,19 @@ public class Post {
         } else {
             return Long.hashCode(postID);
         }
+    }
+    @Override
+    public String toString() {
+        String y_n = "NO";
+        if(postImage != null) {
+            y_n = "YES";
+        }
+        return "#########################################################################\n" +
+                "PostID: " + postID + "\n" +
+                "Posted by: " + poster + "\n" +
+                "Title: " + title + "\n" +
+                "Image (Y/N): " + y_n + "\n" +
+                "Date: " + creationDate + "\n" +
+                "#########################################################################\n";
     }
 }

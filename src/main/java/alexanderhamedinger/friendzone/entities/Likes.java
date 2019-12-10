@@ -1,9 +1,6 @@
 package alexanderhamedinger.friendzone.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
 
@@ -15,6 +12,7 @@ public class Likes {
     private long likeID;
     private long liker;
     private long post;
+    @Column(name = "creationdate")
     private Date creationDate;
 
     //getter & setter
@@ -59,7 +57,7 @@ public class Likes {
     }
     @Override
     public int hashCode(){
-        if(likeID == (Long)null) {
+        if(likeID == (Long) null) {
             return 0;
         } else {
             return Long.hashCode(likeID);
