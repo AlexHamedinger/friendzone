@@ -57,10 +57,10 @@ public class Friend {
     }
     @Override
     public int hashCode(){
-        if(friendID == (Long)null) {
+        if(friendID == 0L) {
             return 0;
         } else {
-            return Long.hashCode(friendID);
+            return (int)friendID;
         }
     }
 }

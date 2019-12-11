@@ -67,10 +67,10 @@ public class Post {
     }
     @Override
     public int hashCode(){
-        if(postID == (Long)null) {
+        if(postID == 0L) {
             return 0;
         } else {
-            return Long.hashCode(postID);
+            return (int)postID;
         }
     }
     @Override

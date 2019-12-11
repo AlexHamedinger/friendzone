@@ -64,10 +64,10 @@ public class Comment {
     }
     @Override
     public int hashCode(){
-        if(commentID == (Long)null) {
+        if(commentID == 0L) {
             return 0;
         } else {
-            return Long.hashCode(commentID);
+            return (int)commentID;
         }
     }
 }

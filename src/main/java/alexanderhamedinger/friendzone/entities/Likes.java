@@ -57,10 +57,10 @@ public class Likes {
     }
     @Override
     public int hashCode(){
-        if(likeID == (Long) null) {
+        if(likeID == 0L) {
             return 0;
         } else {
-            return Long.hashCode(likeID);
+            return (int)likeID;
         }
     }
 }

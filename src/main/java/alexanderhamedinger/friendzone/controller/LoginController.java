@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.io.IOException;
 import java.security.Principal;
 import java.util.Date;
 
@@ -27,12 +29,12 @@ public class LoginController {
 
     @RequestMapping("/login")
     public String login() {
-        return "login";
+        return "user/login";
     }
 
     @RequestMapping("/login/register")
     public String loginRegister() {
-        return "register";
+        return "user/register";
     }
 
     @RequestMapping("/home")
@@ -61,13 +63,11 @@ public class LoginController {
         if(user == null) {
             System.out.println("Could not create User. Username " + username + " was already taken!");
             model.addAttribute("invalidUsername", "Invalid Username! Username already in use.");
-            return "register";
+            return "user/register";
         } else {
             System.out.println("Created User: \n" + user);
             model.addAttribute("successfully_registered", "You registered successfully to FriendZone!");
-            model.addAttribute("username", user.getUsername());
-            model.addAttribute("password", password);
-            return "login";
+            return "user/login";
         }
     }
 

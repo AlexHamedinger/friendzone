@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head th:replace="common/fragments :: friendzone_head" />
+<head>
+    <title>Login @FriendZone</title>
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+            <div class="card card-signin my-5">
+                <div class="card-body">
+                    <div th:if="${param.error}" class="text-center">
+                        <p>Invalid username or password.</p>
+                    </div>
+                    <div th:if="${param.logout}" class="text-center">
+                        <p>You have been logged out.</p>
+                    </div>
+                    <div class="text-center">
+                        <p><span th:text="${successfully_registered}"/></p>
+                    </div>
+                    <h5 class="card-title text-center">FriendZone</h5>
+                    <form th:action="@{/login}" method="post" class="form-signin">
+                        <div class="form-label-group">
+                            <input type="text" name="username" class="form-control" placeholder="Username" style="margin-bottom: 10px;" required>
+                        </div>
+                        <div class="form-label-group">
+                            <input type="password" name="password" class="form-control" placeholder="Password" required>
+                        </div>
+                        <hr class="my-4">
+                        <button class="btn btn-lg btn-light btn-block text-uppercase" type="submit" style="background-color: #e3f2fd;">Sign in</button>
+                        <a class="btn btn-lg btn-light btn-block text-uppercase" href="/login/register" style="background-color: #e3f2fd;">Register Now!</a>
+                        <!--        <a class="btn btn-lg btn-info btn-block text-uppercase" href="#">Forgot Password?</a>     -->
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>
