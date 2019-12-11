@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head th:replace="common/fragments :: friendzone_head" />
+<head>
+    <title>FriendZone</title>
+    <script type="text/javascript" th:src="@{/script/preview.js}"></script>
+</head>
+<body onload="createPreview()">
+    <div th:replace="common/fragments :: friendzone_navbar" />
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+                <div class="card card-signin my-5">
+                    <div class="card-body">
+                        <div class="text-center">
+                            <p><span th:text="${error_message}"/></p>
+                        </div>
+                        <h5 class="card-title text-center">Neuen Post erstellen</h5>
+                        <form th:action="@{/home?new}" method="post" class="form-signin">
+                            <div class="form-label-group">
+                                <input type="text" name="titel" id="titel" class="form-control" placeholder="Titel eingeben..." style="margin-bottom: 10px;" required>
+                            </div>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="customFile">
+                                <label class="custom-file-label" for="customFile">Foto auswählen...</label>
+                            </div>
+                            <button class="btn btn-light btn-block text-dark" id="vorschauButton" type="button" style="background-color: #e3f2fd; margin-top: 25px; width: 150px">Vorschau</button>
+                            <hr class="my-4">
+                            <h5 class="text-center" id="vorschauTitel">Vorschau...</h5>
+                            <img src="" id="vorschauImage" style="width: 100%">
+                            <hr class="my-4">
+                            <button class="btn btn-lg btn-light btn-block text-uppercase" type="submit" style="background-color: #e3f2fd;">hochladen!</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+</body>
+</html>

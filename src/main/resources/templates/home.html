@@ -9,9 +9,9 @@
 <div th:replace="common/fragments :: friendzone_navbar" />
 
 <div class="container text-center">
-    <img src="" onerror=this.src="" alt="Kein Profilbild vorhanden." class="m-15" style="height: 100px; width: 100px; border-radius: 50%; margin-top: 20px; margin-bottom: 5px;">
+    <img src="" onerror="this.src='/img/profile_img.gif'" alt="Kein Profilbild vorhanden." class="m-15" style="height: 100px; width: 100px; border-radius: 50%; margin-top: 20px; margin-bottom: 5px;">
     <h1 th:inline="text" class="text-dark">Hallo [[${#httpServletRequest.remoteUser}]]!</h1>
-    <input type="button" value="neuen Pinnwandeintrag erstellen" class="btn btn-lg btn btn-outline-dark" style="background-color: #e3f2fd"/>
+    <a href="/newPost"  class="btn btn-lg btn btn-outline-dark" style="background-color: #e3f2fd">neuen Pinnwandeintrag erstellen</a>
 </div>
 
 <div class="container">
@@ -19,21 +19,21 @@
         <li class="media m-4">
             <ul class="list-unstyled">
                 <li><h2 class="text-dark">Urlaubs-Schosl<input type="button" value="zur Detailansicht" class="btn btn btn-light btn-outline-dark float-right" style="background-color: #e3f2fd"/></h2></li>
-                <li><img src="" onerror=this.src="" alt="Zu diesem Post wurde kein Bild hochgeladen." class="img-fluid rounded float-center"></li>
+                <li><img src="" onerror="this.src='/img/no_post_found.png'" alt="Zu diesem Post wurde kein Bild hochgeladen." class="img-fluid rounded float-center"></li>
                 <li><p class="float-right" style="margin-top: 5px">11.12.2019 12:00 Uhr</p></li>
             </ul>
         </li>
         <li class="media m-4">
             <ul class="list-unstyled">
                 <li><h2 class="text-dark">Angeln im Regen<input type="button" value="zur Detailansicht" class="btn btn btn-light btn-outline-dark float-right" style="background-color: #e3f2fd"/></h2></li>
-                <li><img src="" onerror=this.src="" alt="Zu diesem Post wurde kein Bild hochgeladen." class="img-fluid rounded float-center"></li>
+                <li><img src="" onerror="this.src='/img/no_post_found.png'" alt="Zu diesem Post wurde kein Bild hochgeladen." class="img-fluid rounded float-center"></li>
                 <li><p class="float-right" style="margin-top: 5px">10.12.2019 19:00 Uhr</p></li>
             </ul>
         </li>
         <li class="media m-4">
             <ul class="list-unstyled">
                 <li><h2 class="text-dark">Anna trinkt ein Bier<input type="button" value="zur Detailansicht" class="btn btn btn-light btn-outline-dark float-right" style="background-color: #e3f2fd"/></h2></li>
-                <li><img src="" onerror=this.src="" alt="Zu diesem Post wurde kein Bild hochgeladen." class="img-fluid rounded float-center"></li>
+                <li><img src="" onerror="this.src='/img/no_post_found.png'" alt="Zu diesem Post wurde kein Bild hochgeladen." class="img-fluid rounded float-center"></li>
                 <li><p class="float-right" style="margin-top: 5px">10.12.2019 11:00 Uhr</p></li>
             </ul>
         </li>

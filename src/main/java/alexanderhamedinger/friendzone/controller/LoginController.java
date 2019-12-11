@@ -37,11 +37,6 @@ public class LoginController {
         return "user/register";
     }
 
-    @RequestMapping("/home")
-    public String home() {
-        return "home";
-    }
-
     @RequestMapping("/register")
     public String register(
             @ModelAttribute("email") String email,
