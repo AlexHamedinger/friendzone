@@ -18,16 +18,16 @@
                             <p><span th:text="${error_message}"/></p>
                         </div>
                         <h5 class="card-title text-center">Neuen Post erstellen</h5>
-                        <form th:action="@{/home?new}" method="post" class="form-signin">
+                        <form th:action="@{/home?action=newpost}" method="post" class="form-signin" enctype="multipart/form-data">
                             <div class="form-label-group">
                                 <input type="text" name="titel" id="titel" class="form-control" placeholder="Titel eingeben..." style="margin-bottom: 10px;" required>
                             </div>
                             <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="customFile">
+                                <input type="file" class="custom-file-input" name="imagefile" id="customFile" >
                                 <label class="custom-file-label" for="customFile">Foto auswählen...</label>
                             </div>
-                            <button class="btn btn-light btn-block text-dark" id="vorschauButton" type="button" style="background-color: #e3f2fd; margin-top: 25px; width: 150px">Vorschau</button>
-                            <hr class="my-4">
+                            <button class="btn btn-light btn-block float-right text-dark" id="vorschauButton" type="button" style="background-color: #e3f2fd;margin-top: 10px; width: 150px">Vorschau</button>
+                            <hr class="my-5">
                             <h5 class="text-center" id="vorschauTitel">Vorschau...</h5>
                             <img src="" id="vorschauImage" style="width: 100%">
                             <hr class="my-4">

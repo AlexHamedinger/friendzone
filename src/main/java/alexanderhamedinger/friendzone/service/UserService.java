@@ -32,7 +32,6 @@ public class UserService implements UserServiceIF, UserDetailsService {
             return neu;
         }
     }
-
     @Override
     public void setLatestRegistrationDate(String username) {
         User user = userRepository.findByUsername(username);
@@ -40,7 +39,13 @@ public class UserService implements UserServiceIF, UserDetailsService {
         userRepository.save(user);
     }
 
+    @Override
+    public long findIdByUsername(String username) {
+        User user = userRepository.findByUsername(username);
+        return user.getUserID();
+    }
 
+    //#### WIRD VON USERDETAILSSERVICE BENÖTIGT #####
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);

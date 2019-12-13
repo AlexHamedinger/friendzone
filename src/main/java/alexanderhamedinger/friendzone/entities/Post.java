@@ -4,6 +4,7 @@ import alexanderhamedinger.friendzone.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
@@ -15,7 +16,8 @@ public class Post {
     private long postID;
     private long poster;
     private String title;
-    private byte[] postImage;
+    @Lob
+    private Byte[] postImage;
     @Column(name = "creationdate")
     private Date creationDate;
 
@@ -38,10 +40,10 @@ public class Post {
     public void setTitle(String title) {
         this.title = title;
     }
-    public byte[] getPostImage() {
+    public Byte[] getPostImage() {
         return postImage;
     }
-    public void setPostImage(byte[] postImage) {
+    public void setPostImage(Byte[] postImage) {
         this.postImage = postImage;
     }
     public Date getCreationDate() {
@@ -76,15 +78,16 @@ public class Post {
     @Override
     public String toString() {
         String y_n = "NO";
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy kk:mm:ss");
         if(postImage != null) {
             y_n = "YES";
         }
-        return "#########################################################################\n" +
+        return "\n#########################################################################\n" +
                 "PostID: " + postID + "\n" +
                 "Posted by: " + poster + "\n" +
                 "Title: " + title + "\n" +
                 "Image (Y/N): " + y_n + "\n" +
-                "Date: " + creationDate + "\n" +
+                "Date: " + dateFormat.format(creationDate) + "\n" +
                 "#########################################################################\n";
     }
 }

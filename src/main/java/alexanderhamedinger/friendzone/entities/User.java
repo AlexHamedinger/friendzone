@@ -22,7 +22,8 @@ public class User implements UserDetails {
     private String username;
     @NotEmpty(message = "username is required")
     private String password;
-    private byte[] profileImage;
+    @Lob
+    private Byte[] profileImage;
     @Column(name = "initialregistration")
     private Date initialRegistration;
     @Column(name = "latestregistration")
@@ -53,10 +54,10 @@ public class User implements UserDetails {
     public void setPassword(String password) {
         this.password = password;
     }
-    public byte[] getProfileImage() {
+    public Byte[] getProfileImage() {
         return profileImage;
     }
-    public void setProfileImage(byte[] profileImage) {
+    public void setProfileImage(Byte[] profileImage) {
         this.profileImage = profileImage;
     }
     public Date getInitialRegistration() {
@@ -120,7 +121,7 @@ public class User implements UserDetails {
     @Override
     public String toString() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy kk:mm:ss");
-        return "#########################################################################\n" +
+        return "\n#########################################################################\n" +
                 "UserID: " + userID + "\n" +
                 "Username: " + username + "\n" +
                 "Password: " + password + "\n" +

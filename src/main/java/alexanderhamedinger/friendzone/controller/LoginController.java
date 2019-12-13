@@ -7,8 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.io.IOException;
 import java.security.Principal;
 import java.util.Date;
 
@@ -24,6 +22,7 @@ public class LoginController {
     ) {
         userService.setLatestRegistrationDate(principal.getName());
         System.out.println("User " + principal.getName() + " wurde eingeloggt. ");
+
         return "home";
     }
 

@@ -29,7 +29,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     private static final String[] ALLOW_ACCESS_WITHOUT_AUTHENTICATION = {
-      "css/**", "image/**", "fonts/**",
       "/login", "/register", "/login/register"
     };
 
