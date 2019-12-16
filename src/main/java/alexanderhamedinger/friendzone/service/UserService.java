@@ -42,7 +42,7 @@ public class UserService implements UserServiceIF, UserDetailsService {
     @Override
     public long findIdByUsername(String username) {
         User user = userRepository.findByUsername(username);
-        return user.getUserID();
+        return user.getId();
     }
 
     //#### WIRD VON USERDETAILSSERVICE BENÖTIGT #####

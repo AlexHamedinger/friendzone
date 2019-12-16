@@ -11,11 +11,9 @@ import java.util.Date;
 import java.util.Objects;
 
 @Entity
-public class User implements UserDetails {
+@AttributeOverride(name = "creationDate", column = @Column(name = "initialregistration"))
+public class User extends BasicEntity implements UserDetails {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long userID;
     private String email;
     @NotEmpty(message = "username is required")
     @Column(unique = true)
@@ -24,18 +22,10 @@ public class User implements UserDetails {
     private String password;
     @Lob
     private Byte[] profileImage;
-    @Column(name = "initialregistration")
-    private Date initialRegistration;
     @Column(name = "latestregistration")
     private Date latestRegistration;
 
     //getter & setter
-    public long getUserID() {
-        return userID;
-    }
-    public void setUserID(long userID) {
-        this.userID = userID;
-    }
     public String getEmail() {
         return email;
     }
@@ -59,12 +49,6 @@ public class User implements UserDetails {
     }
     public void setProfileImage(Byte[] profileImage) {
         this.profileImage = profileImage;
-    }
-    public Date getInitialRegistration() {
-        return initialRegistration;
-    }
-    public void setInitialRegistration(Date initialRegistration) {
-        this.initialRegistration = initialRegistration;
     }
     public Date getLatestRegistration() {
         return latestRegistration;
@@ -95,39 +79,18 @@ public class User implements UserDetails {
         return AuthorityUtils.createAuthorityList("ROLE_USER");
     }
 
-    //Override lang
-    @Override
-    public boolean equals(Object o) {
-        if(o == null) {
-            return false;
-        }
-        if(getClass() != o.getClass()) {
-            return false;
-        }
-        final User other = (User) o;
-        if(!Objects.equals(userID, other.userID)) {
-            return false;
-        }
-        return true;
-    }
-    @Override
-    public int hashCode(){
-        if(userID == 0L) {
-            return 0;
-        } else {
-            return (int)userID;
-        }
-    }
+
+
     @Override
     public String toString() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy kk:mm:ss");
         return "\n#########################################################################\n" +
-                "UserID: " + userID + "\n" +
+                "UserID: " + this.getId() + "\n" +
                 "Username: " + username + "\n" +
                 "Password: " + password + "\n" +
                 "EMail: " + email + "\n" +
                 "Latest Registration: " + dateFormat.format(latestRegistration) + "\n" +
-                "Member since: " + dateFormat.format(initialRegistration) + "\n" +
+                "Member since: " + dateFormat.format(this.getCreationDate()) + "\n" +
                 "#########################################################################\n";
     }
 }

@@ -5,24 +5,13 @@ import java.util.Date;
 import java.util.Objects;
 
 @Entity
-public class Comment {
+public class Comment extends BasicEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long commentID;
     private long commenter;
     private long commentedPost;
     private String text;
-    @Column(name = "creationdate")
-    private Date creationDate;
 
     //getter & setter
-    public long getCommentID() {
-        return commentID;
-    }
-    public void setCommentID(long commentID) {
-        this.commentID = commentID;
-    }
     public long getCommenter() {
         return commenter;
     }
@@ -41,33 +30,5 @@ public class Comment {
     public void setText(String text) {
         this.text = text;
     }
-    public Date getCreationDate() {
-        return creationDate;
-    }
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
-    }
 
-    @Override
-    public boolean equals(Object o) {
-        if(o == null) {
-            return false;
-        }
-        if(getClass() != o.getClass()) {
-            return false;
-        }
-        final Comment other = (Comment) o;
-        if(!Objects.equals(commentID, other.commentID)) {
-            return false;
-        }
-        return true;
-    }
-    @Override
-    public int hashCode(){
-        if(commentID == 0L) {
-            return 0;
-        } else {
-            return (int)commentID;
-        }
-    }
 }

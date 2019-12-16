@@ -50,7 +50,7 @@ public class LoginController {
         user.setUsername(username);
         user.setPassword(password);
         user.setLatestRegistration(new Date());
-        user.setInitialRegistration(new Date());
+        user.setCreationDate(new Date());
         user = userService.createUser(user);
 
         //Falls der Username bereits existiert wird null returned

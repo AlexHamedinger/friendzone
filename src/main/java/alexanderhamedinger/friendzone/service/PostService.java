@@ -25,6 +25,6 @@ public class PostService implements PostServiceIF{
     @Override
     public Collection<Post> getPostsByPoster(String username){
         User user = userRepository.findByUsername(username);
-        return postRepository.findByPoster(user.getUserID());
+        return postRepository.findByPoster(user.getId());
     }
 }
