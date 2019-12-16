@@ -14,30 +14,18 @@
     <a href="/newPost"  class="btn btn-lg btn btn-outline-dark" style="background-color: #e3f2fd">neuen Pinnwandeintrag erstellen</a>
 </div>
 
-<div class="container">
-    <ul class="list-unstyled">
-        <li class="media m-4">
-            <ul class="list-unstyled">
-                <li><h2 class="text-dark">Urlaubs-Schosl<input type="button" value="zur Detailansicht" class="btn btn btn-light btn-outline-dark float-right" style="background-color: #e3f2fd"/></h2></li>
-                <li><img src="" onerror="this.src='/img/no_post_found.png'" alt="Zu diesem Post wurde kein Bild hochgeladen." class="img-fluid rounded float-center"></li>
-                <li><p class="float-right" style="margin-top: 5px">11.12.2019 12:00 Uhr</p></li>
-            </ul>
-        </li>
-        <li class="media m-4">
-            <ul class="list-unstyled">
-                <li><h2 class="text-dark">Angeln im Regen<input type="button" value="zur Detailansicht" class="btn btn btn-light btn-outline-dark float-right" style="background-color: #e3f2fd"/></h2></li>
-                <li><img src="" onerror="this.src='/img/no_post_found.png'" alt="Zu diesem Post wurde kein Bild hochgeladen." class="img-fluid rounded float-center"></li>
-                <li><p class="float-right" style="margin-top: 5px">10.12.2019 19:00 Uhr</p></li>
-            </ul>
-        </li>
-        <li class="media m-4">
-            <ul class="list-unstyled">
-                <li><h2 class="text-dark">Anna trinkt ein Bier<input type="button" value="zur Detailansicht" class="btn btn btn-light btn-outline-dark float-right" style="background-color: #e3f2fd"/></h2></li>
-                <li><img src="" onerror="this.src='/img/no_post_found.png'" alt="Zu diesem Post wurde kein Bild hochgeladen." class="img-fluid rounded float-center"></li>
-                <li><p class="float-right" style="margin-top: 5px">10.12.2019 11:00 Uhr</p></li>
-            </ul>
-        </li>
-    </ul>
+<div class="container" id="posts">
+    <form method="post" th:object="${posts}">
+        <ul th:each="post, stat : ${posts}"  class="list-unstyled">
+            <li class="media m-4" style="margin-top: 10px">
+                <ul class="list-unstyled">
+                    <li><h2 class="text-dark" th:text="${post.getTitle()}"></h2> <p class="float-right" style="float: right;" th:text="${post.getCreationDateAsString()}"></p></li>
+                    <li><img th:src="${post.getImageURL()}" name="image" onerror="this.src='/img/no_post_found.png'" alt="Zu diesem Post wurde kein Bild hochgeladen." class="img-fluid rounded float-center"></li>
+                    <li><input type="button" value="zur Detailansicht" class="btn btn-block btn-light btn-outline-dark" style="background-color: #e3f2fd; margin-top: 5px;"/></li>
+                </ul>
+            </li>
+        </ul>
+    </form>
 </div>
 </body>
 </html>

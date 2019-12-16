@@ -1,6 +1,7 @@
 package alexanderhamedinger.friendzone.entities;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
@@ -22,6 +23,10 @@ public class BasicEntity {
     }
     public Date getCreationDate() {
         return creationDate;
+    }
+    public String getCreationDateAsString() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy kk:mm:ss");
+        return dateFormat.format(creationDate);
     }
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;

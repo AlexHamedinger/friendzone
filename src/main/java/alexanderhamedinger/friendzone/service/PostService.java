@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @Service
 public class PostService implements PostServiceIF{
@@ -25,6 +26,9 @@ public class PostService implements PostServiceIF{
     @Override
     public Collection<Post> getPostsByPoster(String username){
         User user = userRepository.findByUsername(username);
-        return postRepository.findByPoster(user.getId());
+        return postRepository.findByPosterOrderByIdDesc(user.getId());
+    }
+    public Optional<Post> getPostById(long id) {
+        return postRepository.findById(id);
     }
 }

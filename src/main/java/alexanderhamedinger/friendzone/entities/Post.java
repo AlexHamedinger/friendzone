@@ -9,7 +9,7 @@ public class Post extends BasicEntity {
     private long poster;
     private String title;
     @Lob
-    private Byte[] postImage;
+    private byte[] postImage;
 
     //getter & setter
     public long getPoster() {
@@ -24,10 +24,13 @@ public class Post extends BasicEntity {
     public void setTitle(String title) {
         this.title = title;
     }
-    public Byte[] getPostImage() {
+    public byte[] getPostImage() {
         return postImage;
     }
-    public void setPostImage(Byte[] postImage) {
+    public String getImageURL() {
+        return "postimages/" + this.getId();
+    }
+    public void setPostImage(byte[] postImage) {
         this.postImage = postImage;
     }
 

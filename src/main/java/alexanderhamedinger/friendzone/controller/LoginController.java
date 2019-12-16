@@ -1,6 +1,7 @@
 package alexanderhamedinger.friendzone.controller;
 
 import alexanderhamedinger.friendzone.entities.User;
+import alexanderhamedinger.friendzone.service.PostServiceIF;
 import alexanderhamedinger.friendzone.service.UserServiceIF;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,13 +16,18 @@ public class LoginController {
 
     @Autowired
     private UserServiceIF userService;
+    @Autowired
+    private PostServiceIF postService;
 
     @RequestMapping("/")
     public String start(
-            Principal principal
+            Principal principal,
+            Model model
     ) {
         userService.setLatestRegistrationDate(principal.getName());
         System.out.println("User " + principal.getName() + " wurde eingeloggt. ");
+
+        model.addAttribute("posts", postService.getPostsByPoster(principal.getName()));
 
         return "home";
     }
