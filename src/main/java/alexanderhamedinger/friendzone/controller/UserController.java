@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import java.io.IOException;
-import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Optional;
 
 @Controller
@@ -44,8 +44,8 @@ public class UserController {
         user.setEmail(email);
         user.setUsername(username);
         user.setPassword(password);
-        user.setLatestRegistration(new Date());
-        user.setCreationDate(new Date());
+        user.setLatestRegistration(new GregorianCalendar());
+        user.setCreationDate(new GregorianCalendar());
         user = userService.createUser(user);
 
         //Falls der Username bereits existiert wird null returned

@@ -14,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.Collection;
-import java.util.Date;
+import java.util.GregorianCalendar;
 
 @Controller
 public class HomeController {
@@ -58,7 +58,7 @@ public class HomeController {
             Post post = new Post();
             post.setPoster(user.getId());
             post.setTitle(titel);
-            post.setCreationDate(new Date());
+            post.setCreationDate(new GregorianCalendar());
             //save post-image
             try {
                 byte[] byteObjects = new byte[file.getBytes().length];

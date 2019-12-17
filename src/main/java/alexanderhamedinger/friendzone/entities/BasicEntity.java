@@ -3,6 +3,7 @@ package alexanderhamedinger.friendzone.entities;
 import javax.persistence.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Objects;
 
 @MappedSuperclass
@@ -12,7 +13,7 @@ public class BasicEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     @Column(name = "creationdate")
-    private Date creationDate;
+    private GregorianCalendar creationDate;
 
     //getter and setter
     public long getId() {
@@ -21,14 +22,41 @@ public class BasicEntity {
     public void setId(long id) {
         this.id = id;
     }
-    public Date getCreationDate() {
+    public GregorianCalendar getCreationDate() {
         return creationDate;
     }
     public String getCreationDateAsString() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy kk:mm:ss");
-        return dateFormat.format(creationDate);
+        String date = dateFormat.format(this.getCreationDate().getTime());
+        return date;
     }
-    public void setCreationDate(Date creationDate) {
+    public String getCreationDateDifference() {
+        String dateDifference = "";
+        GregorianCalendar now = new GregorianCalendar();
+        long difference = now.getTimeInMillis() - creationDate.getTimeInMillis();
+        int days = (int)(difference / (1000 * 60 * 60 * 24));
+        int hours = (int)(difference / (1000 * 60 * 60) % 24);
+        int minutes = (int)(difference / (1000 * 60) % 60);
+//        int seconds = (int)(difference / 1000 % 60);
+//        int millis = (int)(difference % 1000);
+
+        if(days < 1) {
+            if(hours < 1) {
+                if(minutes < 5) {
+                    dateDifference = "gerade eben";
+                } else {
+                    dateDifference = "vor " + minutes + " Minuten";
+                }
+            } else {
+                dateDifference = "vor " + hours + " Stunden";
+            }
+        } else {
+            dateDifference = "vor " + days + " Tagen";
+        }
+
+        return dateDifference;
+    }
+    public void setCreationDate(GregorianCalendar creationDate) {
         this.creationDate = creationDate;
     }
 

@@ -7,8 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
-import java.util.Date;
-import java.util.Objects;
+import java.util.GregorianCalendar;
 
 @Entity
 @AttributeOverride(name = "creationDate", column = @Column(name = "initialregistration"))
@@ -23,7 +22,7 @@ public class User extends BasicEntity implements UserDetails {
     @Lob
     private byte[] profileImage;
     @Column(name = "latestregistration")
-    private Date latestRegistration;
+    private GregorianCalendar latestRegistration;
 
     //getter & setter
     public String getEmail() {
@@ -53,10 +52,10 @@ public class User extends BasicEntity implements UserDetails {
     public String getImageURL() {
         return "/userimages/" + this.getId();
     }
-    public Date getLatestRegistration() {
+    public GregorianCalendar getLatestRegistration() {
         return latestRegistration;
     }
-    public void setLatestRegistration(Date latestRegistration) {
+    public void setLatestRegistration(GregorianCalendar latestRegistration) {
         this.latestRegistration = latestRegistration;
     }
 
@@ -95,8 +94,8 @@ public class User extends BasicEntity implements UserDetails {
                 "Username: " + username + "\n" +
                 "Password: " + password + "\n" +
                 "EMail: " + email + "\n" +
-                "Latest Registration: " + dateFormat.format(latestRegistration) + "\n" +
-                "Member since: " + dateFormat.format(this.getCreationDate()) + "\n" +
+                "Latest Registration: " + dateFormat.format(latestRegistration.getTime()) + "\n" +
+                "Member since: " + dateFormat.format(this.getCreationDate().getTime()) + "\n" +
                 "Profile Image: " + y_n + "\n" +
                 "#########################################################################\n";
     }

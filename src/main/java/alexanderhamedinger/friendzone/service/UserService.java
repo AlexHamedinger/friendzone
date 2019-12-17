@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Optional;
 
 @Service
@@ -41,7 +42,7 @@ public class UserService implements UserServiceIF, UserDetailsService {
     @Override
     public void setLatestRegistrationDate(String username) {
         User user = userRepository.findByUsername(username);
-        user.setLatestRegistration(new Date());
+        user.setLatestRegistration(new GregorianCalendar());
         userRepository.save(user);
     }
 

@@ -1,7 +1,6 @@
 package alexanderhamedinger.friendzone.entities;
 
 import javax.persistence.*;
-import java.text.SimpleDateFormat;
 
 @Entity
 public class Post extends BasicEntity {
@@ -29,6 +28,9 @@ public class Post extends BasicEntity {
     }
     public String getImageURL() {
         return "/postimages/" + this.getId();
+    }
+    public String getDetailURL() {
+        return "/postDetail?id=" + this.getId();
     }
     public void setPostImage(byte[] postImage) {
         this.postImage = postImage;

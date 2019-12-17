@@ -9,23 +9,27 @@
 <div th:replace="common/fragments :: friendzone_navbar" />
 
 <div class="container text-center" th:object="${user}">
-    <img th:src="${user.getImageURL()}" onerror="this.src='/img/profile_img.gif'" alt="Kein Profilbild vorhanden." class="m-15" style="height: 100px; width: 100px; border-radius: 50%; margin-top: 20px; margin-bottom: 5px;">
+    <img th:src="${user.getImageURL()}" onerror="this.src='/img/profile_img.gif'" alt="Kein Profilbild vorhanden." class="m-15" style="height: 100px; width: 100px; border-radius: 50%; object-fit: cover; margin-top: 20px; margin-bottom: 5px;">
     <h1 th:inline="text" class="text-dark" th:text="${'Hallo ' + user.getUsername()}"></h1>
     <a href="/newPost"  class="btn btn-lg btn btn-outline-dark" style="background-color: #e3f2fd">neuen Pinnwandeintrag erstellen</a>
 </div>
 
-<div class="container" id="posts">
-    <form method="post" th:object="${posts}">
-        <ul th:each="post, stat : ${posts}"  class="list-unstyled">
-            <li class="media m-4" style="margin-top: 10px">
-                <ul class="list-unstyled">
-                    <li><h2 class="text-dark" th:text="${post.getTitle()}"></h2> <p class="float-right" style="float: right;" th:text="${post.getCreationDateAsString()}"></p></li>
-                    <li><img th:src="${post.getImageURL()}" name="image" onerror="this.src='/img/no_post_found.png'" alt="Zu diesem Post wurde kein Bild hochgeladen." class="img-fluid rounded float-center"></li>
-                    <li><input type="button" value="zur Detailansicht" class="btn btn-block btn-light btn-outline-dark" style="background-color: #e3f2fd; margin-top: 5px;"/></li>
-                </ul>
-            </li>
-        </ul>
-    </form>
+<div class="container" style="margin-bottom: 25px;" th:object="${posts}">    
+    <div class="row" th:each="post, stat : ${posts}">
+        <h2 class="text-dark" th:text="${post.getTitle()}" style="margin-top: 15px"></h2>
+        <img th:src="${post.getImageURL()}" name="image" onerror="this.src='/img/no_post_found.png'" alt="Zu diesem Post wurde kein Bild hochgeladen." class="img-fluid rounded float-center" style="width: 100%">
+        <div class="col ">
+            <p th:text="${post.getCreationDateDifference()}" th:name="datum" style="margin-top: 2px;"></p>
+        </div>
+        <div class="col-6">
+            <a class="btn btn-block btn-light btn-outline-dark" th:href="${post.getDetailURL()}" style="background-color: #e3f2fd; margin-top: 2px;">zur Detailansicht</a>
+        </div>
+        <div class="col">
+            <button class="btn btn-light btn-outline-dark float-right" style="width: 90px;background-color: #e3f2fd; margin-top: 2px;">Like <i style="font-size:18px;"class="fa fa-thumbs-o-up"></i></button>
+            <button hidden class="btn btn-light btn-outline-dark float-right" style="background-color: #e3f2fd; margin-top: 2px;">Unlike <i style="font-size:18px;"class="fa fa-close"></i></button>
+        </div>
+    </div>  
 </div>
+
 </body>
 </html>

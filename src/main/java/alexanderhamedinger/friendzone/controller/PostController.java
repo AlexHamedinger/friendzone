@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Optional;
 
 @Controller
@@ -19,6 +21,15 @@ public class PostController {
     @RequestMapping("/newPost")
     public String newpost() {
         return "post/newPost";
+    }
+
+    @RequestMapping("/postDetail")
+    public String postdetail(
+            @RequestParam(required = false, name = "id", defaultValue = "") String id
+    ) {
+
+        System.out.println(id);
+        return "post/postDetail";
     }
 
     //Zeigt das Post Image der eingegebenen Id an
