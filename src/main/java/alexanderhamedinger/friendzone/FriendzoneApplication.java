@@ -9,6 +9,7 @@ public class FriendzoneApplication {
 	public static void main(String[] args) {
 
 		SpringApplication.run(FriendzoneApplication.class, args);
+		//some change
 	}
 
 }
