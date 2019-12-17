@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head th:replace="common/fragments :: friendzone_head" />
+<head>
+    <title>FriendZone - Edit Profile</title>
+</head>
+<body>
+<div th:replace="common/fragments :: friendzone_navbar" />
+
+
+<div class="container" >
+    <div class="text-center m-3" th:object="${user}">
+        <h1 th:inline="text" class="text-dark" th:text="${'Hallo ' + user.getUsername() + ', was möchtest du tun?'}"></h1>
+    </div>
+</div>
+
+<form th:action="@{/profile?edited=image}" class="container" method="post" enctype="multipart/form-data" th:object="${user}">
+    <div class="text-center float-left" style="width: 50%;">
+        <img th:src="${user.getImageURL()}" onerror="this.src='/img/profile_img.gif'" alt="Kein Profilbild vorhanden." style="height: 250px; width: 250px; border-radius: 50%;margin-bottom: 10px">
+    </div>
+    <div class="custom-file float-left" style="width: 40%; margin-top: 100px">
+        <input type="file" class="custom-file-input" name="imagefile" id="customFile" >
+        <label class="custom-file-label" for="customFile">Neues Foto auswählen</label>
+        <button class="btn btn-light btn-block text-uppercase" type="submit" style="background-color: #e3f2fd; margin-top: 5px">Profilbild ändern</button>
+    </div>
+</form>
+    
+<div class="container">
+    <div class="container float-left">
+        <a class="btn btn-lg btn-light btn-block text-uppercase m-2" href="#" style="background-color: #e3f2fd;">E-Mail Adresse ändern</a>
+        <a class="btn btn-lg btn-light btn-block text-uppercase m-2" href="#" style="background-color: #e3f2fd;">Username ändern</a>
+        <a class="btn btn-lg btn-light btn-block text-uppercase m-2" href="#" style="background-color: #e3f2fd;">Passwort ändern</a>
+        <a class="btn btn-lg btn-light btn-block text-uppercase m-2" href="#" style="background-color: #e3f2fd;">Konto löschen</a>
+    </div>
+</div> 
+
+
+</body>
+</html>

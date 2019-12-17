@@ -28,6 +28,7 @@ public class PostService implements PostServiceIF{
         User user = userRepository.findByUsername(username);
         return postRepository.findByPosterOrderByIdDesc(user.getId());
     }
+    @Override
     public Optional<Post> getPostById(long id) {
         return postRepository.findById(id);
     }

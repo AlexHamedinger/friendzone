@@ -18,10 +18,10 @@ public class User extends BasicEntity implements UserDetails {
     @NotEmpty(message = "username is required")
     @Column(unique = true)
     private String username;
-    @NotEmpty(message = "username is required")
+    @NotEmpty(message = "password is required")
     private String password;
     @Lob
-    private Byte[] profileImage;
+    private byte[] profileImage;
     @Column(name = "latestregistration")
     private Date latestRegistration;
 
@@ -44,11 +44,14 @@ public class User extends BasicEntity implements UserDetails {
     public void setPassword(String password) {
         this.password = password;
     }
-    public Byte[] getProfileImage() {
+    public byte[] getProfileImage() {
         return profileImage;
     }
-    public void setProfileImage(Byte[] profileImage) {
+    public void setProfileImage(byte[] profileImage) {
         this.profileImage = profileImage;
+    }
+    public String getImageURL() {
+        return "/userimages/" + this.getId();
     }
     public Date getLatestRegistration() {
         return latestRegistration;
@@ -80,10 +83,13 @@ public class User extends BasicEntity implements UserDetails {
     }
 
 
-
     @Override
     public String toString() {
+        String y_n = "NO";
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy kk:mm:ss");
+        if(profileImage != null) {
+            y_n = "YES";
+        }
         return "\n#########################################################################\n" +
                 "UserID: " + this.getId() + "\n" +
                 "Username: " + username + "\n" +
@@ -91,6 +97,7 @@ public class User extends BasicEntity implements UserDetails {
                 "EMail: " + email + "\n" +
                 "Latest Registration: " + dateFormat.format(latestRegistration) + "\n" +
                 "Member since: " + dateFormat.format(this.getCreationDate()) + "\n" +
+                "Profile Image: " + y_n + "\n" +
                 "#########################################################################\n";
     }
 }

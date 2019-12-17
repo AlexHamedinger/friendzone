@@ -1,36 +1,25 @@
 package alexanderhamedinger.friendzone.controller;
 
 import alexanderhamedinger.friendzone.entities.User;
-import alexanderhamedinger.friendzone.service.PostServiceIF;
 import alexanderhamedinger.friendzone.service.UserServiceIF;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import java.security.Principal;
+import org.springframework.web.bind.annotation.RequestMethod;
+import java.io.IOException;
 import java.util.Date;
+import java.util.Optional;
 
 @Controller
-public class LoginController {
+public class UserController {
 
     @Autowired
     private UserServiceIF userService;
-    @Autowired
-    private PostServiceIF postService;
-
-    @RequestMapping("/")
-    public String start(
-            Principal principal,
-            Model model
-    ) {
-        userService.setLatestRegistrationDate(principal.getName());
-        System.out.println("User " + principal.getName() + " wurde eingeloggt. ");
-
-        model.addAttribute("posts", postService.getPostsByPoster(principal.getName()));
-
-        return "home";
-    }
 
     @RequestMapping("/login")
     public String login() {
@@ -69,6 +58,27 @@ public class LoginController {
             model.addAttribute("successfully_registered", "You registered successfully to FriendZone!");
             return "user/login";
         }
+    }
+
+    //Zeigt das User Profil Image der eingegebenen Id an
+    @RequestMapping(value = "/userimages/{id}", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
+    public ResponseEntity<byte[]> getPostImage(
+            @PathVariable("id") int id
+    ) throws IOException {
+        Optional<User> optionalUser = userService.getUserById(id);
+        User user;
+        byte[] bytes = new byte[0];
+        if(optionalUser.isPresent()) {
+            user = optionalUser.get();
+            bytes = user.getProfileImage();
+        } else {
+            //TO-DO: Ersatzbild anzeigen
+        }
+
+        return ResponseEntity
+                .ok()
+                .contentType(MediaType.IMAGE_JPEG)
+                .body(bytes);
     }
 
 }

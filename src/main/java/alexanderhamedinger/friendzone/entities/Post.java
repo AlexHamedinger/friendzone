@@ -28,7 +28,7 @@ public class Post extends BasicEntity {
         return postImage;
     }
     public String getImageURL() {
-        return "postimages/" + this.getId();
+        return "/postimages/" + this.getId();
     }
     public void setPostImage(byte[] postImage) {
         this.postImage = postImage;
@@ -37,7 +37,6 @@ public class Post extends BasicEntity {
     @Override
     public String toString() {
         String y_n = "NO";
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy kk:mm:ss");
         if(postImage != null) {
             y_n = "YES";
         }
@@ -46,7 +45,7 @@ public class Post extends BasicEntity {
                 "Posted by: " + poster + "\n" +
                 "Title: " + title + "\n" +
                 "Image (Y/N): " + y_n + "\n" +
-                "Date: " + dateFormat.format(this.getCreationDate()) + "\n" +
+                "Date: " + this.getCreationDateAsString() + "\n" +
                 "#########################################################################\n";
     }
 }

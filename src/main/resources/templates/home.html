@@ -8,9 +8,9 @@
 <body>
 <div th:replace="common/fragments :: friendzone_navbar" />
 
-<div class="container text-center">
-    <img src="" onerror="this.src='/img/profile_img.gif'" alt="Kein Profilbild vorhanden." class="m-15" style="height: 100px; width: 100px; border-radius: 50%; margin-top: 20px; margin-bottom: 5px;">
-    <h1 th:inline="text" class="text-dark">Hallo [[${#httpServletRequest.remoteUser}]]!</h1>
+<div class="container text-center" th:object="${user}">
+    <img th:src="${user.getImageURL()}" onerror="this.src='/img/profile_img.gif'" alt="Kein Profilbild vorhanden." class="m-15" style="height: 100px; width: 100px; border-radius: 50%; margin-top: 20px; margin-bottom: 5px;">
+    <h1 th:inline="text" class="text-dark" th:text="${'Hallo ' + user.getUsername()}"></h1>
     <a href="/newPost"  class="btn btn-lg btn btn-outline-dark" style="background-color: #e3f2fd">neuen Pinnwandeintrag erstellen</a>
 </div>
 
