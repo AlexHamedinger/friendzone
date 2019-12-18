@@ -25,10 +25,25 @@ public class PostController {
 
     @RequestMapping("/postDetail")
     public String postdetail(
-            @RequestParam(required = false, name = "id", defaultValue = "") String id
+            @RequestParam(required = false, name = "id", defaultValue = "") String id,
+            Model model
     ) {
+        //get Post-Data
+        Optional<Post> optionalPost = postService.getPostById(Long.parseLong(id));
+        Post post;
+        if(optionalPost.isPresent()) {
+            post = optionalPost.get();
+        } else {
+            model.addAttribute("message", "Der Post konnte nicht mehr gefunden werden");
+            return "error";
+        }
 
-        System.out.println(id);
+        //TO-DO: Wenn es dein eigener Post ist, "Post löschen" Button anzeigen
+
+
+
+        //abschließende Model-Vorbereitungen
+        model.addAttribute("post", post);
         return "post/postDetail";
     }
 
