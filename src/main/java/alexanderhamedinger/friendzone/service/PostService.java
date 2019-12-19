@@ -1,13 +1,16 @@
 package alexanderhamedinger.friendzone.service;
 
+import alexanderhamedinger.friendzone.entities.Likes;
 import alexanderhamedinger.friendzone.entities.Post;
 import alexanderhamedinger.friendzone.entities.User;
+import alexanderhamedinger.friendzone.repository.LikeRepository;
 import alexanderhamedinger.friendzone.repository.PostRepository;
 import alexanderhamedinger.friendzone.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.GregorianCalendar;
 import java.util.Optional;
 
 @Service
@@ -17,6 +20,9 @@ public class PostService implements PostServiceIF{
     private PostRepository postRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private LikeRepository likeRepository;
+
 
     @Override
     public Post createPost(Post post) {
@@ -31,5 +37,39 @@ public class PostService implements PostServiceIF{
     @Override
     public Optional<Post> getPostById(long id) {
         return postRepository.findById(id);
+    }
+    @Override
+    public Post save(Post post) {
+        Post neu = postRepository.save(post);
+        return neu;
+    }
+    @Override
+    public void deletePost(long id) {
+        postRepository.deleteById(id);
+    }
+
+
+    @Override
+    public Likes createLike(Likes like) {
+        like.setCreationDate(new GregorianCalendar());
+        Likes neu = likeRepository.save(like);
+        return neu;
+    }
+    @Override
+    public boolean isLikeUnique(Likes like) {
+        Likes other = likeRepository.findByLikerAndPost(like.getLiker(), like.getPost());
+        if(other == null)
+            return true;
+        return false;
+    }
+    @Override
+    public void deleteLike(Likes like) {
+        Likes other = likeRepository.findByLikerAndPost(like.getLiker(), like.getPost());
+        likeRepository.delete(other);
+    }
+    @Override
+    public Likes getCompleteLike(Likes like) {
+        like = likeRepository.findByLikerAndPost(like.getLiker(), like.getPost());
+        return like;
     }
 }

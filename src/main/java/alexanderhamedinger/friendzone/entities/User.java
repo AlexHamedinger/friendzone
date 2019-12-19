@@ -7,8 +7,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
-import java.util.Date;
-import java.util.Objects;
+import java.util.GregorianCalendar;
+import java.util.Iterator;
 
 @Entity
 @AttributeOverride(name = "creationDate", column = @Column(name = "initialregistration"))
@@ -23,7 +23,9 @@ public class User extends BasicEntity implements UserDetails {
     @Lob
     private byte[] profileImage;
     @Column(name = "latestregistration")
-    private Date latestRegistration;
+    private GregorianCalendar latestRegistration;
+    @OneToMany
+    private Collection<Likes> likes;
 
     //getter & setter
     public String getEmail() {
@@ -53,11 +55,48 @@ public class User extends BasicEntity implements UserDetails {
     public String getImageURL() {
         return "/userimages/" + this.getId();
     }
-    public Date getLatestRegistration() {
+    public GregorianCalendar getLatestRegistration() {
         return latestRegistration;
     }
-    public void setLatestRegistration(Date latestRegistration) {
+    public void setLatestRegistration(GregorianCalendar latestRegistration) {
         this.latestRegistration = latestRegistration;
+    }
+    public Collection<Likes> getLikes() {
+        return likes;
+    }
+    public void setLikes(Collection<Likes> likes) {
+        this.likes = likes;
+    }
+
+    //methoden
+    public void addLike(Likes like) {
+        this.likes.add(like);
+    }
+    public void removeLike(Likes like) {
+        this.likes.remove(like);
+    }
+    public int getNumberOfLikes() {
+        int size = 0;
+        if(likes != null) {
+            if(!likes.isEmpty()) {
+                size = likes.size();
+            }
+        }
+        return size;
+    }
+    public Likes getLikeByPost(Post post) {
+        Likes like;
+
+        for (Iterator i = likes.iterator(); i.hasNext(); ) {
+            like = (Likes) i.next();
+            if(like.getLiker() == this.getId()) {
+                if(like.getPost() == post.getId()) {
+                    return like;
+                }
+            }
+        }
+
+        return null;
     }
 
     //UserDetails Override
@@ -95,8 +134,8 @@ public class User extends BasicEntity implements UserDetails {
                 "Username: " + username + "\n" +
                 "Password: " + password + "\n" +
                 "EMail: " + email + "\n" +
-                "Latest Registration: " + dateFormat.format(latestRegistration) + "\n" +
-                "Member since: " + dateFormat.format(this.getCreationDate()) + "\n" +
+                "Latest Registration: " + dateFormat.format(latestRegistration.getTime()) + "\n" +
+                "Member since: " + dateFormat.format(this.getCreationDate().getTime()) + "\n" +
                 "Profile Image: " + y_n + "\n" +
                 "#########################################################################\n";
     }

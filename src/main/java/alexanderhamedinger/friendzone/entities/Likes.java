@@ -1,9 +1,8 @@
 package alexanderhamedinger.friendzone.entities;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.Objects;
 
+//Die Tabelle muss "Likes" statt "Like" heissen da es sonst zu Problemen beim Erstellen der Tabelle kommt "CREATE TABLE LIKE..."
 @Entity
 public class Likes extends BasicEntity {
 
@@ -24,4 +23,8 @@ public class Likes extends BasicEntity {
         this.post = post;
     }
 
+    @Override
+    public String toString() {
+        return liker + " likes " + post;
+    }
 }

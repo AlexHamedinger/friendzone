@@ -17,11 +17,11 @@
 
 <form th:action="@{/profile?edited=image}" class="container" method="post" enctype="multipart/form-data" th:object="${user}">
     <div class="text-center float-left" style="width: 50%;">
-        <img th:src="${user.getImageURL()}" onerror="this.src='/img/profile_img.gif'" alt="Kein Profilbild vorhanden." style="height: 250px; width: 250px; border-radius: 50%;margin-bottom: 10px">
+        <img th:src="${user.getImageURL()}" onerror="this.src='/img/profile_img.gif'" alt="Kein Profilbild vorhanden." style="height: 250px; width: 250px; border-radius: 50%; object-fit: cover; margin-bottom: 10px ">
     </div>
     <div class="custom-file float-left" style="width: 40%; margin-top: 100px">
         <input type="file" class="custom-file-input" name="imagefile" id="customFile" >
-        <label class="custom-file-label" for="customFile">Neues Foto auswählen</label>
+        <label class="custom-file-label" for="customFile">Neues Foto auswählen (max. 1MB)</label>
         <button class="btn btn-light btn-block text-uppercase" type="submit" style="background-color: #e3f2fd; margin-top: 5px">Profilbild ändern</button>
     </div>
 </form>

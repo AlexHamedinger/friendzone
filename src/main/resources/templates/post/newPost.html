@@ -3,7 +3,7 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head th:replace="common/fragments :: friendzone_head" />
 <head>
-    <title>FriendZone</title>
+    <title>FriendZone - New Post</title>
 <script type="text/javascript" th:src="@{/script/preview.js}"></script>
 </head>
 <body onload="createPreview()">
@@ -24,7 +24,7 @@
                             </div>
                             <div class="custom-file">
                                 <input type="file" class="custom-file-input" name="imagefile" id="customFile" >
-                                <label class="custom-file-label" for="customFile">Foto auswählen...</label>
+                                <label class="custom-file-label" for="customFile">Foto auswählen (max. 1MB)</label>
                             </div>
                             <button class="btn btn-light btn-block float-right text-dark" id="vorschauButton" type="button" style="background-color: #e3f2fd;margin-top: 10px; width: 150px">Vorschau</button>
                             <hr class="my-5">
