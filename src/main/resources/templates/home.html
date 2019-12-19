@@ -4,8 +4,11 @@
 <head th:replace="common/fragments :: friendzone_head" />
 <head>
     <title>FriendZone</title>
+
+    <script type="text/javascript" th:src="@{/script/like.js}"></script>
+
 </head>
-<body>
+<body onload="likeManager()">
 <div th:replace="common/fragments :: friendzone_navbar" />
 
 <div class="container text-center" th:object="${user}">
@@ -25,8 +28,9 @@
             <a class="btn btn-block btn-light btn-outline-dark" th:href="${post.getDetailURL()}" style="background-color: #e3f2fd; margin-top: 2px;">zur Detailansicht</a>
         </div>
         <div class="col">
-            <button class="btn btn-light btn-outline-dark float-right" style="width: 90px;background-color: #e3f2fd; margin-top: 2px;">Like <i style="font-size:18px;"class="fa fa-thumbs-o-up"></i></button>
-            <button hidden class="btn btn-light btn-outline-dark float-right" style="background-color: #e3f2fd; margin-top: 2px;">Unlike <i style="font-size:18px;"class="fa fa-close"></i></button>
+            <a th:id="${post.getId()}" th:text="${post.likeOrUnlike(user.getLikeByPost(post))}" class="likeButton btn btn-light btn-outline-dark float-right" style="width: 90px;background-color: #e3f2fd; margin-top: 2px;"> <i style="font-size:18px;"class="fa fa-thumbs-o-up"></i></a>
+            <h4 class="float-right" th:text="${post.getNumberOfLikes()}" style="margin-top: 6px; margin-right: 10px" ></h4>
+      <!--      <p th:text="${post.likeOrUnlike(user.getLikeByPost(post))}"></p>  -->
         </div>
     </div>  
 </div>

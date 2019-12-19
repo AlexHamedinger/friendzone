@@ -16,37 +16,39 @@
     
     
 <div class="container text-center" th:object="${user}">
-    <img src="../../../../../../../../../../Desktop/img/small/1506591411493.jpg" onerror="this.src='/img/profile_img.gif'" alt="Kein Profilbild vorhanden." class="m-15" style="height: 115px; width: auto; border-radius: 100%; margin-top: 10px;">
+    <img src="../../../../../../../../../../Desktop/img/small/1453936214880.jpg" class="m-15" style="height: 115px; width: auto; border-radius: 100%; margin-top: 10px; object-fit: cover;">
     <h1 th:inline="text" class="text-dark" th:text="${'Hallo ' + user.getUsername()}">Hallo Alex</h1>
     <a href="#"  class="btn btn-lg btn btn-outline-dark" style="background-color: #e3f2fd">neuen Pinnwandeintrag erstellen</a>
 </div>
 
-<div class="container" th:object="${posts}">
-        <div class="row" th:each="post, stat : ${posts}">
-            <h2 class="text-dark" th:text="${post.getTitle()}">Mein Auto</h2>
-            
-            
-            <img src="../../../../../../../../../../Desktop/img/small/1494683086942.jpg" name="image" onerror="this.src='/img/no_post_found.png'" alt="Zu diesem Post wurde kein Bild hochgeladen." class="img-fluid rounded float-center" style="width: 100%">
-            
-                    <div class="col ">
-                        <p th:text="${post.getCreationDateAsString()}" style="margin-top: 10px;">17.12.2019 12:01:25</p>
-                    </div>
-                    <div class="col-6">
-                        <input type="button" value="zur Detailansicht" class="btn btn-block btn-light btn-outline-dark" style="background-color: #e3f2fd; margin-top: 5px;"/>
-                    </div>
-                    <div class="col">
-                        <button class="btn btn-light btn-outline-dark float-right" style="width: 90px;background-color: #e3f2fd; margin-top: 5px;">Like <i style="font-size:18px;"class="fa fa-thumbs-o-up"></i></button>
-                        <button hidden class="btn btn-light btn-outline-dark float-right" style="background-color: #e3f2fd; margin-top: 5px;">Unlike <i style="font-size:18px;"class="fa fa-close"></i></button>
-                    </div>
-            
-        
+    
+    
+    
+    
+<div class="container" style="margin-bottom: 25px;" th:object="${posts}">    
+    <div class="row" th:each="post, stat : ${posts}">
+        <h2 class="text-dark" th:text="${post.getTitle()}" style="margin-top: 15px">Mein Auto</h2>
+        <img src="../../../../../../../../../../Desktop/img/IMG-20151109-WA0005.jpg" name="image" class="img-fluid rounded float-center" style="width: 100%">
+        <div class="col ">
+            <p th:text="${post.getCreationDateDifference()}" th:name="datum" style="margin-top: 2px;"></p>
         </div>
+        <div class="col-6">
+            <a class="btn btn-block btn-light btn-outline-dark" th:href="${post.getDetailURL()}" style="background-color: #e3f2fd; margin-top: 2px;">zur Detailansicht</a>
+        </div>
+        <div class="col">
+            <a th:id="${post.getId()}" class="likeButton btn btn-light btn-outline-dark float-right" style="width: 90px;background-color: #e3f2fd; margin-top: 2px;">Like <i style="font-size:18px;"class="fa fa-thumbs-o-up"></i></a>
+            <h5 class="float-right" style="margin-top: 6px; margin-right: 10px"> 10 </h5>
+        </div>
+    </div>  
+</div> 
+    
+    
+    
+    
+    
+    
+    
         
-    
-    
-</div>
-    
-    
     
 </body>
 </html>

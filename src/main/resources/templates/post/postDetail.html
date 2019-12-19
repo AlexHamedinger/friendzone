@@ -4,13 +4,17 @@
 <head th:replace="common/fragments :: friendzone_head" />
 <head>
     <title>FriendZone - Detail Post</title>
+
+    <script type="text/javascript" th:src="@{/script/like.js}"></script>
+
 </head>
-<body>
+<body onload="likeManager()">
 <div th:replace="common/fragments :: friendzone_navbar" />
 
-<div class="container">
-    <div class="row" th:object="${post}">
-        <h2 class="text-dark" th:text="${post.getTitle()}" style="margin-top: 15px"></h2>
+<div class="container" th:object="${user}">
+    <div class="row" name="post" th:object="${post}">
+        <h2 class="text-dark col-11" th:text="${post.getTitle()}" style="margin-top: 15px"></h2>
+        <a th:href="${post.getDeleteURL()}" class="btn btn-light btn-outline-dark col" style="background-color: #e3f2fd; margin-top: 2px;"><i style="font-size:18px;"class="fa fa-trash-o"></i> löschen </a>
         <img th:src="${post.getImageURL()}" name="image" onerror="this.src='/img/no_post_found.png'" alt="Zu diesem Post wurde kein Bild hochgeladen." class="img-fluid rounded float-center" style="width: 100%">
         <div class="col ">
             <p th:text="${post.getCreationDateDifference()}" th:name="datum" style="margin-top: 2px;"></p>
@@ -18,8 +22,9 @@
         <div class="col-6">
         </div>
         <div class="col">
-            <button class="btn btn-light btn-outline-dark float-right" style="width: 90px;background-color: #e3f2fd; margin-top: 2px;">Like <i style="font-size:18px;"class="fa fa-thumbs-o-up"></i></button>
-            <button hidden class="btn btn-light btn-outline-dark float-right" style="background-color: #e3f2fd; margin-top: 2px;">Unlike <i style="font-size:18px;"class="fa fa-close"></i></button>
+            <a th:id="${post.getId()}" th:text="${post.likeOrUnlike(user.getLikeByPost(post))}" class="likeButton btn btn-light btn-outline-dark float-right" style="width: 90px;background-color: #e3f2fd; margin-top: 2px;"> <i style="font-size:18px;"class="fa fa-thumbs-o-up"></i></a>
+            <h4 class="float-right" th:text="${post.getNumberOfLikes()}" style="margin-top: 6px; margin-right: 10px" ></h4>
+            <!--      <p th:text="${post.likeOrUnlike(user.getLikeByPost(post))}"></p>  -->
         </div>
     </div>
 </div>

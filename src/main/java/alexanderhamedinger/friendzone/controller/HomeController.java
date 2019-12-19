@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.security.Principal;
 import java.util.Collection;
 import java.util.GregorianCalendar;
+import java.util.Optional;
 
 @Controller
 public class HomeController {
@@ -45,7 +46,7 @@ public class HomeController {
     public String home(
             Model model,
             Principal prince,
-            @RequestParam(required = false, name = "action", defaultValue = "") String action,
+            @RequestParam(required = false, name = "action", defaultValue = "noaction") String action,
             @ModelAttribute("titel") String titel,
             @RequestParam(required = false, name = "imagefile") MultipartFile file)
     {
@@ -76,6 +77,15 @@ public class HomeController {
             System.out.println("\nUser " + user.getUsername() + " created new Post:" + post);
 
         }
+
+        //home?action=deletePost123
+        if(action.contains("deletePost")) {
+            String postid = action.split("Post")[1];
+            long id = Long.parseLong(postid);
+            postService.deletePost(id);
+            System.out.println("deleted Post " + id);
+        }
+
 
         //abschließende Model-Vorbereitungen
         {

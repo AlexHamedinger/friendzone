@@ -1,5 +1,6 @@
 package alexanderhamedinger.friendzone.service;
 
+import alexanderhamedinger.friendzone.entities.Likes;
 import alexanderhamedinger.friendzone.entities.User;
 
 import java.util.Optional;
