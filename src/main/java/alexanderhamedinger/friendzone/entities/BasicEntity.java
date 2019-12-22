@@ -2,12 +2,12 @@ package alexanderhamedinger.friendzone.entities;
 
 import javax.persistence.*;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Objects;
 
 @MappedSuperclass
 public class BasicEntity {
+//Mapped Superclass: Attribute und Methoden werden an alle anderen Entitäten vererbt
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,11 +25,18 @@ public class BasicEntity {
     public GregorianCalendar getCreationDate() {
         return creationDate;
     }
+    public void setCreationDate(GregorianCalendar creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    //methoden
+    //gibt das Datum als lesbaren String zurück
     public String getCreationDateAsString() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy kk:mm:ss");
         String date = dateFormat.format(this.getCreationDate().getTime());
         return date;
     }
+    //gibt die Differenz vom jetzigen Zeitpunkt zum Erstelldatum (in Tagen, Stunden oder Minuten) zurück
     public String getCreationDateDifference() {
         String dateDifference = "";
         GregorianCalendar now = new GregorianCalendar();
@@ -37,8 +44,6 @@ public class BasicEntity {
         int days = (int)(difference / (1000 * 60 * 60 * 24));
         int hours = (int)(difference / (1000 * 60 * 60) % 24);
         int minutes = (int)(difference / (1000 * 60) % 60);
-//        int seconds = (int)(difference / 1000 % 60);
-//        int millis = (int)(difference % 1000);
 
         if(days < 1) {
             if(hours < 1) {
@@ -55,9 +60,6 @@ public class BasicEntity {
         }
 
         return dateDifference;
-    }
-    public void setCreationDate(GregorianCalendar creationDate) {
-        this.creationDate = creationDate;
     }
 
     //Override
@@ -77,6 +79,7 @@ public class BasicEntity {
     }
     @Override
     public int hashCode(){
+        //TODO: hashCode Methode überschreiben
         if(id == 0L) {
             return 0;
         } else {

@@ -40,6 +40,7 @@ public class Post extends BasicEntity {
     }
 
     //methoden
+    //getURL-Methoden: um verschiedene "href" oder "src" in den Templates mit sinnvollen Strings zu befüllen
     public String getImageURL() {
         return "/postimages/" + this.getId();
     }
@@ -56,6 +57,7 @@ public class Post extends BasicEntity {
         return "/home?action=deletePost"+this.getId();
     }
 
+    //Methoden auf die Likes-Collection
     public void addLike(Likes like) {
         this.likes.add(like);
     }
@@ -71,6 +73,8 @@ public class Post extends BasicEntity {
         }
         return size;
     }
+
+    //wird benötigt damit die like-Buttons richtig dargestellt werden
     public String likeOrUnlike(Likes like) {
         String likeOrUnlike = "like";
         if(likes == null) {
@@ -81,7 +85,6 @@ public class Post extends BasicEntity {
         }
         return likeOrUnlike;
     }
-
 
 
     @Override

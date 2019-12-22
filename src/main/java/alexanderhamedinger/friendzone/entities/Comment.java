@@ -1,6 +1,8 @@
 package alexanderhamedinger.friendzone.entities;
 
 import javax.persistence.*;
+import java.util.Date;
+import java.util.Objects;
 
 @Entity
 public class Comment extends BasicEntity {

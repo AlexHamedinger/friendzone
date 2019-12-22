@@ -68,7 +68,7 @@ public class User extends BasicEntity implements UserDetails {
         this.likes = likes;
     }
 
-    //methoden
+    //Methoden auf die Likes-Collection
     public void addLike(Likes like) {
         this.likes.add(like);
     }
@@ -86,7 +86,6 @@ public class User extends BasicEntity implements UserDetails {
     }
     public Likes getLikeByPost(Post post) {
         Likes like;
-
         for (Iterator i = likes.iterator(); i.hasNext(); ) {
             like = (Likes) i.next();
             if(like.getLiker() == this.getId()) {
@@ -95,7 +94,6 @@ public class User extends BasicEntity implements UserDetails {
                 }
             }
         }
-
         return null;
     }
 
@@ -136,7 +134,7 @@ public class User extends BasicEntity implements UserDetails {
                 "EMail: " + email + "\n" +
                 "Latest Registration: " + dateFormat.format(latestRegistration.getTime()) + "\n" +
                 "Member since: " + dateFormat.format(this.getCreationDate().getTime()) + "\n" +
-                "Profile Image: " + y_n + "\n" +
+                "Likes: " + getNumberOfLikes() + "\n" +
                 "#########################################################################\n";
     }
 }

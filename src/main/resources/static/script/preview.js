@@ -1,3 +1,5 @@
+//Dieses Javascript wird zum Anzeigen einer Live-Vorschau beim Erstellen neuer Posts verwendet
+
 function createPreview() {
     $("#vorschauButton").click(prieview);
 }

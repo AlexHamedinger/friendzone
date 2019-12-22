@@ -1,6 +1,5 @@
 package alexanderhamedinger.friendzone.controller;
 
-import alexanderhamedinger.friendzone.entities.Likes;
 import alexanderhamedinger.friendzone.entities.User;
 import alexanderhamedinger.friendzone.service.UserServiceIF;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
 import java.io.IOException;
-import java.security.Principal;
 import java.util.GregorianCalendar;
 import java.util.Optional;
 
@@ -24,16 +21,19 @@ public class UserController {
     @Autowired
     private UserServiceIF userService;
 
+    //Gibt die Login-Seite zurück
     @RequestMapping("/login")
     public String login() {
         return "user/login";
     }
 
+    //Gibt die neu-registrieren Seite zurück
     @RequestMapping("/login/register")
     public String loginRegister() {
         return "user/register";
     }
 
+    //Verarbeitet die neue Registrierung
     @RequestMapping("/register")
     public String register(
             @ModelAttribute("email") String email,
@@ -41,7 +41,6 @@ public class UserController {
             @ModelAttribute("password") String password,
             Model model
     ) {
-        System.out.println("Trying to register new User...");
         //neuen User anlegen und ins Repository schreiben
         User user = new User();
         user.setEmail(email);
@@ -62,6 +61,7 @@ public class UserController {
             return "user/login";
         }
     }
+
 
     //Zeigt das User Profil Image der eingegebenen Id an
     @RequestMapping(value = "/userimages/{id}", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)

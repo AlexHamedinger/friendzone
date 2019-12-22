@@ -15,26 +15,26 @@ import java.io.IOException;
 import java.security.Principal;
 import java.util.Collection;
 import java.util.GregorianCalendar;
-import java.util.Optional;
 
 @Controller
 public class HomeController {
 
     @Autowired
     private UserServiceIF userService;
-
     @Autowired
     private PostServiceIF postService;
 
 
+    //Home-Pfad, wird nach dem einloggen ausgeführt
     @RequestMapping("/")
     public String start(
             Principal principal,
             Model model
     ) {
         if(principal != null) {
+            User user = userService.findbyUsername(principal.getName());
             userService.setLatestRegistrationDate(principal.getName());
-            System.out.println("User " + principal.getName() + " wurde eingeloggt. ");
+            System.out.println("User " + principal.getName() + " wurde eingeloggt. " + user);
             model.addAttribute("posts", postService.getPostsByPoster(principal.getName()));
             model.addAttribute("user", userService.findbyUsername(principal.getName()));
         }
@@ -42,6 +42,9 @@ public class HomeController {
         return "home";
     }
 
+
+    //Hier wird die Startseite angezeigt
+    //Es werden verschiedene Funktionen abgearbeitet, die danach auf die Startseite weiterleiten
     @RequestMapping("/home")
     public String home(
             Model model,
@@ -54,6 +57,7 @@ public class HomeController {
         User user = userService.findbyUsername(prince.getName());
 
         //home?action=newpost
+        //Es wird ein neuer Post erstellt
         if(action.equals("newpost")){
             //Erstellen des neuen Posts
             Post post = new Post();
@@ -79,13 +83,14 @@ public class HomeController {
         }
 
         //home?action=deletePost123
+        //Ein Post wird gelöscht
         if(action.contains("deletePost")) {
-            String postid = action.split("Post")[1];
+            String postid = action.split("deletePost")[1];
             long id = Long.parseLong(postid);
+            //TODO: Beim Post löschen zugehörige Likes löschen
             postService.deletePost(id);
             System.out.println("deleted Post " + id);
         }
-
 
         //abschließende Model-Vorbereitungen
         {

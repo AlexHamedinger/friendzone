@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class FriendzoneApplication {
 
 	public static void main(String[] args) {
-
+		//Git Push Test
 		SpringApplication.run(FriendzoneApplication.class, args);
 	}
 

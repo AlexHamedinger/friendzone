@@ -17,6 +17,7 @@ public class ProfileController {
     @Autowired
     private UserServiceIF userService;
 
+
     @RequestMapping("/profile")
     public String profile(
             @RequestParam(required = false, name = "edited", defaultValue = "") String edited,
@@ -28,11 +29,13 @@ public class ProfileController {
         User user = userService.findbyUsername(prince.getName());
 
         //profile?edited=image
+        //Falls der User ein neues Profilfoto hochgeladen hat
         if(edited.equals("image")){
             //save user-image
             try {
                 int img_length = file.getBytes().length;
-                if(!file.isEmpty()) {
+                System.out.println("Image length: " + img_length);
+                if(img_length > 1000) {
                     byte[] byteObjects = new byte[img_length];
                     int i = 0;
                     for (byte b : file.getBytes()) {
@@ -44,6 +47,8 @@ public class ProfileController {
                 e.printStackTrace();
             }
         }
+
+        //TODO: E-Mail, Usernamen und Passwort ändern implementieren
 
         //abschließende Model-Vorbereitungen
         {
