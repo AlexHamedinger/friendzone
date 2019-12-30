@@ -23,6 +23,14 @@ public class Likes extends BasicEntity {
         this.post = post;
     }
 
+    //methoden
+    public boolean hasId() {
+        Long id = new Long(this.getId());
+        if(!id.equals(null)) {
+            return true;
+        }
+        return false;
+    }
     @Override
     public String toString() {
         return liker + " likes " + post;

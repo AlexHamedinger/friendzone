@@ -34,7 +34,6 @@ public class ProfileController {
             //save user-image
             try {
                 int img_length = file.getBytes().length;
-                System.out.println("Image length: " + img_length);
                 if(img_length > 1000) {
                     byte[] byteObjects = new byte[img_length];
                     int i = 0;

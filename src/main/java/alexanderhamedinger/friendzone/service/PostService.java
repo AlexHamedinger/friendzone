@@ -64,8 +64,14 @@ public class PostService implements PostServiceIF{
     }
     @Override
     public void deleteLike(Likes like) {
-        Likes other = likeRepository.findByLikerAndPost(like.getLiker(), like.getPost());
-        likeRepository.delete(other);
+        long id;
+        if(like.hasId()) {
+            id = like.getId();
+        } else {
+            Likes other = likeRepository.findByLikerAndPost(like.getLiker(), like.getPost());
+            id = other.getId();
+        }
+        likeRepository.deleteById(id);
     }
     @Override
     public Likes getCompleteLike(Likes like) {

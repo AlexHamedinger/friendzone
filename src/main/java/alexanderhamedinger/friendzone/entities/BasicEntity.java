@@ -79,8 +79,8 @@ public class BasicEntity {
     }
     @Override
     public int hashCode(){
-        //TODO: hashCode Methode überschreiben
-        if(id == 0L) {
+        Long thisId = new Long(id);
+        if(thisId.equals(null)) {
             return 0;
         } else {
             return (int)id;

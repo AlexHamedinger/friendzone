@@ -1,5 +1,6 @@
 package alexanderhamedinger.friendzone.controller;
 
+import alexanderhamedinger.friendzone.entities.Likes;
 import alexanderhamedinger.friendzone.entities.Post;
 import alexanderhamedinger.friendzone.entities.User;
 import alexanderhamedinger.friendzone.service.PostServiceIF;
@@ -15,6 +16,7 @@ import java.io.IOException;
 import java.security.Principal;
 import java.util.Collection;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
 
 @Controller
 public class HomeController {
@@ -87,7 +89,26 @@ public class HomeController {
         if(action.contains("deletePost")) {
             String postid = action.split("deletePost")[1];
             long id = Long.parseLong(postid);
-            //TODO: Beim Post löschen zugehörige Likes löschen
+
+
+            //Beim Post löschen zugehörige Likes löschen
+            Post post = postService.getPostById(id).get();  //TODO: Unwrap Optional
+            Collection<Likes> likes = post.getLikes();
+            Likes like;
+            User LikeUser;
+            Collection<Likes> LikeUserLikes;
+            Iterator<Likes> i = likes.iterator();
+            while( i.hasNext() ) {
+                like = (Likes) i.next();
+                likes.remove(like);
+                LikeUser = userService.getUserById(like.getLiker()).get();  //TODO: Unwrap Optional
+                LikeUserLikes = LikeUser.getLikes();
+                LikeUserLikes.remove(like);
+                postService.deleteLike(like);
+                i = likes.iterator();
+            }
+
+            //der Post wird gelöscht
             postService.deletePost(id);
             System.out.println("deleted Post " + id);
         }
