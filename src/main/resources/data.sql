@@ -8,8 +8,8 @@ insert into user(id,email,username,password,initialregistration,latestregistrati
 
 --Insert into Post
 insert into post(id,poster,title,creationdate)
-        values (1111L,2806L,'Mein erster Post','2019-12-09 15:30:00');
---insert into post(id,poster,title,creationdate)
---         values (2222L,2806L,'Mein zweiter Post','2019-12-09 16:30:00');
---insert into post(id, poster, title,creationdate)
---         values (3333L,2806L,'Mein dritter Post','2019-12-09 17:15:00');
+         values (1000000L,2806L,'Mein erster Post','2019-12-09 15:30:00');
+insert into post(id,poster,title,creationdate)
+         values (1000001L,2806L,'Mein zweiter Post','2019-12-09 16:30:00');
+insert into post(id, poster, title,creationdate)
+         values (1000002L,2806L,'Mein dritter Post','2019-12-09 17:15:00');

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
 import java.util.Optional;
 
 @Service
@@ -47,6 +48,24 @@ public class PostService implements PostServiceIF{
     public void deletePost(long id) {
         postRepository.deleteById(id);
     }
+    @Override
+    public Collection<Post> getLatestPosts(int maxPosts) {
+        Collection<Post> posts = postRepository.findByPoster(1L);
+        posts.clear();
+        Iterable<Post> postIterable = postRepository.findAllByOrderByIdDesc();
+        Iterator<Post> postIterator = postIterable.iterator();
+        int count = 0;
+        Post post;
+
+        while(count < maxPosts && postIterator.hasNext()) {
+            post = postIterator.next();
+            posts.add(post);
+            count++;
+        }
+
+        return posts;
+    }
+
 
 
     @Override

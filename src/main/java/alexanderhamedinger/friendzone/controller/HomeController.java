@@ -64,6 +64,7 @@ public class HomeController {
             //Erstellen des neuen Posts
             Post post = new Post();
             post.setPoster(user.getId());
+            post.setUser(user);
             post.setTitle(titel);
             post.setCreationDate(new GregorianCalendar());
             //save post-image

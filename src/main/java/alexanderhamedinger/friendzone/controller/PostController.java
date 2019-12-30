@@ -51,7 +51,7 @@ public class PostController {
         }
 
 
-        //TODO: Wenn es dein eigener Post ist, "Post löschen" Button anzeigen
+        //TODO: "Post löschen" Button nur anzeigen, wenn es dein eigener Post ist
 
 
 
@@ -74,6 +74,20 @@ public class PostController {
 
         model.addAttribute("post", post.get());
         return "post/postDelete";
+    }
+
+    //Verweist auf die "neueste Posts" Seite
+    @RequestMapping("/latestPosts")
+    public String latestPosts(
+        Model model,
+        Principal prince
+    ) {
+        //TODO: falls es noch keine Posts gibt, Platzhalter-Message anzeigen
+        //TODO: eine Auswahlmöglichkeit festlegen wie viele neue Posts angezeigt werden sollen (maxPosts)
+        Collection<Post> posts = postService.getLatestPosts(10);
+        model.addAttribute("posts", posts);
+        model.addAttribute("user", userService.findbyUsername(prince.getName()));
+        return "post/latestPosts";
     }
 
 

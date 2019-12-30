@@ -7,6 +7,8 @@ import java.util.Collection;
 public class Post extends BasicEntity {
 
     private long poster;
+    @ManyToOne
+    private User user;
     private String title;
     @Lob
     private byte[] postImage;
@@ -19,6 +21,12 @@ public class Post extends BasicEntity {
     }
     public void setPoster(long poster) {
         this.poster = poster;
+    }
+    public User getUser() {
+        return user;
+    }
+    public void setUser(User user) {
+        this.user = user;
     }
     public String getTitle() {
         return title;
@@ -55,6 +63,9 @@ public class Post extends BasicEntity {
     }
     public String getFinallyDeleteURL() {
         return "/home?action=deletePost"+this.getId();
+    }
+    public String getUserImageURL() {
+        return "/userimages/" + poster;
     }
 
     //Methoden auf die Likes-Collection
