@@ -96,7 +96,14 @@ public class Post extends BasicEntity {
         }
         return likeOrUnlike;
     }
-
+    //Damit der Löschen-Button auf der Post-Detail Seite angezeigt wird
+    public String isMyOwnPost(User user) {
+        String answer = "notMine";
+        if(user.getId() == poster) {
+            answer = "mine";
+        }
+        return answer;
+    }
 
     @Override
     public String toString() {

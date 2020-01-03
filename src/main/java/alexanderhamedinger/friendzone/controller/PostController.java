@@ -50,11 +50,6 @@ public class PostController {
             return "error";
         }
 
-
-        //TODO: "Post löschen" Button nur anzeigen, wenn es dein eigener Post ist
-
-
-
         //abschließende Model-Vorbereitungen
         {
             model.addAttribute("user", userService.findbyUsername(prince.getName()));

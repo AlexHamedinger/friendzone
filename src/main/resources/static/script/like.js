@@ -3,16 +3,23 @@ var likeText = 'Nicenstein <i style="font-size:18px;" class="fa fa-diamond"></i>
 var unlikeText = '<s>Nicenstein</s> <i style="font-size:18px;" class="fa fa-close"></i>';
 
 
-function likeManager() {
+function postManager() {
+    //der EventListener lauscht nacht Like-klicks
     $(".likeButton").click(like);
-    $("body").ready(loadLikeButtons)
+    //wird nach dem Seite laden ausgeführt
+    $("body").ready(showPostDeleteButton);
+    $("body").ready(loadLikeButtons);
+    
 }
 
+
+
+//falls auf Like gedrückt wird
 function like() {
 
     var id = this.id;
     var likes = $("#"+id).next().html();
-
+    
     $.get(
         "http://localhost:1889/likes/" + id,
         {},
@@ -30,11 +37,13 @@ function like() {
     }
 }
 
+
+
+//damit die Like Buttons richtig angezeigt werden
 function loadLikeButtons() {
-
-    var buttons = $(".likeButton");
-
-    buttons.each(function() {
+    var likeButtons = $(".likeButton");
+    
+    likeButtons.each(function() {
 
     if($(this).html() == 'unlike') {
         $(this).html(unlikeText);
@@ -44,5 +53,23 @@ function loadLikeButtons() {
     }
         
     });
-    
+
+}
+
+
+
+//zusätzlich falls es sich um die Post-Detail Seite handelt muss der "Post löschen" Button richtig angezeigt werden
+function showPostDeleteButton() {
+    var deletePostButton = $("#deletePostButton");
+
+    if(deletePostButton.html() == 'mine') {
+        deletePostButton.html('<i style="font-size:18px;"class="fa fa-trash-o"></i> löschen');
+        deletePostButton.css("background-color", "#e3f2fd");
+        deletePostButton.css("color", "");
+        deletePostButton.addClass("btn");
+        deletePostButton.addClass("btn-light");
+        deletePostButton.addClass("btn-outline-dark"); 
+    } else {
+        deletePostButton.remove();
+    }
 }
