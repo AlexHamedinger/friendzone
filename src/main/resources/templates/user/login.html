@@ -13,10 +13,10 @@
             <div class="card card-signin my-5">
                 <div class="card-body">
                     <div th:if="${param.error}" class="text-center">
-                        <p>Invalid username or password.</p>
+                        <p>Ungültiger Username oder Passwort.</p>
                     </div>
                     <div th:if="${param.logout}" class="text-center">
-                        <p>You have been logged out.</p>
+                        <p>Du wurdest erfolgreich ausgeloggt.</p>
                     </div>
                     <div class="text-center">
                         <p><span th:text="${successfully_registered}"/></p>
@@ -27,11 +27,11 @@
                             <input type="text" name="username" class="form-control" placeholder="Username" style="margin-bottom: 10px;" required>
                         </div>
                         <div class="form-label-group">
-                            <input type="password" name="password" class="form-control" placeholder="Password" required>
+                            <input type="password" name="password" class="form-control" placeholder="Passwort" required>
                         </div>
                         <hr class="my-4">
-                        <button class="btn btn-lg btn-light btn-block text-uppercase" type="submit" style="background-color: #e3f2fd;">Sign in</button>
-                        <a class="btn btn-lg btn-light btn-block text-uppercase" href="/login/register" style="background-color: #e3f2fd;">Register Now!</a>
+                        <button class="btn btn-lg btn-light btn-block text-uppercase" type="submit" style="background-color: #e3f2fd;">Einloggen</button>
+                        <a class="btn btn-lg btn-light btn-block text-uppercase" href="/login/register" style="background-color: #e3f2fd;">Registrieren <i style="font-size:18px;"class="fa fa-user-plus"></i></a>
                         <!--        <a class="btn btn-lg btn-info btn-block text-uppercase" href="#">Forgot Password?</a>     -->
                     </form>
                 </div>

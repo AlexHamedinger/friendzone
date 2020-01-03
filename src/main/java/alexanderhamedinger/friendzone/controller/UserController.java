@@ -53,11 +53,11 @@ public class UserController {
         //Falls der Username bereits existiert wird null returned
         if(user == null) {
             System.out.println("Could not create User. Username " + username + " was already taken!");
-            model.addAttribute("invalidUsername", "Invalid Username! Username already in use.");
+            model.addAttribute("invalidUsername", "Ungültiger Username! Der Username ist bereits vergeben.");
             return "user/register";
         } else {
             System.out.println("Created User: \n" + user);
-            model.addAttribute("successfully_registered", "You registered successfully to FriendZone!");
+            model.addAttribute("successfully_registered", "Du hast dich erfolgreich bei FriendZone registriert!");
             return "user/login";
         }
     }
