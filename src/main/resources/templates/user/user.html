@@ -12,10 +12,10 @@
 <div th:replace="common/fragments :: friendzone_navbar" />
 
 <div class="container text-center" th:object="${otherUser}">
-    <img th:src="${user.getImageURL()}" onerror="this.src='/img/profile_img.gif'" alt="Kein Profilbild vorhanden." class="m-15" style="height: 100px; width: 100px; border-radius: 50%; object-fit: cover; margin-top: 20px; margin-bottom: 5px;">
+    <img th:src="${otherUser.getImageURL()}" onerror="this.src='/img/profile_img.gif'" alt="Kein Profilbild vorhanden." class="m-15" style="height: 100px; width: 100px; border-radius: 50%; object-fit: cover; margin-top: 20px; margin-bottom: 5px;">
     <h1 th:inline="text" class="text-dark" th:text="${'Pinnwand von ' + otherUser.getUsername()}"></h1>
     <a th:id="${otherUser.getId()}" class="friendsButton btn btn-lg btn btn-outline-dark" th:object="${user}" style="background-color: #e3f2fd" th:text="${user.friendOrNotFriend(otherUser)}"></a>
-
+</div>
 <div class="container" style="margin-bottom: 25px;" th:object="${posts}">    
     <div class="row" th:each="post, stat : ${posts}">
         <h2 class="text-dark" th:text="${post.getTitle()}" style="margin-top: 15px"></h2>

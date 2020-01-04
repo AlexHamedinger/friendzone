@@ -86,9 +86,24 @@ public class UserController {
         return "user/user";
     }
 
+    //zeigt die Freundesliste
+    @RequestMapping("/friendsList")
+    public String friends(
+        Model model,
+        Principal prince
+    ) {
+        User user = userService.findbyUsername(prince.getName());
+        Collection<User> friends = user.getFriends();
+
+        model.addAttribute("friends", friends);
+        model.addAttribute("user", user);
+        return "user/friendsList";
+    }
+
+
     //befreundet zwei User
     @RequestMapping(value = "/friends/{otherid}", method = RequestMethod.GET)
-    public ResponseEntity<String> becomeFriends(
+    public ResponseEntity<Friend> becomeFriends(
             @PathVariable("otherid") int otherid,
             Principal prince
     ) {
@@ -105,6 +120,7 @@ public class UserController {
         } else {
             friend.setUser(user.getId());
             friend.setFriend(otherUser.getId());
+            friend.setCreationDate(new GregorianCalendar());
             friend = userService.createFriend(friend);
             user.addFriend(otherUser);
             response = user.getUsername() + " befriended " + otherUser.getUsername();
@@ -115,7 +131,7 @@ public class UserController {
 
         return ResponseEntity
                 .ok()
-                .body(response);
+                .body(friend);
 
     }
 

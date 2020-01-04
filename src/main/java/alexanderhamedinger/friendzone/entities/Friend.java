@@ -24,6 +24,6 @@ public class Friend extends BasicEntity {
 
     @Override
     public String toString() {
-        return user + "is Friends with " + friend;
+        return user + " is Friends with " + friend;
     }
 }

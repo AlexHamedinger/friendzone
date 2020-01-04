@@ -26,7 +26,7 @@ public class User extends BasicEntity implements UserDetails {
     private GregorianCalendar latestRegistration;
     @OneToMany
     private Collection<Likes> likes;
-    @OneToMany
+    @ManyToMany
     private Collection<User> friends;
 
     //getter & setter
@@ -143,6 +143,10 @@ public class User extends BasicEntity implements UserDetails {
             answer = "friends";
         }
         return answer;
+    }
+    public String getFriendsSince() {
+        //TODO: keinen Dummy sondern echten Wert zurückgeben
+        return "Freund seit 01.04.2019";
     }
 
     //UserDetails Override

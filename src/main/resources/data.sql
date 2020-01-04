@@ -13,3 +13,7 @@ insert into user(id,email,username,password,initialregistration,latestregistrati
 --         values (1000001L,2806L,'Mein zweiter Post','2019-12-09 16:30:00');
 --insert into post(id, poster, title,creationdate)
 --        values (1000002L,2806L,'Mein dritter Post','2019-12-09 17:15:00');
+
+--Insert into Friend
+--insert into friend(id,user,friend,creationdate)
+--         values (2000000L,2806L,1889L,'2019-12-09 15:30:00');
