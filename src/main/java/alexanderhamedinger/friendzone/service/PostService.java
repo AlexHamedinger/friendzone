@@ -49,7 +49,7 @@ public class PostService implements PostServiceIF{
         postRepository.deleteById(id);
     }
     @Override
-    public Collection<Post> getLatestPosts(int maxPosts) {
+    public Collection<Post> getLatestPosts(int maxPosts, long userid) {
         Collection<Post> posts = postRepository.findByPoster(1L);
         posts.clear();
         Iterable<Post> postIterable = postRepository.findAllByOrderByIdDesc();
@@ -59,8 +59,10 @@ public class PostService implements PostServiceIF{
 
         while(count < maxPosts && postIterator.hasNext()) {
             post = postIterator.next();
-            posts.add(post);
-            count++;
+            if(post.getUser().getId() != userid) {
+                posts.add(post);
+                count++;
+            }
         }
 
         return posts;

@@ -26,6 +26,8 @@ public class User extends BasicEntity implements UserDetails {
     private GregorianCalendar latestRegistration;
     @OneToMany
     private Collection<Likes> likes;
+    @OneToMany
+    private Collection<User> friends;
 
     //getter & setter
     public String getEmail() {
@@ -52,9 +54,6 @@ public class User extends BasicEntity implements UserDetails {
     public void setProfileImage(byte[] profileImage) {
         this.profileImage = profileImage;
     }
-    public String getImageURL() {
-        return "/userimages/" + this.getId();
-    }
     public GregorianCalendar getLatestRegistration() {
         return latestRegistration;
     }
@@ -66,6 +65,12 @@ public class User extends BasicEntity implements UserDetails {
     }
     public void setLikes(Collection<Likes> likes) {
         this.likes = likes;
+    }
+    public Collection<User> getFriends() {
+        return friends;
+    }
+    public void setFriends(Collection<User> friends) {
+        this.friends = friends;
     }
 
     //Methoden auf die Likes-Collection
@@ -95,6 +100,49 @@ public class User extends BasicEntity implements UserDetails {
             }
         }
         return null;
+    }
+
+    //Methoden auf die Friends-Collection
+    public void addFriend(User user) {
+        this.friends.add(user);
+    }
+    public void removeFriend(User user) {
+        this.friends.remove(user);
+    }
+    public boolean hasFriend(User user) {
+        boolean isFriend = false;
+        if(friends != null) {
+            if(!friends.isEmpty()) {
+                if(friends.contains(user)) {
+                    isFriend = true;
+                }
+            }
+        }
+        return isFriend;
+    }
+    public int getNumberOfFriends() {
+        int size = 0;
+        if(friends != null) {
+            if(!friends.isEmpty()) {
+                size = friends.size();
+            }
+        }
+        return size;
+    }
+
+    //Methoden
+    public String getUserURL() {
+        return "/user?id=" + this.getId();
+    }
+    public String getImageURL() {
+        return "/userimages/" + this.getId();
+    }
+    public String friendOrNotFriend(User user) {
+        String answer = "notFriends";
+        if(friends.contains(user)) {
+            answer = "friends";
+        }
+        return answer;
     }
 
     //UserDetails Override
@@ -135,6 +183,7 @@ public class User extends BasicEntity implements UserDetails {
                 "Latest Registration: " + dateFormat.format(latestRegistration.getTime()) + "\n" +
                 "Member since: " + dateFormat.format(this.getCreationDate().getTime()) + "\n" +
                 "Likes: " + getNumberOfLikes() + "\n" +
+                "Friends: " + getNumberOfFriends() + "\n" +
                 "#########################################################################\n";
     }
 }

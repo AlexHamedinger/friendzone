@@ -11,22 +11,17 @@
 <body onload="postManager()">
 <div th:replace="common/fragments :: friendzone_navbar" />
 
+<div class="container text-center" th:object="${otherUser}">
+    <img th:src="${user.getImageURL()}" onerror="this.src='/img/profile_img.gif'" alt="Kein Profilbild vorhanden." class="m-15" style="height: 100px; width: 100px; border-radius: 50%; object-fit: cover; margin-top: 20px; margin-bottom: 5px;">
+    <h1 th:inline="text" class="text-dark" th:text="${'Pinnwand von ' + otherUser.getUsername()}"></h1>
+    <a th:id="${otherUser.getId()}" class="friendsButton btn btn-lg btn btn-outline-dark" th:object="${user}" style="background-color: #e3f2fd" th:text="${user.friendOrNotFriend(otherUser)}"></a>
 
-<div th:object="${user}"></div>
-<div class="container" style="margin-bottom: 25px;" th:object="${posts}">
-    <div class="row" th:each="post, stat : ${posts}" style="margin-bottom: 30px">
-        <div class="col-4">
-            <h2 class="text-dark" th:text="${post.getTitle()}" style="margin-top: 20px;"></h2>
-        </div>
-        <div class="col-2">
-            <a th:href="${post.getUser().getUserURL()}"><img th:src="${post.getUserImageURL()}" onerror="this.src='/img/profile_img.gif'" alt="Kein Profilbild vorhanden." style="height: 60px; width: 60px; border-radius: 50%; margin-top: 10px; object-fit: cover; float: right; margin-bottom: 2px;"></a>
-        </div>
-        <div class="col-5">
-            <a th:href="${post.getUser().getUserURL()}"><h2 class="text-dark" th:text="${post.getUser().getUsername()}" style="margin-top: 20px;margin-bottom: 2px;"></h2></a>
-        </div>
+<div class="container" style="margin-bottom: 25px;" th:object="${posts}">    
+    <div class="row" th:each="post, stat : ${posts}">
+        <h2 class="text-dark" th:text="${post.getTitle()}" style="margin-top: 15px"></h2>
         <img th:src="${post.getImageURL()}" name="image" onerror="this.src='/img/no_post_found.png'" alt="Zu diesem Post wurde kein Bild hochgeladen." class="img-fluid rounded float-center" style="width: 100%">
         <div class="col ">
-            <p th:text="${post.getCreationDateDifference()}" name="datum" style="margin-top: 2px;"></p>
+            <p th:text="${post.getCreationDateDifference()}" th:name="datum" style="margin-top: 2px;"></p>
         </div>
         <div class="col-6">
             <a class="btn btn-block btn-light btn-outline-dark" th:href="${post.getDetailURL()}" style="background-color: #e3f2fd; margin-top: 2px;">zur Detailansicht</a>
@@ -34,8 +29,9 @@
         <div class="col">
             <a th:id="${post.getId()}" th:text="${post.likeOrUnlike(user.getLikeByPost(post))}" class="likeButton btn btn-light btn-outline-dark float-right" style="width: 126px;background-color: #e3f2fd; margin-top: 2px;"> <i style="font-size:18px;"class="fa fa-thumbs-o-up"></i></a>
             <h4 class="float-right" th:text="${post.getNumberOfLikes()}" style="margin-top: 6px; margin-right: 10px" ></h4>
+      <!--      <p th:text="${post.likeOrUnlike(user.getLikeByPost(post))}"></p>  -->
         </div>
-    </div>
+    </div>  
 </div>
 
 </body>

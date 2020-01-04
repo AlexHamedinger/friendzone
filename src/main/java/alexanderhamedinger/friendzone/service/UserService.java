@@ -1,7 +1,9 @@
 package alexanderhamedinger.friendzone.service;
 
+import alexanderhamedinger.friendzone.entities.Friend;
 import alexanderhamedinger.friendzone.entities.Likes;
 import alexanderhamedinger.friendzone.entities.User;
+import alexanderhamedinger.friendzone.repository.FriendRepository;
 import alexanderhamedinger.friendzone.repository.LikeRepository;
 import alexanderhamedinger.friendzone.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.OneToMany;
 import java.util.GregorianCalendar;
 import java.util.Optional;
 
@@ -25,6 +28,9 @@ public class UserService implements UserServiceIF, UserDetailsService {
     private UserRepository userRepository;
     @Autowired
     private LikeRepository likeRepository;
+    @Autowired
+    private FriendRepository friendRepository;
+
 
     @Override
     public User createUser(User user) {
@@ -69,6 +75,21 @@ public class UserService implements UserServiceIF, UserDetailsService {
     @Override
     public Iterable<User> getAll() {
         return userRepository.findAll();
+    }
+
+
+    @Override
+    public Friend createFriend(Friend friend) {
+        Friend neu = friendRepository.save(friend);
+        return neu;
+    }
+    @Override
+    public Friend findFriendByIds(long user, long friend) {
+        return friendRepository.findByUserAndFriend(user, friend);
+    }
+    @Override
+    public void deleteFriend(Friend friend) {
+        friendRepository.delete(friend);
     }
 
 

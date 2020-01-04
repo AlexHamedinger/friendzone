@@ -77,11 +77,12 @@ public class PostController {
         Model model,
         Principal prince
     ) {
+        User user = userService.findbyUsername(prince.getName());
         //TODO: falls es noch keine Posts gibt, Platzhalter-Message anzeigen
         //TODO: eine Auswahlmöglichkeit festlegen wie viele neue Posts angezeigt werden sollen (maxPosts)
-        Collection<Post> posts = postService.getLatestPosts(10);
+        Collection<Post> posts = postService.getLatestPosts(10, user.getId());
         model.addAttribute("posts", posts);
-        model.addAttribute("user", userService.findbyUsername(prince.getName()));
+        model.addAttribute("user", user);
         return "post/latestPosts";
     }
 

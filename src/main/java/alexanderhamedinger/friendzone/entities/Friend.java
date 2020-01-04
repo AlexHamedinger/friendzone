@@ -22,4 +22,8 @@ public class Friend extends BasicEntity {
         this.friend = friend;
     }
 
+    @Override
+    public String toString() {
+        return user + "is Friends with " + friend;
+    }
 }

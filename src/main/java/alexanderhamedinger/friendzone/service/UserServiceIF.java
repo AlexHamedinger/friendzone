@@ -1,5 +1,6 @@
 package alexanderhamedinger.friendzone.service;
 
+import alexanderhamedinger.friendzone.entities.Friend;
 import alexanderhamedinger.friendzone.entities.Likes;
 import alexanderhamedinger.friendzone.entities.User;
 
@@ -16,4 +17,7 @@ public interface UserServiceIF {
     public void deleteUser(long id);
     public Iterable<User> getAll();
 
+    public Friend createFriend(Friend friend);
+    public Friend findFriendByIds(long user, long friend);
+    public void deleteFriend(Friend friend);
 }
