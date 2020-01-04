@@ -36,6 +36,11 @@ public class BasicEntity {
         String date = dateFormat.format(this.getCreationDate().getTime());
         return date;
     }
+    public String getCreationDateAsStringShort() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        String date = dateFormat.format(this.getCreationDate().getTime());
+        return date;
+    }
     //gibt die Differenz vom jetzigen Zeitpunkt zum Erstelldatum (in Tagen, Stunden oder Minuten) zurück
     public String getCreationDateDifference() {
         String dateDifference = "";

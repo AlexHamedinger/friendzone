@@ -44,7 +44,6 @@ public class HomeController {
         return "home";
     }
 
-
     //Hier wird die Startseite angezeigt
     //Es werden verschiedene Funktionen abgearbeitet, die danach auf die Startseite weiterleiten
     @RequestMapping("/home")
@@ -123,4 +122,5 @@ public class HomeController {
             return "home";
         }
     }
+
 }

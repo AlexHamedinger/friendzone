@@ -95,10 +95,46 @@ public class UserController {
         User user = userService.findbyUsername(prince.getName());
         Collection<User> friends = user.getFriends();
 
+        //TODO: Liste alphabetisch geordnet ausgeben
         model.addAttribute("friends", friends);
         model.addAttribute("user", user);
         return "user/friendsList";
     }
+
+    //verarbeitet Suchanfragen
+    @RequestMapping("/search")
+    public String search(
+        Model model,
+        Principal prince,
+        @ModelAttribute("searchQuery") String searchQuery
+        ) {
+        User user = userService.findbyUsername(prince.getName());
+        Collection<User> searchResult = userService.getAll();
+
+        if(!searchQuery.equals("")) {
+            //TODO: "ordentliche" Suchfunktion implementieren
+            searchResult.clear();
+            User result = userService.findbyUsername(searchQuery);
+            if(result != null) {
+                searchResult.add(result);
+            }
+        }
+        //Man soll nicht nach sich selbst suchen können
+        if(searchResult.contains(user)) {
+            searchResult.remove(user);
+        }
+
+        //TODO: Falls niemand gefunden wird, Fehlermeldung ausgeben
+        if(searchResult.isEmpty()) {
+            model.addAttribute("message", "Zu Ihrer Suchanfrage gab es leider keinen passenden User.");
+        }
+        if(!searchResult.isEmpty()) {
+            model.addAttribute("results", searchResult);
+        }
+        model.addAttribute("user", user);
+        return "/user/search";
+    }
+
 
 
     //befreundet zwei User

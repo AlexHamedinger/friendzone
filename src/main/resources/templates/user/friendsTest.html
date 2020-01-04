@@ -12,17 +12,6 @@
 <body>
 <div th:replace="common/fragments :: friendzone_navbar" />
 <div th:fragment="friendzone_navbar"><nav class="sticky-top navbar-toggler navbar-expand-sm navbar-light" style="background-color: #e3f2fd;"><div class="container navbar-collapse" id="collapsibleNavbar"><ul class="nav navbar-nav mr-auto align-items-center"><li class="nav-item p-2"><a class="nav-link" href="#">Meine Pinnwand</a></li><li class="nav-item p-2"><a class="nav-link" href="#">Freunde</a></li><li class="nav-item p-2"><a class="nav-link" href="#">Suchen...</a></li><li class="nav-item p-2"><a class="nav-link" href="#">Mein Profil</a></li><li class="nav-item p-2"><a class="nav-link" href="#">Neueste Posts</a></li></ul><form th:action="@{/logout}" method="post" style="text-align:right"><input type="submit" value="Sign Out" class="btn btn-light btn-outline-dark my-sm-0"/></form></div></nav></div>
-
-    
-    <!--
-<div class="container text-center" th:object="${user}">
-    <img src="../../../../../../../../../../../Desktop/img/small/1453936214880.jpg" class="m-15" style="height: 115px; width: auto; border-radius: 100%; margin-top: 10px; object-fit: cover;">
-    <h1 th:inline="text" class="text-dark" th:text="${'Hallo ' + user.getUsername()}">Hallo Alex</h1>
-    <a href="#"  class="btn btn-lg btn btn-outline-dark" style="background-color: #e3f2fd">neuen Pinnwandeintrag erstellen</a>
-</div>
-
-    -->
-    
     
     
 <div class="container" style="margin-bottom: 25px;" th:object="${users}">    
@@ -38,19 +27,6 @@
             <a th:id="${otherUser.getId()}" class="friendsButton btn btn-lg btn btn-outline-dark" th:object="${user}" style="background-color: #e3f2fd; margin-top: 40px" th:text="${user.friendOrNotFriend(otherUser)}">Freund hinzufügen</a>
         </div>
     </div>  
-    
-        <div class="row container border m-3" th:each="user, stat : ${users}">
-        <div class="col ">
-            <img src="../../../../../../../../../../../Desktop/img/small/1453936214880.jpg" onerror="this.src='/img/profile_img.gif'" alt="Kein Profilbild vorhanden." class="m-2" style="height: 115px; width: auto; border-radius: 100%; object-fit: cover;">
-        </div>
-        <div class="col-7">
-            <p style="margin-top: 25px; margin-bottom: 0px">Freund seit 01.04.2019</p>
-            <h1 th:inline="text" class="text-dark" th:text="${user.getUsername()}">Abgefahren langer Username</h1>
-        </div>
-        <div class="col-3">
-            <a th:id="${otherUser.getId()}" class="friendsButton btn btn-lg btn btn-outline-dark" th:object="${user}" style="background-color: #e3f2fd; margin-top: 40px" th:text="${user.friendOrNotFriend(otherUser)}">Freund hinzufügen</a>
-        </div>
-    </div> 
 </div> 
     
     

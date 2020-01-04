@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head th:replace="common/fragments :: friendzone_head" />
+<head>
+    <title>FriendZone</title>
+
+    <script type="text/javascript" th:src="@{/script/manager.js}"></script>
+
+</head>
+<body onload="postManager()">
+<div th:replace="common/fragments :: friendzone_navbar" />
+    
+<div class="container" style="margin-bottom: 25px;" th:object="${results}">    
+    <div class="text-center" th:object="${user}">
+        <form class="row m-4" th:action="@{/search}" method="post">  
+            <div class="col-1">
+            </div>
+            <div class="col-8">
+                <h2><input type="text" name="searchQuery" placeholder="Username eingeben" class="border-dark rounded" style="width: 100%; padding-left: 15px"/></h2>
+           <!--     <h5>Nach anderen Usern in einem Partnershop suchen? Dann klick <a href="gogo" >hier</a>!</h5>  -->
+            </div>
+            <div class="col-2">
+                <button type="submit" class="btn btn-lg btn-light btn-outline-dark" style="background-color: #e3f2fd;">suchen <i style="font-size:18px;"class="fa fa-search"></i></button>
+            </div>
+        </form>
+    </div>    
+    <div class="text-center">
+        <h1><span th:text="${message}"/></h1>
+    </div>
+    <div class="row container border rounded m-2" th:each="result, stat : ${results}">
+        <div class="col ">
+            <a th:href="${result.getUserURL()}"><img th:src="${result.getImageURL()}" onerror="this.src='/img/profile_img.gif'" alt="Kein Profilbild vorhanden." class="m-2" style="height: 115px; width: 115px; border-radius: 50%; object-fit: cover;"></a>
+        </div>
+        <div class="col-7">
+            <p style="margin-top: 25px; margin-bottom: 0px" th:text="${'Mitglied seit ' + result.getCreationDateAsStringShort()}"></p>
+            <a th:href="${result.getUserURL()}" class="btn-light"><h1 th:inline="text" class="text-dark" th:text="${result.getUsername()}"></h1></a>
+        </div>
+        <div class="col-3">                                   
+            <a th:id="${result.getId()}" class="friendsButton btn btn-lg btn-light btn-outline-dark" style="background-color: #e3f2fd; margin-top: 40px; width: 220px" th:text="${user.friendOrNotFriend(result)}"></a>
+        </div>
+    </div>  
+</div>
+    
+    
+</body>
+</html>

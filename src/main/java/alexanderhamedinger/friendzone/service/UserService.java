@@ -15,7 +15,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.OneToMany;
+import java.util.Collection;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
 import java.util.Optional;
 
 @Service
@@ -73,10 +75,22 @@ public class UserService implements UserServiceIF, UserDetailsService {
         return user;
     }
     @Override
-    public Iterable<User> getAll() {
-        return userRepository.findAll();
+    public Collection<User> getAll() {
+        Iterable<User> userIterable = userRepository.findAll();
+        Iterator<User> userIterator = userIterable.iterator();
+        //TODO: User-Collection "ordentlich" initialisieren
+        Collection<User> userCollection = userRepository.findByUsernameAndEmail("User", "hallo@email.de");
+        userCollection.clear();
+        
+        while(userIterator.hasNext()) {
+            userCollection.add(userIterator.next());
+        }
+
+        return userCollection;
     }
 
+    
+    
 
     @Override
     public Friend createFriend(Friend friend) {
