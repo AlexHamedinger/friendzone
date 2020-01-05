@@ -17,8 +17,12 @@ public interface UserServiceIF {
     public Optional<User> getUserById(long id);
     public void deleteUser(long id);
     public Collection<User> getAll();
+    public Collection<User> getRealUserFriends(long id);
 
     public Friend createFriend(Friend friend);
     public Friend findFriendByIds(long user, long friend);
     public void deleteFriend(Friend friend);
+    public Collection<Friend> getFriendByFriend(long id);
+    public Collection<Friend> getRealFriends(long id);
+
 }

@@ -16,9 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.security.Principal;
-import java.util.Collection;
-import java.util.GregorianCalendar;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 public class UserController {
@@ -90,12 +88,28 @@ public class UserController {
     @RequestMapping("/friendsList")
     public String friends(
         Model model,
-        Principal prince
+        Principal prince,
+        @RequestParam(required = false, name = "show", defaultValue = "friends") String show
     ) {
         User user = userService.findbyUsername(prince.getName());
-        Collection<User> friends = user.getFriends();
+        Collection<User> friends = new ArrayList<User>();
+
+        //je nach Auswahl-Option wird die friends-Collection anders befüllt
+        if(show.equals("friends")) {
+            friends = userService.getRealUserFriends(user.getId());
+        }
+        else if(show.equals("mine")) {
+            friends = user.getFriends();
+        }
+        else if(show.equals("theirs")) {
+            Collection<Friend> friendsCollection = userService.getFriendByFriend(user.getId());
+            for (Iterator<Friend> i = friendsCollection.iterator(); i.hasNext(); ) {
+                friends.add(userService.getUserById(i.next().getUser()).get());
+            }
+        }
 
         //TODO: Liste alphabetisch geordnet ausgeben
+        model.addAttribute("message", createFriendsMessage(friends.size(), show));
         model.addAttribute("friends", friends);
         model.addAttribute("user", user);
         return "user/friendsList";
@@ -111,6 +125,7 @@ public class UserController {
         User user = userService.findbyUsername(prince.getName());
         Collection<User> searchResult = userService.getAll();
 
+        //Die Suchfunktion soll nur ausgeführt werden wenn auch ein Suchstring eingegeben wurde, sonst werden alle User ausgegeben
         if(!searchQuery.equals("")) {
             //TODO: "ordentliche" Suchfunktion implementieren
             searchResult.clear();
@@ -124,7 +139,7 @@ public class UserController {
             searchResult.remove(user);
         }
 
-        //TODO: Falls niemand gefunden wird, Fehlermeldung ausgeben
+        //Model - Übergabe
         if(searchResult.isEmpty()) {
             model.addAttribute("message", "Zu Ihrer Suchanfrage gab es leider keinen passenden User.");
         }
@@ -192,5 +207,42 @@ public class UserController {
                 .body(bytes);
     }
 
+
+
+    //Hilfsfunktion für die Freundes Liste
+    //Je nach Auswhal und Größe der Freundes Liste wird eine andere Message zurückgeliefert
+    private String createFriendsMessage(int size, String show) {
+        String message = "";
+
+        if(show.equals("friends")) {
+            if(size == 0) {
+                message = "Du hast noch keine Freunde! Freunde sind User die du zu deiner Liste hinzugefügt hast, und die dich in ihre Liste hinzugefügt haben.";
+            } else if(size == 1) {
+                message = "Du hast 1 Freund! Freunde sind User die du zu deiner Liste hinzugefügt hast, und die dich in ihre Liste hinzugefügt haben.";
+            } else {
+                message = "Du hast " + size + " Freunde! Freunde sind User die du zu deiner Liste hinzugefügt hast, und die dich in ihre Liste hinzugefügt haben.";
+            }
+        }
+        else if(show.equals("mine")) {
+            if(size == 0) {
+                message = "Du folgts noch keinem anderen User. Füge User deiner Freundesliste hinzu um sie hier zu sehen!";
+            } else if(size == 1) {
+                message = "Du folgts 1 anderen User. Sobald er/sie/es dich Ihrer Liste hinzugefügt hat seid ihr Freunde!";
+            } else {
+                message = "Du folgts " + size + " anderen Usern. Sobald sie dich Ihrer Liste hinzugefügt haben seid ihr Freunde!";
+            }
+        }
+        else if(show.equals("theirs")) {
+            if(size == 0) {
+                message = "Dir folgt noch kein anderer User. Poste etwas um auf dich Aufmerksam zu machen!";
+            } else if(size == 1) {
+                message = "Dir folgt 1 anderer User. Sobald du ihn/sie/es in deine Liste hinzugefügt hast seid ihr Freunde!";
+            } else {
+                message = "Dir folgen " + size + " andere User. Sobald du sie in deine Liste hinzugefügt hast seid ihr Freunde!";
+            }
+        }
+
+        return message;
+    }
 }
 

@@ -10,25 +10,38 @@
 </head>
 <body onload="postManager()">
 <div th:replace="common/fragments :: friendzone_navbar" />
+
     
-<div th:object="${user}"></div>
-<div class="container" style="margin-bottom: 25px;" th:object="${friends}">    
-    <div class="row container border rounded m-2" th:each="friend, stat : ${friends}">
-        <div class="col ">
-            <a th:href="${friend.getUserURL()}"><img th:src="${friend.getImageURL()}" onerror="this.src='/img/profile_img.gif'" alt="Kein Profilbild vorhanden." class="m-2" style="height: 115px; width: 115px; border-radius: 50%; object-fit: cover;"></a>
+    
+<div class="container" th:object="${user}">
+    <div class="row container m-3">
+        <div class="col">
+            <a class="btn btn-lg btn-light btn-block text-uppercase" href="/friendsList?show=friends" style="background-color: #e3f2fd;">Freunde</a>
         </div>
-        <div class="col-7">
-            <p style="margin-top: 25px; margin-bottom: 0px" th:text="${friend.getFriendsSince()}"></p>
-            <a th:href="${friend.getUserURL()}" class="btn-dark"><h1 th:href="${friend.getUserURL()}" th:inline="text" class="text-dark" th:text="${friend.getUsername()}"></h1></a>
+        <div class="col">
+            <a class="btn btn-lg btn-light btn-block text-uppercase" href="/friendsList?show=mine" style="background-color: #e3f2fd;">ich folge</a>
         </div>
-        <div class="col-3">
-            <a th:id="${friend.getId()}" class="friendsButton btn btn-lg btn btn-outline-dark" style="background-color: #e3f2fd; margin-top: 40px" th:text="${user.friendOrNotFriend(friend)}"></a>
+        <div class="col">
+            <a class="btn btn-lg btn-light btn-block text-uppercase" href="/friendsList?show=theirs" style="background-color: #e3f2fd;">mir folgt</a>
         </div>
-    </div>  
-</div> 
-    
-    
-    
+    </div>
+    <div class="text-center">
+        <p><span th:text="${message}"/></p>
+    </div>
+    <div class="container" style="margin-bottom: 25px;" th:object="${friends}">    
+        <div class="row container border rounded m-2" th:each="friend, stat : ${friends}">
+            <div class="col ">
+                <a th:href="${friend.getUserURL()}"><img th:src="${friend.getImageURL()}" onerror="this.src='/img/profile_img.gif'" alt="Kein Profilbild vorhanden." class="m-2" style="height: 115px; width: 115px; border-radius: 50%; object-fit: cover;"></a>
+            </div>
+            <div class="col-7">
+                <a th:href="${friend.getUserURL()}" class="btn-dark"><h1 th:inline="text" style="margin-top: 35px" class="text-dark" th:text="${friend.getUsername()}"></h1></a>
+            </div>
+            <div class="col-3">
+                <a th:id="${friend.getId()}" class="friendsButton btn btn-lg btn btn-outline-dark" style="background-color: #e3f2fd; margin-top: 40px" th:text="${user.friendOrNotFriend(friend)}"></a>
+            </div>
+        </div>  
+    </div> 
+</div>  
 
 </body>
 </html>

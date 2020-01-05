@@ -15,10 +15,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.OneToMany;
-import java.util.Collection;
-import java.util.GregorianCalendar;
-import java.util.Iterator;
-import java.util.Optional;
+import java.util.*;
+import java.util.concurrent.ArrayBlockingQueue;
 
 @Service
 @Qualifier("labresources")
@@ -88,7 +86,15 @@ public class UserService implements UserServiceIF, UserDetailsService {
 
         return userCollection;
     }
-
+    @Override
+    public Collection<User> getRealUserFriends(long userid) {
+        Collection<Friend> friendCollection = getRealFriends(userid);
+        Collection<User> userCollection = new ArrayList<User>();
+        for(Iterator<Friend> i = friendCollection.iterator(); i.hasNext();) {
+            userCollection.add(getUserById(i.next().getUser()).get());
+        }
+        return userCollection;
+    }
     
     
 
@@ -105,6 +111,29 @@ public class UserService implements UserServiceIF, UserDetailsService {
     public void deleteFriend(Friend friend) {
         friendRepository.delete(friend);
     }
+    @Override
+    public Collection<Friend> getFriendByFriend(long id) {
+        return friendRepository.findByFriend(id);
+    }
+    @Override
+    public Collection<Friend> getRealFriends(long id) {
+        Collection<Friend> user = friendRepository.findByUser(id);
+        Collection<Friend> friend = friendRepository.findByFriend(id);
+        Collection<Friend> response = new ArrayList<Friend>();
+
+        for(Iterator<Friend> userIterator = user.iterator(); userIterator.hasNext(); ) {
+            Friend thisUser = userIterator.next();
+            for(Iterator<Friend> friendIterator = friend.iterator(); friendIterator.hasNext(); ) {
+                Friend thisFriend = friendIterator.next();
+                if(thisUser.getFriend() == thisFriend.getUser()) {
+                    response.add(thisFriend);
+                }
+            }
+        }
+
+        return response;
+    }
+
 
 
     //#### WIRD VON USERDETAILSSERVICE BENÖTIGT #####
