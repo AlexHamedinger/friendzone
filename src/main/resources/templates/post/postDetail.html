@@ -3,12 +3,11 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head th:replace="common/fragments :: friendzone_head" />
 <head>
-    <title>FriendZone - Detail Post</title>
-
-    <script type="text/javascript" th:src="@{/script/manager.js}"></script>
-
+    <title>FriendZone - Post</title>
+    <!-- Das Eigene Script kann nicht im Standard-Header eingebunden werden da dies zu Problemen führt -->
+    <script type="text/javascript" th:src="@{/script/controller.js}"></script>
 </head>
-<body onload="postManager()">
+<body onload="friendZoneController()">
 <div th:replace="common/fragments :: friendzone_navbar" />
 
 <div class="container" th:object="${user}">

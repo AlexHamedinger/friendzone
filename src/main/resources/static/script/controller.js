@@ -5,15 +5,17 @@ var friends = '<i style="font-size:18px;" class="fa fa-minus"></i> Freund entfer
 var notFriends = '<i style="font-size:18px;" class="fa fa-plus"></i> Freund hinzufügen';
 
 
-function postManager() {
+function friendZoneController() {
     //der EventListener lauscht nacht Klicks
     $(".likeButton").click(like);
     $(".friendsButton").click(befriend);
+    $("#vorschauButton").click(preview);
+    //der EventListener lauscht nach Change
+    $("#customFile").change(changeInputLable);
     //wird nach dem Seite laden ausgeführt
     $("body").ready(showPostDeleteButton);
     $("body").ready(loadFriendButton);
     $("body").ready(loadLikeButtons);
-    
 }
 
 
@@ -37,7 +39,7 @@ function showPostDeleteButton() {
     }
 }
 
-//falls es sich um eine "other User" Seite handelt muss der "Freund hinzufügen" Button richitg angezeigt werden
+//falls vorhanden muss der "Freund hinzufügen" Button richitg angezeigt werden
 function loadFriendButton() {
     var friendsButtons = $(".friendsButton");
     
@@ -120,7 +122,41 @@ function befriend() {
     
 }
 
+//wird zum Anzeigen einer Live-Vorschau beim Erstellen neuer Posts benötigt
+function preview() {
+    var titel = $("#titel").val();
+    if(titel == "") {
+        $("#vorschauTitel").removeClass();
+        $("#vorschauTitel").addClass("text-center");
+        titel = "Titel eingeben!"
+    } else {
+        $("#vorschauTitel").removeClass();
+        $("#vorschauTitel").addClass("text-left");
+    }
+    $("#vorschauTitel").html(titel);
+    
+    var img_url = "";
+    if($("#customFile")[0].files[0] != null) {
+        img_url = (window.URL || window.webkitURL).createObjectURL($("#customFile")[0].files[0]);
+    }
+    $("#vorschauImage").attr("src", img_url);
+}
 
+
+//#################
+    //CHANGE-LISTENER
+//#################
+
+//ändert die Beschriftung des File-Uploads
+function changeInputLable() {
+    var lable = $("#fileLable");
+    var file = $("#customFile").val();
+    var fileArray = file.split("fakepath".trim());
+    var fileText = fileArray[fileArray.length - 1];
+    fileText = fileText.substr(1, fileText.length - 1);
+    
+    lable.html(fileText);
+}
 
 
 
