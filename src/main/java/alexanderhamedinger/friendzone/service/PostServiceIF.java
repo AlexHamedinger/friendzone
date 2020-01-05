@@ -2,6 +2,7 @@ package alexanderhamedinger.friendzone.service;
 
 import alexanderhamedinger.friendzone.entities.Likes;
 import alexanderhamedinger.friendzone.entities.Post;
+import alexanderhamedinger.friendzone.entities.User;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -12,7 +13,7 @@ public interface PostServiceIF {
     public Optional<Post> getPostById(long id);
     public Post save(Post post);
     public void deletePost(long id);
-    public Collection<Post> getLatestPosts(int maxPosts, long userid);
+    public Collection<Post> getLatestPosts(int maxPosts, long userid, Collection<User> friends);
 
     public Likes createLike(Likes like);
     public boolean isLikeUnique(Likes like);

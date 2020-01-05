@@ -11,12 +11,30 @@
 </head>
 <body>
 <div th:replace="common/fragments :: friendzone_navbar" />
-<div th:fragment="friendzone_navbar"><nav class="sticky-top navbar-toggler navbar-expand-sm navbar-light" style="background-color: #e3f2fd;"><div class="container navbar-collapse" id="collapsibleNavbar"><ul class="nav navbar-nav mr-auto align-items-center"><li class="nav-item p-2"><a class="nav-link" href="#">Meine Pinnwand</a></li><li class="nav-item p-2"><a class="nav-link" href="#">Freunde</a></li><li class="nav-item p-2"><a class="nav-link" href="#">Suchen...</a></li><li class="nav-item p-2"><a class="nav-link" href="#">Mein Profil</a></li><li class="nav-item p-2"><a class="nav-link" href="#">Neueste Posts</a></li></ul><form th:action="@{/logout}" method="post" style="text-align:right"><input type="submit" value="Sign Out" class="btn btn-light btn-outline-dark my-sm-0"/></form></div></nav></div>
+<div th:fragment="friendzone_navbar"><nav class="sticky-top navbar-toggler navbar-expand-sm navbar-light" style="background-color: #e3f2fd;"><div class="container navbar-collapse" id="collapsibleNavbar"><ul class="nav navbar-nav mr-auto align-items-center"><li class="nav-item p-2"><a class="nav-link" href="#">Meine Pinnwand</a></li><li class="nav-item p-2"><a class="nav-link" href="#">Freunde</a></li><li class="nav-item p-2"><a class="nav-link" href="#">Suchen...</a></li><li class="nav-item p-2"><a class="nav-link" href="#">Mein Profil</a></li><li class="nav-item dropdown p-2"><a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Pinnwand</a><div class="dropdown-menu btn btn-outline-dark" style="background-color: #e3f2fd" aria-labelledby="navbarDropdownMenuLink"><a class="dropdown-item" href="/latestPosts?action=global">Globale Pinnwand</a><a class="dropdown-item" href="/latestPosts?action=friends">Meine Freunde</a><a class="dropdown-item" href="/latestPosts?action=nice">Meiste Nicensteine</a></div></li></ul><form th:action="@{/logout}" method="post" style="text-align:right"><input type="submit" value="Sign Out" class="btn btn-light btn-outline-dark my-sm-0"/></form></div></nav></div>
 
     
 
     
-<div class="container" style="margin-bottom: 25px;" th:object="${posts}">    
+<div class="container" style="margin-bottom: 25px;" th:object="${posts}">
+    
+    <div class="row m-3">
+        <div class="col-9">
+            <h5>
+            </h5>
+        </div>
+        <div class="col">
+            <h5>Anzahl Posts: 
+                <select name="maxPosts" class="btn border-dark" style="background-color: #e3f2fd; margin-left: 15px">
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                    <option value="alle">alle</option>
+                </select>
+            </h5>
+        </div>
+    </div>
+    
     <div class="row" th:each="post, stat : ${posts}" style="margin-bottom: 30px">        
         <div class="col-4">
             <h2 class="text-dark" th:text="${post.getTitle()}" style="margin-top: 20px;">Mein Auto</h2>

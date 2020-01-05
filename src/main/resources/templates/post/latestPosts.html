@@ -13,6 +13,22 @@
 
 <div th:object="${user}"></div>
 <div class="container" style="margin-bottom: 25px;" th:object="${posts}">
+    <div class="row m-3">
+        <div class="col-9">
+            <h5>
+            </h5>
+        </div>
+        <div class="col">
+            <h5>Anzahl Posts: 
+                <select name="maxPosts" class="btn border-dark" style="background-color: #e3f2fd; margin-left: 15px">
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                    <option value="alle">alle</option>
+                </select>
+            </h5>
+        </div>
+    </div>
     <div class="row" th:each="post, stat : ${posts}" style="margin-bottom: 30px">
         <div class="col-4">
             <h2 class="text-dark" th:text="${post.getTitle()}" style="margin-top: 20px;"></h2>

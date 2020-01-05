@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -75,14 +76,32 @@ public class PostController {
     @RequestMapping("/latestPosts")
     public String latestPosts(
         Model model,
-        Principal prince
+        Principal prince,
+        @RequestParam(required = false, name = "show", defaultValue = "all") String show
     ) {
+        int maxPosts = 10;
         User user = userService.findbyUsername(prince.getName());
-        //TODO: falls es noch keine Posts gibt, Platzhalter-Message anzeigen
-        //TODO: eine Auswahlmöglichkeit festlegen wie viele neue Posts angezeigt werden sollen (maxPosts)
-        Collection<Post> posts = postService.getLatestPosts(10, user.getId());
+        Collection<Post> posts = new ArrayList<Post>();
+
+        if(show.equals("all")) {
+            posts = postService.getLatestPosts(10, user.getId(), null);
+        } else if(show.equals("friends")) {
+            Collection<User> friends = userService.getRealUserFriends(user.getId());
+            posts = postService.getLatestPosts(maxPosts, user.getId(), friends);
+        } else if(show.equals("nice")) {
+            Collection<User> niceCollection = new ArrayList<User>();
+            User niceUser = new User();
+            niceUser.setUsername("Nice");
+            niceCollection.add(niceUser);
+            posts = postService.getLatestPosts(maxPosts, user.getId(), niceCollection);
+        }
+
+
+
         model.addAttribute("posts", posts);
         model.addAttribute("user", user);
+        //TODO: Max Posts Auswahl und Sortieren Nach Name, Datum etc implementieren
+        //TODO: falls es noch keine Posts gibt, Platzhalter-Message anzeigen
         return "post/latestPosts";
     }
 

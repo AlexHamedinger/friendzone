@@ -47,6 +47,7 @@ public class UserController {
             @ModelAttribute("password") String password,
             Model model
     ) {
+        //TODO: Der User Darf nicht "Nice" heisen
         //neuen User anlegen und ins Repository schreiben
         User user = new User();
         user.setEmail(email);

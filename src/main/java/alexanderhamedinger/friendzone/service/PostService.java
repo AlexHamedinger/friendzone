@@ -9,10 +9,7 @@ import alexanderhamedinger.friendzone.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.GregorianCalendar;
-import java.util.Iterator;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class PostService implements PostServiceIF{
@@ -49,21 +46,32 @@ public class PostService implements PostServiceIF{
         postRepository.deleteById(id);
     }
     @Override
-    public Collection<Post> getLatestPosts(int maxPosts, long userid) {
-        Collection<Post> posts = postRepository.findByPoster(1L);
-        posts.clear();
+    public Collection<Post> getLatestPosts(int maxPosts, long userid, Collection<User> friends) {
+        //holt alle Posts aus der Datenbank (verbesserungswürdig)
         Iterable<Post> postIterable = postRepository.findAllByOrderByIdDesc();
-        Iterator<Post> postIterator = postIterable.iterator();
-        int count = 0;
+        Collection<Post> posts = new ArrayList<Post>();
         Post post;
+        User niceUser = new User();
+        niceUser.setUsername("Nice");
 
-        while(count < maxPosts && postIterator.hasNext()) {
-            post = postIterator.next();
-            if(post.getUser().getId() != userid) {
-                posts.add(post);
-                count++;
+
+        //show all
+        if(friends == null) {
+            for(Iterator<Post> postIterator = postIterable.iterator(); maxPosts > 0 && postIterator.hasNext(); ) {
+                post = postIterator.next();
+                if(post.getUser().getId() != userid) {
+                    posts.add(post);
+                    maxPosts--;
+                }
             }
+        } //show nice
+        else if (friends.contains(niceUser)) {
+            //TODO: Finde die Posts mit den meisten Likes
+        } //show friends
+        else {
+
         }
+
 
         return posts;
     }
