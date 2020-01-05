@@ -20,20 +20,20 @@
             <ul class="nav navbar-nav mr-auto align-items-center">
 
                 <li class="nav-item p-2">
-                    <a class="nav-link" href="/home">Meine Pinnwand</a>
+                    <a class="nav-link" href="/home"><i style="font-size:18px;"class="fa fa-home"></i> Home </a>
+                </li>
+                <li class="nav-item p-2">
+                    <a class="nav-link" href="/latestPosts">Pinnwand</a>
+                </li>
+                <li class="nav-item p-2">
+                    <a class="nav-link" href="/profile">Profil</a>
                 </li>
                 <li class="nav-item p-2">
                     <a class="nav-link" href="/friendsList">Freunde</a>
                 </li>
                 <li class="nav-item p-2">
-                    <a class="nav-link" href="/search">Suchen...</a>
+                    <a class="nav-link" href="/search">Suchen <i style="font-size:18px;"class="fa fa-search"></i></a>
                 </li>
-                <li class="nav-item p-2">
-                    <a class="nav-link" href="/profile">Mein Profil</a>
-                </li>
-                <li class="nav-item p-2">
-                    <a class="nav-link" href="/latestPosts">Neueste Posts</a>
-                </li>    
             </ul>
             <form th:action="@{/logout}" method="post" style="text-align:right">
                 <button type="submit" class="btn btn-light btn-outline-dark my-sm-0">logout <i class="fa fa-sign-out" style="font-size:18px;" aria-hidden="true"></i></button>

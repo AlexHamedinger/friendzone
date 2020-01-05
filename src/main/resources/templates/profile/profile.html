@@ -4,8 +4,9 @@
 <head th:replace="common/fragments :: friendzone_head" />
 <head>
     <title>FriendZone - Edit Profile</title>
+    <script type="text/javascript" th:src="@{/script/profile.js}"></script>
 </head>
-<body>
+<body onload="profileManager()">
 <div th:replace="common/fragments :: friendzone_navbar" />
 
 
@@ -21,7 +22,7 @@
     </div>
     <div class="custom-file float-left" style="width: 40%; margin-top: 100px">
         <input type="file" class="custom-file-input" name="imagefile" id="customFile" >
-        <label class="custom-file-label" for="customFile">Neues Foto auswählen (max. 1MB)</label>
+        <label class="custom-file-label" id="fileLable" for="customFile">Neues Foto auswählen (max. 1 MB)</label>
         <button class="btn btn-light btn-block text-uppercase" type="submit" style="background-color: #e3f2fd; margin-top: 5px">Profilbild ändern</button>
     </div>
 </form>

@@ -216,29 +216,29 @@ public class UserController {
 
         if(show.equals("friends")) {
             if(size == 0) {
-                message = "Du hast noch keine Freunde! Freunde sind User die du zu deiner Liste hinzugefügt hast, und die dich in ihre Liste hinzugefügt haben.";
+                message = "Du hast noch keine Freunde! Freunde sind User, die du zu deiner Liste hinzugefügt hast und die auch dich in ihre Liste hinzugefügt haben.";
             } else if(size == 1) {
-                message = "Du hast 1 Freund! Freunde sind User die du zu deiner Liste hinzugefügt hast, und die dich in ihre Liste hinzugefügt haben.";
+                message = "Du hast 1 Freund! Freunde sind User, die du zu deiner Liste hinzugefügt hast und die auch dich in ihre Liste hinzugefügt haben.";
             } else {
-                message = "Du hast " + size + " Freunde! Freunde sind User die du zu deiner Liste hinzugefügt hast, und die dich in ihre Liste hinzugefügt haben.";
+                message = "Du hast " + size + " Freunde! Freunde sind User, die du zu deiner Liste hinzugefügt hast und die auch dich in ihre Liste hinzugefügt haben.";
             }
         }
         else if(show.equals("mine")) {
             if(size == 0) {
-                message = "Du folgts noch keinem anderen User. Füge User deiner Freundesliste hinzu um sie hier zu sehen!";
+                message = "Du folgts noch keinem anderen User. Füge User deiner Freundesliste hinzu, um sie hier zu sehen!";
             } else if(size == 1) {
-                message = "Du folgts 1 anderen User. Sobald er/sie/es dich Ihrer Liste hinzugefügt hat seid ihr Freunde!";
+                message = "Du folgts 1 anderen User. Sobald er/sie/es dich Ihrer Liste hinzugefügt hat, seid ihr Freunde!";
             } else {
-                message = "Du folgts " + size + " anderen Usern. Sobald sie dich Ihrer Liste hinzugefügt haben seid ihr Freunde!";
+                message = "Du folgts " + size + " anderen Usern. Sobald sie dich Ihrer Liste hinzugefügt haben, seid ihr Freunde!";
             }
         }
         else if(show.equals("theirs")) {
             if(size == 0) {
-                message = "Dir folgt noch kein anderer User. Poste etwas um auf dich Aufmerksam zu machen!";
+                message = "Dir folgt noch kein anderer User. Poste etwas, um auf dich aufmerksam zu machen!";
             } else if(size == 1) {
-                message = "Dir folgt 1 anderer User. Sobald du ihn/sie/es in deine Liste hinzugefügt hast seid ihr Freunde!";
+                message = "Dir folgt 1 anderer User. Sobald du ihn/sie/es in deine Liste hinzugefügt hast, seid ihr Freunde!";
             } else {
-                message = "Dir folgen " + size + " andere User. Sobald du sie in deine Liste hinzugefügt hast seid ihr Freunde!";
+                message = "Dir folgen " + size + " andere User. Sobald du sie in deine Liste hinzugefügt hast, seid ihr Freunde!";
             }
         }
 
