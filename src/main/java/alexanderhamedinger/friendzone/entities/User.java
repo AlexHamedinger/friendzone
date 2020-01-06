@@ -186,8 +186,6 @@ public class User extends BasicEntity implements UserDetails {
                 "EMail: " + email + "\n" +
                 "Latest Registration: " + dateFormat.format(latestRegistration.getTime()) + "\n" +
                 "Member since: " + dateFormat.format(this.getCreationDate().getTime()) + "\n" +
-                "Likes: " + getNumberOfLikes() + "\n" +
-                "Friends: " + getNumberOfFriends() + "\n" +
                 "#########################################################################\n";
     }
 }

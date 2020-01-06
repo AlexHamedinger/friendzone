@@ -73,12 +73,11 @@ public class UserService implements UserServiceIF, UserDetailsService {
         return user;
     }
     @Override
-    public Collection<User> getAll() {
+    public List<User> getAll() {
         Iterable<User> userIterable = userRepository.findAll();
         Iterator<User> userIterator = userIterable.iterator();
         //TODO: User-Collection "ordentlich" initialisieren
-        Collection<User> userCollection = userRepository.findByUsernameAndEmail("User", "hallo@email.de");
-        userCollection.clear();
+        List<User> userCollection = new ArrayList<User>();
         
         while(userIterator.hasNext()) {
             userCollection.add(userIterator.next());
@@ -95,7 +94,11 @@ public class UserService implements UserServiceIF, UserDetailsService {
         }
         return userCollection;
     }
-    
+    @Override
+    public List<User> findUserLikeUsername(String username) {
+        List<User> answer = userRepository.findByUsernameContaining(username);
+        return answer;
+    }
     
 
     @Override

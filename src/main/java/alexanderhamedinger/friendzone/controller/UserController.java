@@ -131,27 +131,29 @@ public class UserController {
         @ModelAttribute("searchQuery") String searchQuery
         ) {
         User user = userService.findbyUsername(prince.getName());
-        Collection<User> searchResult = userService.getAll();
+        List<User> searchResult = userService.getAll();
 
         //Die Suchfunktion soll nur ausgeführt werden wenn auch ein Suchstring eingegeben wurde, sonst werden alle User ausgegeben
         if(!searchQuery.equals("")) {
-            //TODO: "ordentliche" Suchfunktion implementieren
             searchResult.clear();
-            User result = userService.findbyUsername(searchQuery);
-            if(result != null) {
-                searchResult.add(result);
-            }
+            searchResult = userService.findUserLikeUsername(searchQuery);
         }
         //Man soll nicht nach sich selbst suchen können
         if(searchResult.contains(user)) {
             searchResult.remove(user);
         }
 
-        //Model - Übergabe
         if(searchResult.isEmpty()) {
             model.addAttribute("message", "Zu Ihrer Suchanfrage gab es leider keinen passenden User.");
         }
         if(!searchResult.isEmpty()) {
+            //die Liste wird alphabetisch sortiert
+            Collections.sort(searchResult, new Comparator<User>() {
+                @Override
+                public int compare(User u1, User u2) {
+                    return u1.getUsername().toLowerCase().compareTo(u2.getUsername().toLowerCase());
+                }
+            });
             model.addAttribute("results", searchResult);
         }
         model.addAttribute("user", user);
