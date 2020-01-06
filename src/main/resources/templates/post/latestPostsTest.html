@@ -18,22 +18,28 @@
     
 <div class="container" style="margin-bottom: 25px;" th:object="${posts}">
     
-    <div class="row m-3">
-        <div class="col-9">
-            <h5>
-            </h5>
+    <form class="row container">
+        <div class="col">
+            <input type="radio" name="show" value="all" id="all" style="visibility: hidde" onchange="this.form.submit()">
+            <label for="all" class="btn btn-lg btn-light btn-block border-dark" style="background-color: #e3f2fd; cursor: pointer">Globale Pinnwand</label>
         </div>
         <div class="col">
-            <h5>Anzahl Posts: 
-                <select name="maxPosts" class="btn border-dark" style="background-color: #e3f2fd; margin-left: 15px">
-                    <option value="10">10</option>
-                    <option value="20">20</option>
-                    <option value="50">50</option>
-                    <option value="alle">alle</option>
+            <input type="radio" name="show" value="friends" id="friends" style="visibility: hidde" onchange="this.form.submit()">
+            <label for="friends" class="btn btn-lg btn-light btn-block" style="background-color: #e3f2fd; cursor: pointer">Globale Pinnwand</label>
+        </div>
+        <div class="col" style="margin-top: 25px">
+            <h5>Sortiert nach:
+                <select name="order" class="btn btn-lg btn-light border-dark" style="background-color: #e3f2fd;" onchange="this.form.submit()">
+                    <option id="empty" value="empty"></option>
+                    <option value="latest">Neueste</option>
+                    <option value="nice">Nicensteine</option>
                 </select>
+                <noscript><input type="submit"></noscript>
             </h5>
         </div>
-    </div>
+    </form>
+    <p id="loadMessage" style="visibility: hidden"><span th:text="${loadMessage}"/>all-latest</p>
+    
     
     <div class="row" th:each="post, stat : ${posts}" style="margin-bottom: 30px">        
         <div class="col-4">

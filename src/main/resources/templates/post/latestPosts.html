@@ -13,22 +13,29 @@
 
 <div th:object="${user}"></div>
 <div class="container" style="margin-bottom: 25px;" th:object="${posts}">
-    <div class="row m-3">
-        <div class="col-9">
-            <h5>
-            </h5>
+
+    <form class="row container">
+        <div class="col">
+            <input type="radio" name="show" value="all" id="all" style="visibility: hidden" onchange="this.form.submit()">
+            <label id="allLabel" for="all" class="btn btn-lg btn-light btn-block" style="background-color: #e3f2fd; cursor: pointer">Globale Pinnwand</label>
         </div>
         <div class="col">
-            <h5>Anzahl Posts: 
-                <select name="maxPosts" class="btn border-dark" style="background-color: #e3f2fd; margin-left: 15px">
-                    <option value="10">10</option>
-                    <option value="20">20</option>
-                    <option value="50">50</option>
-                    <option value="alle">alle</option>
+            <input type="radio" name="show" value="friends" id="friends" style="visibility: hidden" onchange="this.form.submit()">
+            <label id="friendsLabel" for="friends" class="btn btn-lg btn-light btn-block" style="background-color: #e3f2fd; cursor: pointer">Freunde Pinnwand</label>
+        </div>
+        <div class="col" style="margin-top: 25px">
+            <h5>Sortiert nach:
+                <select name="order" class="btn btn-lg btn-light border-dark" style="background-color: #e3f2fd;" onchange="this.form.submit()">
+                    <option id="empty" value="empty"></option>
+                    <option id="latest" value="latest">Neueste</option>
+                    <option id="nice" value="nice">Nicensteine</option>
                 </select>
+                <noscript><input type="submit"></noscript>
             </h5>
         </div>
-    </div>
+    </form>
+    <p style="visibility: hidden"><span id="loadMessage" th:text="${loadMessage}"/></p>
+
     <div class="row" th:each="post, stat : ${posts}" style="margin-bottom: 30px">
         <div class="col-4">
             <h2 class="text-dark" th:text="${post.getTitle()}" style="margin-top: 20px;"></h2>

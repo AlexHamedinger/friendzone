@@ -93,14 +93,14 @@ public class UserController {
         @RequestParam(required = false, name = "show", defaultValue = "friends") String show
     ) {
         User user = userService.findbyUsername(prince.getName());
-        Collection<User> friends = new ArrayList<User>();
+        List<User> friends = new ArrayList<User>();
 
-        //je nach Auswahl-Option wird die friends-Collection anders befüllt
+        //je nach Auswahl-Option wird die friends-List anders befüllt
         if(show.equals("friends")) {
-            friends = userService.getRealUserFriends(user.getId());
+            friends = (List<User>) userService.getRealUserFriends(user.getId());
         }
         else if(show.equals("mine")) {
-            friends = user.getFriends();
+            friends = (List<User>) user.getFriends();
         }
         else if(show.equals("theirs")) {
             Collection<Friend> friendsCollection = userService.getFriendByFriend(user.getId());
@@ -109,7 +109,14 @@ public class UserController {
             }
         }
 
-        //TODO: Liste alphabetisch geordnet ausgeben
+        //die List wird alphabetisch sortiert
+        Collections.sort(friends, new Comparator<User>() {
+            @Override
+            public int compare(User u1, User u2) {
+                return u1.getUsername().toLowerCase().compareTo(u2.getUsername().toLowerCase());
+            }
+        });
+
         model.addAttribute("message", createFriendsMessage(friends.size(), show));
         model.addAttribute("friends", friends);
         model.addAttribute("user", user);

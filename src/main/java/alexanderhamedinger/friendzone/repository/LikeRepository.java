@@ -7,4 +7,5 @@ import java.util.Collection;
 
 public interface LikeRepository extends CrudRepository<Likes, Long> {
     Likes findByLikerAndPost(long liker, long post);
+    Collection<Likes> findByPost(long post);
 }

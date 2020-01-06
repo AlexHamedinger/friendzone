@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -77,29 +78,26 @@ public class PostController {
     public String latestPosts(
         Model model,
         Principal prince,
-        @RequestParam(required = false, name = "show", defaultValue = "all") String show
+        @RequestParam(name = "show", defaultValue = "all") String show,
+        @RequestParam(name = "order", defaultValue = "latest") String order
     ) {
+
+
         int maxPosts = 10;
         User user = userService.findbyUsername(prince.getName());
-        Collection<Post> posts = new ArrayList<Post>();
+        List<Post> posts = new ArrayList<Post>();
 
         if(show.equals("all")) {
-            posts = postService.getLatestPosts(10, user.getId(), null);
+            posts = postService.getLatestPosts(10, user.getId(), null, order);
         } else if(show.equals("friends")) {
             Collection<User> friends = userService.getRealUserFriends(user.getId());
-            posts = postService.getLatestPosts(maxPosts, user.getId(), friends);
-        } else if(show.equals("nice")) {
-            Collection<User> niceCollection = new ArrayList<User>();
-            User niceUser = new User();
-            niceUser.setUsername("Nice");
-            niceCollection.add(niceUser);
-            posts = postService.getLatestPosts(maxPosts, user.getId(), niceCollection);
+            posts = postService.getLatestPosts(maxPosts, user.getId(), friends, order);
         }
-
 
 
         model.addAttribute("posts", posts);
         model.addAttribute("user", user);
+        model.addAttribute("loadMessage", show + "-" + order);
         //TODO: Max Posts Auswahl und Sortieren Nach Name, Datum etc implementieren
         //TODO: falls es noch keine Posts gibt, Platzhalter-Message anzeigen
         return "post/latestPosts";

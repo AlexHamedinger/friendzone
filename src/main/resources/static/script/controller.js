@@ -13,9 +13,11 @@ function friendZoneController() {
     //der EventListener lauscht nach Change
     $("#customFile").change(changeInputLable);
     //wird nach dem Seite laden ausgeführt
+    $("body").ready(showCorrectRadioAndSelect);
     $("body").ready(showPostDeleteButton);
     $("body").ready(loadFriendButton);
     $("body").ready(loadLikeButtons);
+    
 }
 
 
@@ -23,10 +25,29 @@ function friendZoneController() {
     //PAGE-LOAD-LISTENER
 //#################
 
+//zusätzlich falls es sich um die Pinnwand Seite handelt müssen die Radio-Buttons und das
+function showCorrectRadioAndSelect() {
+    var message = $("#loadMessage").html();
+    if(message == undefined) {
+        return;
+    }
+    var show = message.split("-")[0];
+    var order = message.split("-")[1];
+    
+    $("#" + show + "Label").addClass("border-dark");
+    $("#" + show).prop("checked", true);
+    $("#" + order).attr('selected',true);
+    $("#empty").remove();
+    
+}
+
 //zusätzlich falls es sich um die Post-Detail Seite handelt muss der "Post löschen" Button richtig angezeigt werden
 function showPostDeleteButton() {
     var deletePostButton = $("#deletePostButton");
-
+    if(!deletePostButton.length) {
+        return;
+    }
+    
     if(deletePostButton.html() == 'mine') {
         deletePostButton.html('<i style="font-size:18px;"class="fa fa-trash-o"></i> löschen');
         deletePostButton.css("background-color", "#e3f2fd");
@@ -42,6 +63,9 @@ function showPostDeleteButton() {
 //falls vorhanden muss der "Freund hinzufügen" Button richitg angezeigt werden
 function loadFriendButton() {
     var friendsButtons = $(".friendsButton");
+    if(!friendsButtons.length) {
+        return;
+    }
     
     friendsButtons.each(function() {
 
@@ -59,6 +83,9 @@ function loadFriendButton() {
 function loadLikeButtons() {
     
     var likeButtons = $(".likeButton");
+    if(!likeButtons.length) {
+        return;
+    }
     
     likeButtons.each(function() {
 

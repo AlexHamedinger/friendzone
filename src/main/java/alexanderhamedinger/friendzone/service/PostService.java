@@ -46,36 +46,54 @@ public class PostService implements PostServiceIF{
         postRepository.deleteById(id);
     }
     @Override
-    public Collection<Post> getLatestPosts(int maxPosts, long userid, Collection<User> friends) {
+    public List<Post> getLatestPosts(int maxPosts, long userid, Collection<User> friends, String order) {
         //holt alle Posts aus der Datenbank (verbesserungswürdig)
         Iterable<Post> postIterable = postRepository.findAllByOrderByIdDesc();
-        Collection<Post> posts = new ArrayList<Post>();
+        List<Post> posts = new ArrayList<Post>();
         Post post;
-        User niceUser = new User();
-        niceUser.setUsername("Nice");
+        User user = new User();
 
-
-        //show all
+        //show all - schreibt alle Posts ausser die eigenen in eine List
         if(friends == null) {
             for(Iterator<Post> postIterator = postIterable.iterator(); maxPosts > 0 && postIterator.hasNext(); ) {
                 post = postIterator.next();
-                if(post.getUser().getId() != userid) {
+                if(post.getUser().getId() != userid) {  //eigene Posts werden nicht angezeigt
                     posts.add(post);
                     maxPosts--;
                 }
             }
-        } //show nice
-        else if (friends.contains(niceUser)) {
-            //TODO: Finde die Posts mit den meisten Likes
-        } //show friends
-        else {
-
+        }
+        else { // show friends - die Posts müssen von Freunden sein
+            for(Iterator<Post> postIterator = postIterable.iterator(); maxPosts > 0 && postIterator.hasNext(); ) {
+                post = postIterator.next();
+                if(post.getUser().getId() != userid) {  //eigene Posts werden nicht angezeigt
+                    for (Iterator<User> userIterator = friends.iterator(); userIterator.hasNext(); ) {
+                        user = userIterator.next();
+                        if (post.getUser().getId() == user.getId()) { //falls der Post von einem Freund ist, wird er hinzugefügt
+                            posts.add(post);
+                            maxPosts--;
+                        }
+                    }
+                }
+            }
         }
 
+        //falls nach Nicensteinen sortiert werden soll (nach Datum sortiert ist automatisch)
+        if(order.equals("nice")) {
+                //alle Posts außer die eigenen werden in eine Post-Collection geschrieben
+                Collections.sort(posts, new Comparator<Post>() {
+                    @Override
+                    public int compare(Post o1, Post o2) {
+                        if(o1.getLikes().size() > o2.getLikes().size()) {
+                            return -1;
+                        }
+                        return 1;
+                    }
+                });
+        }
 
         return posts;
     }
-
 
 
     @Override
@@ -107,4 +125,7 @@ public class PostService implements PostServiceIF{
         like = likeRepository.findByLikerAndPost(like.getLiker(), like.getPost());
         return like;
     }
+
+
+
 }
