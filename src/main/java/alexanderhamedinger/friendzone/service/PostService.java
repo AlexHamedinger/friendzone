@@ -50,28 +50,27 @@ public class PostService implements PostServiceIF{
         //holt alle Posts aus der Datenbank (verbesserungswürdig)
         Iterable<Post> postIterable = postRepository.findAllByOrderByIdDesc();
         List<Post> posts = new ArrayList<Post>();
+        List<Post> postsCache = new ArrayList<Post>();
         Post post;
         User user = new User();
 
         //show all - schreibt alle Posts ausser die eigenen in eine List
         if(friends == null) {
-            for(Iterator<Post> postIterator = postIterable.iterator(); maxPosts > 0 && postIterator.hasNext(); ) {
+            for(Iterator<Post> postIterator = postIterable.iterator(); postIterator.hasNext(); ) {
                 post = postIterator.next();
                 if(post.getUser().getId() != userid) {  //eigene Posts werden nicht angezeigt
                     posts.add(post);
-                    maxPosts--;
                 }
             }
         }
         else { // show friends - die Posts müssen von Freunden sein
-            for(Iterator<Post> postIterator = postIterable.iterator(); maxPosts > 0 && postIterator.hasNext(); ) {
+            for(Iterator<Post> postIterator = postIterable.iterator(); postIterator.hasNext(); ) {
                 post = postIterator.next();
                 if(post.getUser().getId() != userid) {  //eigene Posts werden nicht angezeigt
                     for (Iterator<User> userIterator = friends.iterator(); userIterator.hasNext(); ) {
                         user = userIterator.next();
                         if (post.getUser().getId() == user.getId()) { //falls der Post von einem Freund ist, wird er hinzugefügt
-                            posts.add(post);
-                            maxPosts--;
+                            postsCache.add(post);
                         }
                     }
                 }
@@ -90,6 +89,12 @@ public class PostService implements PostServiceIF{
                         return 1;
                     }
                 });
+        }
+
+        //limitiert auf die maxPosts Anzahl
+        for(Iterator<Post> postIterator = postsCache.iterator(); maxPosts > 0 && postIterator.hasNext(); ) {
+            posts.add(postIterator.next());
+            maxPosts--;
         }
 
         return posts;

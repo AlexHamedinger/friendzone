@@ -101,11 +101,21 @@ public class UserController {
         }
         else if(show.equals("mine")) {
             friends = (List<User>) user.getFriends();
+            //User mit denen man bereits befreundet ist werden nicht angezeigt
+            Collection<User> toDelete = userService.getRealUserFriends(user.getId());
+            for(Iterator<User> i = toDelete.iterator(); i.hasNext(); ) {
+                friends.remove(i.next());
+            }
         }
         else if(show.equals("theirs")) {
             Collection<Friend> friendsCollection = userService.getFriendByFriend(user.getId());
             for (Iterator<Friend> i = friendsCollection.iterator(); i.hasNext(); ) {
                 friends.add(userService.getUserById(i.next().getUser()).get());
+            }
+            //User mit denen man bereits befreundet ist werden nicht angezeigt
+            Collection<User> toDelete = userService.getRealUserFriends(user.getId());
+            for(Iterator<User> i = toDelete.iterator(); i.hasNext(); ) {
+                friends.remove(i.next());
             }
         }
 
@@ -131,13 +141,15 @@ public class UserController {
         @ModelAttribute("searchQuery") String searchQuery
         ) {
         User user = userService.findbyUsername(prince.getName());
-        List<User> searchResult = userService.getAll();
+        List<User> searchResult = new ArrayList<User>();
 
         //Die Suchfunktion soll nur ausgeführt werden wenn auch ein Suchstring eingegeben wurde, sonst werden alle User ausgegeben
         if(!searchQuery.equals("")) {
-            searchResult.clear();
             searchResult = userService.findUserLikeUsername(searchQuery);
+        } else {
+            searchResult = userService.getAll();
         }
+
         //Man soll nicht nach sich selbst suchen können
         if(searchResult.contains(user)) {
             searchResult.remove(user);
