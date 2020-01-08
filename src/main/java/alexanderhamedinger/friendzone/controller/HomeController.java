@@ -34,11 +34,12 @@ public class HomeController {
             Model model
     ) {
         if(principal != null) {
-            User user = userService.findbyUsername(principal.getName());
-            userService.setLatestRegistrationDate(principal.getName());
+            User user = userService.getUser(principal.getName());
+            user.setLatestRegistration(new GregorianCalendar());
+            userService.save(user);
             System.out.println("User " + principal.getName() + " wurde eingeloggt. " + user);
-            model.addAttribute("posts", postService.getPostsByPoster(principal.getName()));
-            model.addAttribute("user", userService.findbyUsername(principal.getName()));
+            model.addAttribute("posts", postService.getPosts(principal.getName()));
+            model.addAttribute("user", userService.getUser(principal.getName()));
         }
 
         return "home";
@@ -55,7 +56,7 @@ public class HomeController {
             @RequestParam(required = false, name = "imagefile") MultipartFile file)
     {
         //User "Initialisierung"
-        User user = userService.findbyUsername(prince.getName());
+        User user = userService.getUser(prince.getName());
 
         //home?action=newpost
         //Es wird ein neuer Post erstellt
@@ -92,7 +93,7 @@ public class HomeController {
 
 
             //Beim Post löschen zugehörige Likes löschen
-            Post post = postService.getPostById(id).get();  //TODO: Unwrap Optional
+            Post post = postService.getPosts(id).get();  //TODO: Unwrap Optional
             Collection<Likes> likes = post.getLikes();
             Likes like;
             User LikeUser;
@@ -101,7 +102,7 @@ public class HomeController {
             while( i.hasNext() ) {
                 like = (Likes) i.next();
                 likes.remove(like);
-                LikeUser = userService.getUserById(like.getLiker()).get();  //TODO: Unwrap Optional
+                LikeUser = userService.getUser(like.getLiker());
                 LikeUserLikes = LikeUser.getLikes();
                 LikeUserLikes.remove(like);
                 postService.deleteLike(like);
@@ -117,7 +118,7 @@ public class HomeController {
         {
             user = userService.save(user);
             model.addAttribute("user", user);
-            Collection<Post> posts = postService.getPostsByPoster(user.getUsername());
+            Collection<Post> posts = postService.getPosts(user.getUsername());
             model.addAttribute("posts", posts);
             return "home";
         }

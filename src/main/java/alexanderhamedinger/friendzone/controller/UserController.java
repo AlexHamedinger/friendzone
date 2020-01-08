@@ -80,11 +80,11 @@ public class UserController {
             Model model,
             Principal prince
     ) {
-        User otherUser = userService.getUserById((long) id).get();  //TODO: Unwrap Optional
-        Collection<Post> posts = postService.getPostsByPoster(otherUser.getUsername());
+        User otherUser = userService.getUser((long) id);
+        Collection<Post> posts = postService.getPosts(otherUser.getUsername());
 
         model.addAttribute("otherUser", otherUser);
-        model.addAttribute("user", userService.findbyUsername(prince.getName()));
+        model.addAttribute("user", userService.getUser(prince.getName()));
         model.addAttribute("posts", posts);
         return "user/user";
     }
@@ -96,28 +96,28 @@ public class UserController {
         Principal prince,
         @RequestParam(required = false, name = "show", defaultValue = "friends") String show
     ) {
-        User user = userService.findbyUsername(prince.getName());
+        User user = userService.getUser(prince.getName());
         List<User> friends = new ArrayList<User>();
 
         //je nach Auswahl-Option wird die friends-List anders befüllt
-        if(show.equals("friends")) {
-            friends = (List<User>) userService.getRealUserFriends(user.getId());
+        if(show.equals("friends")) {  //Zeigt User mit denen man gegenseitig befreundet ist
+            friends = (List<User>) userService.getMutualFriends(user.getId());
         }
-        else if(show.equals("mine")) {
+        else if(show.equals("mine")) {  //Zeigt User mit denen ich aber die die nicht mit mir befreundet sind
             friends = (List<User>) user.getFriends();
-            //User mit denen man bereits befreundet ist werden nicht angezeigt
-            Collection<User> toDelete = userService.getRealUserFriends(user.getId());
+            //User mit denen man bereits gegenseitig befreundet ist werden gelöscht
+            Collection<User> toDelete = userService.getMutualFriends(user.getId());
             for(Iterator<User> i = toDelete.iterator(); i.hasNext(); ) {
                 friends.remove(i.next());
             }
         }
-        else if(show.equals("theirs")) {
-            Collection<Friend> friendsCollection = userService.getFriendByFriend(user.getId());
+        else if(show.equals("theirs")) {  //Zeigt User die mit mir aber ich nicht mit ihnen befreundet bin
+            Collection<Friend> friendsCollection = userService.getFriends(user.getId());
             for (Iterator<Friend> i = friendsCollection.iterator(); i.hasNext(); ) {
-                friends.add(userService.getUserById(i.next().getUser()).get());
+                friends.add(userService.getUser(i.next().getUser()));
             }
-            //User mit denen man bereits befreundet ist werden nicht angezeigt
-            Collection<User> toDelete = userService.getRealUserFriends(user.getId());
+            //User mit denen man bereits gegenseitig befreundet ist werden gelöscht
+            Collection<User> toDelete = userService.getMutualFriends(user.getId());
             for(Iterator<User> i = toDelete.iterator(); i.hasNext(); ) {
                 friends.remove(i.next());
             }
@@ -144,14 +144,14 @@ public class UserController {
         Principal prince,
         @ModelAttribute("searchQuery") String searchQuery
         ) {
-        User user = userService.findbyUsername(prince.getName());
+        User user = userService.getUser(prince.getName());
         List<User> searchResult = new ArrayList<User>();
 
         //Die Suchfunktion soll nur ausgeführt werden wenn auch ein Suchstring eingegeben wurde, sonst werden alle User ausgegeben
         if(!searchQuery.equals("")) {
-            searchResult = userService.findUserLikeUsername(searchQuery);
+            searchResult = userService.getUsersLike(searchQuery);
         } else {
-            searchResult = userService.getAll();
+            searchResult = userService.getUsers();
         }
 
         //Man soll nicht nach sich selbst suchen können
@@ -185,13 +185,13 @@ public class UserController {
             Principal prince
     ) {
         String response = "";
-        User user = userService.findbyUsername(prince.getName());
-        User otherUser = userService.getUserById((long)otherid).get(); //TODO: Unwrap Optional
+        User user = userService.getUser(prince.getName());
+        User otherUser = userService.getUser((long)otherid); //TODO: Unwrap Optional
         Friend friend = new Friend();
 
         if(user.hasFriend(otherUser)) {
             user.removeFriend(otherUser);
-            friend = userService.findFriendByIds(user.getId(), otherUser.getId());
+            friend = userService.getFriend(user.getId(), otherUser.getId());
             userService.deleteFriend(friend);
             response = user.getUsername() + " unfriended " + otherUser.getUsername();
         } else {
@@ -217,15 +217,10 @@ public class UserController {
     public ResponseEntity<byte[]> getPostImage(
             @PathVariable("id") int id
     ) throws IOException {
-        Optional<User> optionalUser = userService.getUserById(id);
-        User user;
+        User user = userService.getUser(id);
         byte[] bytes = new byte[0];
-        if(optionalUser.isPresent()) {
-            user = optionalUser.get();
-            bytes = user.getProfileImage();
-        } else {
-            //TO-DO: Ersatzbild anzeigen
-        }
+
+        bytes = user.getProfileImage();
 
         return ResponseEntity
                 .ok()

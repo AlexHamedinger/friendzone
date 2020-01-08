@@ -47,37 +47,17 @@ public class UserService implements UserServiceIF, UserDetailsService {
         return neu;
     }
     @Override
-    public User save(User user) {
-        User neu = userRepository.save(user);
-        return neu;
-    }
-    @Override
-    public void setLatestRegistrationDate(String username) {
-        User user = userRepository.findByUsername(username);
-        user.setLatestRegistration(new GregorianCalendar());
-        userRepository.save(user);
-    }
-    @Override
-    public long findIdByUsername(String username) {
-        User user = userRepository.findByUsername(username);
-        return user.getId();
-    }
-    @Override
-    public User findbyUsername(String username) {
+    public User getUser(String username) {
         User user = userRepository.findByUsername(username);
         return user;
     }
     @Override
-    public void deleteUser(long id) {
-        userRepository.deleteById(id);
-    }
-    @Override
-    public Optional<User> getUserById(long id){
+    public User getUser(long id){
         Optional<User> user = userRepository.findById(id);
-        return user;
+        return user.get();
     }
     @Override
-    public List<User> getAll() {
+    public List<User> getUsers() {
         Iterable<User> userIterable = userRepository.findAll();
         Iterator<User> userIterator = userIterable.iterator();
         List<User> userCollection = new ArrayList<User>();
@@ -89,20 +69,30 @@ public class UserService implements UserServiceIF, UserDetailsService {
         return userCollection;
     }
     @Override
-    public Collection<User> getRealUserFriends(long userid) {
-        Collection<Friend> friendCollection = getRealFriends(userid);
+    public List<User> getUsersLike(String username) {
+        List<User> answer = userRepository.findByUsernameContaining(username);
+        return answer;
+    }
+    @Override
+    public Collection<User> getMutualFriends(long userid) {
+        Collection<Friend> friendCollection = getMutuallFriends(userid);
         Collection<User> userCollection = new ArrayList<User>();
         for(Iterator<Friend> i = friendCollection.iterator(); i.hasNext();) {
-            userCollection.add(getUserById(i.next().getUser()).get());
+            userCollection.add(getUser(i.next().getUser()));
         }
         return userCollection;
     }
     @Override
-    public List<User> findUserLikeUsername(String username) {
-        List<User> answer = userRepository.findByUsernameContaining(username);
-        return answer;
+    public User save(User user) {
+        User neu = userRepository.save(user);
+        return neu;
     }
-    
+    @Override
+    public void deleteUser(long id) {
+        userRepository.deleteById(id);
+    }
+
+
 
     @Override
     public Friend createFriend(Friend friend) {
@@ -110,23 +100,20 @@ public class UserService implements UserServiceIF, UserDetailsService {
         return neu;
     }
     @Override
-    public Friend findFriendByIds(long user, long friend) {
+    public Friend getFriend(long user, long friend) {
         return friendRepository.findByUserAndFriend(user, friend);
     }
     @Override
-    public void deleteFriend(Friend friend) {
-        friendRepository.delete(friend);
+    public Collection<Friend> getFriends(long friendID) {
+        return friendRepository.findByFriend(friendID);
     }
     @Override
-    public Collection<Friend> getFriendByFriend(long id) {
-        return friendRepository.findByFriend(id);
-    }
-    @Override
-    public Collection<Friend> getRealFriends(long id) {
+    public Collection<Friend> getMutuallFriends(long id) {
         Collection<Friend> user = friendRepository.findByUser(id);
         Collection<Friend> friend = friendRepository.findByFriend(id);
         Collection<Friend> response = new ArrayList<Friend>();
 
+        //es wird nach gegenseitigen Freundschaften gesucht
         for(Iterator<Friend> userIterator = user.iterator(); userIterator.hasNext(); ) {
             Friend thisUser = userIterator.next();
             for(Iterator<Friend> friendIterator = friend.iterator(); friendIterator.hasNext(); ) {
@@ -139,7 +126,10 @@ public class UserService implements UserServiceIF, UserDetailsService {
 
         return response;
     }
-
+    @Override
+    public void deleteFriend(Friend friend) {
+        friendRepository.delete(friend);
+    }
 
 
     //#### WIRD VON USERDETAILSSERVICE BENÖTIGT #####

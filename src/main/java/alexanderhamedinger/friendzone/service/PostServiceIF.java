@@ -9,15 +9,23 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PostServiceIF {
+    //Create
     public Post createPost(Post post);
-    public Collection<Post> getPostsByPoster(String username);
-    public Optional<Post> getPostById(long id);
+    //Read
+    public Collection<Post> getPosts(String username);
+    public Optional<Post> getPosts(long id);
+    public List<Post> getPosts(int maxPosts, long userid, Collection<User> friends, String order);
+    //Update
     public Post save(Post post);
+    //Delete
     public void deletePost(long id);
-    public List<Post> getLatestPosts(int maxPosts, long userid, Collection<User> friends, String order);
 
+
+    //Create
     public Likes createLike(Likes like);
-    public boolean isLikeUnique(Likes like);
+    //Read
+    public Likes getLike(Likes like);
+    //Delete
     public void deleteLike(Likes like);
-    public Likes getCompleteLike(Likes like);
+
 }

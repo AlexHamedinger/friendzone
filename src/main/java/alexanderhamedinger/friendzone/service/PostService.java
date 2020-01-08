@@ -28,25 +28,16 @@ public class PostService implements PostServiceIF{
         return neu;
     }
     @Override
-    public Collection<Post> getPostsByPoster(String username){
+    public Collection<Post> getPosts(String username){
         User user = userRepository.findByUsername(username);
         return postRepository.findByPosterOrderByIdDesc(user.getId());
     }
     @Override
-    public Optional<Post> getPostById(long id) {
+    public Optional<Post> getPosts(long id) {
         return postRepository.findById(id);
     }
     @Override
-    public Post save(Post post) {
-        Post neu = postRepository.save(post);
-        return neu;
-    }
-    @Override
-    public void deletePost(long id) {
-        postRepository.deleteById(id);
-    }
-    @Override
-    public List<Post> getLatestPosts(int maxPosts, long userid, Collection<User> friends, String order) {
+    public List<Post> getPosts(int maxPosts, long userid, Collection<User> friends, String order) {
         //holt alle Posts aus der Datenbank (verbesserungswürdig)
         Iterable<Post> postIterable = postRepository.findAllByOrderByIdDesc();
         List<Post> posts = new ArrayList<Post>();
@@ -79,16 +70,16 @@ public class PostService implements PostServiceIF{
 
         //falls nach Nicensteinen sortiert werden soll (nach Datum sortiert ist automatisch)
         if(order.equals("nice")) {
-                //alle Posts außer die eigenen werden in eine Post-Collection geschrieben
-                Collections.sort(posts, new Comparator<Post>() {
-                    @Override
-                    public int compare(Post o1, Post o2) {
-                        if(o1.getLikes().size() > o2.getLikes().size()) {
-                            return -1;
-                        }
-                        return 1;
+            //alle Posts außer die eigenen werden in eine Post-Collection geschrieben
+            Collections.sort(posts, new Comparator<Post>() {
+                @Override
+                public int compare(Post o1, Post o2) {
+                    if(o1.getLikes().size() > o2.getLikes().size()) {
+                        return -1;
                     }
-                });
+                    return 1;
+                }
+            });
         }
 
         //limitiert auf die maxPosts Anzahl
@@ -99,20 +90,27 @@ public class PostService implements PostServiceIF{
 
         return posts;
     }
+    @Override
+    public Post save(Post post) {
+        Post neu = postRepository.save(post);
+        return neu;
+    }
+    @Override
+    public void deletePost(long id) {
+        postRepository.deleteById(id);
+    }
 
 
     @Override
     public Likes createLike(Likes like) {
-        like.setCreationDate(new GregorianCalendar());
-        Likes neu = likeRepository.save(like);
+        Likes neu;
+        if(likeRepository.findByLikerAndPost(like.getLiker(), like.getPost()) == null) {
+            like.setCreationDate(new GregorianCalendar());
+            neu = likeRepository.save(like);
+        } else {
+            neu = null;
+        }
         return neu;
-    }
-    @Override
-    public boolean isLikeUnique(Likes like) {
-        Likes other = likeRepository.findByLikerAndPost(like.getLiker(), like.getPost());
-        if(other == null)
-            return true;
-        return false;
     }
     @Override
     public void deleteLike(Likes like) {
@@ -126,7 +124,7 @@ public class PostService implements PostServiceIF{
         likeRepository.deleteById(id);
     }
     @Override
-    public Likes getCompleteLike(Likes like) {
+    public Likes getLike(Likes like) {
         like = likeRepository.findByLikerAndPost(like.getLiker(), like.getPost());
         return like;
     }

@@ -42,7 +42,7 @@ public class PostController {
             Model model
     ) {
         //der Post zur angegebenen Id wird geladen
-        Optional<Post> optionalPost = postService.getPostById(Long.parseLong(id));
+        Optional<Post> optionalPost = postService.getPosts(Long.parseLong(id));
         Post post;
         if(optionalPost.isPresent()) {
             post = optionalPost.get();
@@ -54,7 +54,7 @@ public class PostController {
 
         //abschließende Model-Vorbereitungen
         {
-            model.addAttribute("user", userService.findbyUsername(prince.getName()));
+            model.addAttribute("user", userService.getUser(prince.getName()));
             model.addAttribute("post", post);
             return "post/postDetail";
         }
@@ -67,7 +67,7 @@ public class PostController {
             @RequestParam(required = false, name = "post", defaultValue = "") String postid,
             Model model
     ) {
-        Optional<Post> post = postService.getPostById(Long.parseLong(postid));
+        Optional<Post> post = postService.getPosts(Long.parseLong(postid));
 
         model.addAttribute("post", post.get());
         return "post/postDelete";
@@ -84,14 +84,14 @@ public class PostController {
 
 
         int maxPosts = 10;
-        User user = userService.findbyUsername(prince.getName());
+        User user = userService.getUser(prince.getName());
         List<Post> posts = new ArrayList<Post>();
 
         if(show.equals("all")) {
-            posts = postService.getLatestPosts(10, user.getId(), null, order);
+            posts = postService.getPosts(10, user.getId(), null, order);
         } else if(show.equals("friends")) {
-            Collection<User> friends = userService.getRealUserFriends(user.getId());
-            posts = postService.getLatestPosts(maxPosts, user.getId(), friends, order);
+            Collection<User> friends = userService.getMutualFriends(user.getId());
+            posts = postService.getPosts(maxPosts, user.getId(), friends, order);
         }
 
 
@@ -108,7 +108,7 @@ public class PostController {
     public ResponseEntity<byte[]> getPostImage(
             @PathVariable("id") int id
     ) throws IOException {
-        Optional<Post> optionalPost = postService.getPostById(id);
+        Optional<Post> optionalPost = postService.getPosts(id);
         Post post;
         byte[] bytes = new byte[0];
         if(optionalPost.isPresent()) {
@@ -132,10 +132,10 @@ public class PostController {
             Principal prince
     ) {
         //User wird ausgelesen
-        User user = userService.findbyUsername(prince.getName());
+        User user = userService.getUser(prince.getName());
 
         //Post wird ausgelesen
-        Optional<Post> optionalPost = postService.getPostById(postid);
+        Optional<Post> optionalPost = postService.getPosts(postid);
         Post post = null;
         if(optionalPost.isPresent()) {
             post = optionalPost.get();
@@ -143,23 +143,23 @@ public class PostController {
 
         //neuer Like wird erstellt
         Likes like = new Likes();
+        Likes createdLike;
         like.setLiker(user.getId());
         like.setPost(postid);
-
+        createdLike = postService.createLike(like);
 
         //Like verarbeitung:
         //Falls der Post von diesem User bereits geliked war, wird er ge-unliked
         //Falls der Post von diesem User noch nicht geliked war, wird er geliked
-        if(postService.isLikeUnique(like)) {
-            like = postService.createLike(like);
-            post.addLike(like);
+        if(createdLike != null) {
+            post.addLike(createdLike);
             post = postService.save(post);
-            user.addLike(like);
+            user.addLike(createdLike);
             user = userService.save(user);
-            System.out.println(like);
+            System.out.println(createdLike);
         }
         else {
-            like = postService.getCompleteLike(like);
+            like = postService.getLike(like);
             post.removeLike(like);
             post = postService.save(post);
             user.removeLike(like);

@@ -10,21 +10,26 @@ import java.util.Optional;
 
 public interface UserServiceIF {
 
+    //Create
     public User createUser(User user);
+    //Read
+    public User getUser(String username);
+    public User getUser(long id);
+    public List<User> getUsers();
+    public List<User> getUsersLike(String username);
+    public Collection<User> getMutualFriends(long id);
+    //Update
     public User save(User user);
-    public void setLatestRegistrationDate(String username);
-    public long findIdByUsername(String username);
-    public User findbyUsername(String username);
-    public Optional<User> getUserById(long id);
+    //Delete
     public void deleteUser(long id);
-    public List<User> getAll();
-    public Collection<User> getRealUserFriends(long id);
-    public List<User> findUserLikeUsername(String username);
 
+    //Create
     public Friend createFriend(Friend friend);
-    public Friend findFriendByIds(long user, long friend);
+    //Read
+    public Friend getFriend(long user, long friend);
+    public Collection<Friend> getFriends(long friendID);
+    public Collection<Friend> getMutuallFriends(long id);
+    //Delete
     public void deleteFriend(Friend friend);
-    public Collection<Friend> getFriendByFriend(long id);
-    public Collection<Friend> getRealFriends(long id);
 
 }
