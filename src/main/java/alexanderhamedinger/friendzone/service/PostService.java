@@ -33,8 +33,16 @@ public class PostService implements PostServiceIF{
         return postRepository.findByPosterOrderByIdDesc(user.getId());
     }
     @Override
-    public Optional<Post> getPosts(long id) {
-        return postRepository.findById(id);
+    public Post getPosts(long id) {
+        Post post;
+        Optional<Post> optionalPost = postRepository.findById(id);
+        if(optionalPost.isPresent()) {
+            post = optionalPost.get();
+        } else {
+            post = null;
+        }
+
+        return post;
     }
     @Override
     public List<Post> getPosts(int maxPosts, long userid, Collection<User> friends, String order) {

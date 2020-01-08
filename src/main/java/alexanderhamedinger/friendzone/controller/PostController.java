@@ -42,15 +42,7 @@ public class PostController {
             Model model
     ) {
         //der Post zur angegebenen Id wird geladen
-        Optional<Post> optionalPost = postService.getPosts(Long.parseLong(id));
-        Post post;
-        if(optionalPost.isPresent()) {
-            post = optionalPost.get();
-        }
-        else {
-            model.addAttribute("message", "Der Post konnte nicht mehr gefunden werden");
-            return "error";
-        }
+        Post post = postService.getPosts(Long.parseLong(id));
 
         //abschließende Model-Vorbereitungen
         {
@@ -67,9 +59,9 @@ public class PostController {
             @RequestParam(required = false, name = "post", defaultValue = "") String postid,
             Model model
     ) {
-        Optional<Post> post = postService.getPosts(Long.parseLong(postid));
+        Post post = postService.getPosts(Long.parseLong(postid));
 
-        model.addAttribute("post", post.get());
+        model.addAttribute("post", post);
         return "post/postDelete";
     }
 
@@ -108,15 +100,10 @@ public class PostController {
     public ResponseEntity<byte[]> getPostImage(
             @PathVariable("id") int id
     ) throws IOException {
-        Optional<Post> optionalPost = postService.getPosts(id);
-        Post post;
+        Post post = postService.getPosts(id);
         byte[] bytes = new byte[0];
-        if(optionalPost.isPresent()) {
-            post = optionalPost.get();
-            bytes = post.getPostImage();
-        } else {
-            //TO-DO: Ersatzbild anzeigen
-        }
+
+        bytes = post.getPostImage();
 
         return ResponseEntity
                 .ok()
@@ -131,15 +118,8 @@ public class PostController {
             @PathVariable("postid") int postid,
             Principal prince
     ) {
-        //User wird ausgelesen
         User user = userService.getUser(prince.getName());
-
-        //Post wird ausgelesen
-        Optional<Post> optionalPost = postService.getPosts(postid);
-        Post post = null;
-        if(optionalPost.isPresent()) {
-            post = optionalPost.get();
-        }
+        Post post = postService.getPosts(postid);
 
         //neuer Like wird erstellt
         Likes like = new Likes();

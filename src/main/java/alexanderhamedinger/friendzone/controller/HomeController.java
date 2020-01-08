@@ -93,7 +93,7 @@ public class HomeController {
 
 
             //Beim Post löschen zugehörige Likes löschen
-            Post post = postService.getPosts(id).get();  //TODO: Unwrap Optional
+            Post post = postService.getPosts(id);  //TODO: Unwrap Optional
             Collection<Likes> likes = post.getLikes();
             Likes like;
             User LikeUser;

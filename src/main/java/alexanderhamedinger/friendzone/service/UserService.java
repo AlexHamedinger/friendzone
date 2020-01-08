@@ -53,8 +53,14 @@ public class UserService implements UserServiceIF, UserDetailsService {
     }
     @Override
     public User getUser(long id){
-        Optional<User> user = userRepository.findById(id);
-        return user.get();
+        User user;
+        Optional<User> optionalUser = userRepository.findById(id);
+        if(optionalUser.isPresent()) {
+            user = optionalUser.get();
+        } else {
+            user = null;
+        }
+        return user;
     }
     @Override
     public List<User> getUsers() {

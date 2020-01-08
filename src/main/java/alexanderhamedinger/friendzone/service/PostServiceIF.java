@@ -13,7 +13,7 @@ public interface PostServiceIF {
     public Post createPost(Post post);
     //Read
     public Collection<Post> getPosts(String username);
-    public Optional<Post> getPosts(long id);
+    public Post getPosts(long id);
     public List<Post> getPosts(int maxPosts, long userid, Collection<User> friends, String order);
     //Update
     public Post save(Post post);
