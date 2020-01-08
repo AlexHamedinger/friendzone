@@ -15,6 +15,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.OneToMany;
+import javax.transaction.Transactional;
+import java.awt.print.Pageable;
 import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
 
@@ -89,6 +91,7 @@ public class UserService implements UserServiceIF, UserDetailsService {
         return userCollection;
     }
     @Override
+    @Transactional
     public User save(User user) {
         User neu = userRepository.save(user);
         return neu;

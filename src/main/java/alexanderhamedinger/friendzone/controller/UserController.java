@@ -186,7 +186,7 @@ public class UserController {
     ) {
         String response = "";
         User user = userService.getUser(prince.getName());
-        User otherUser = userService.getUser((long)otherid); //TODO: Unwrap Optional
+        User otherUser = userService.getUser((long)otherid);
         Friend friend = new Friend();
 
         if(user.hasFriend(otherUser)) {

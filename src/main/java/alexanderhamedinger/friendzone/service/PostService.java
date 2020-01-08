@@ -9,6 +9,7 @@ import alexanderhamedinger.friendzone.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.*;
 
 @Service
@@ -99,6 +100,7 @@ public class PostService implements PostServiceIF{
         return posts;
     }
     @Override
+    @Transactional
     public Post save(Post post) {
         Post neu = postRepository.save(post);
         return neu;
