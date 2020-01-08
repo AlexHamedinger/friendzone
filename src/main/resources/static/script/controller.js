@@ -1,3 +1,5 @@
+var baseURL = "http://localhost:1889";
+
 var likeText = 'Nicenstein <i style="font-size:18px;" class="fa fa-diamond"></i>';
 var unlikeText = '<s>Nicenstein</s> <i style="font-size:18px;" class="fa fa-close"></i>';
 
@@ -112,7 +114,7 @@ function like() {
     var likes = $("#"+id).next().html();
     
     $.get(
-        "http://localhost:1889/likes/" + id,
+        baseURL + "/likes/" + id,
         {},
         function(data) {
         }
@@ -134,7 +136,7 @@ function befriend() {
     var id = this.id;
     
     $.get(
-        "http://localhost:1889/friends/" + id,
+        baseURL + "/friends/" + id,
         {},
         function(data) {
         }

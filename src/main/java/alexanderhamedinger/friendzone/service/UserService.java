@@ -34,13 +34,17 @@ public class UserService implements UserServiceIF, UserDetailsService {
 
     @Override
     public User createUser(User user) {
+        User neu = new User();
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+
         if(userRepository.findByUsername(user.getUsername()) != null) {
-            return null;
+            neu.setUsername("Username");
+        } else if(userRepository.findByEmail(user.getEmail()) != null) {
+            neu.setUsername("EMail");
         } else {
-            User neu = userRepository.save(user);
-            return neu;
+            neu = userRepository.save(user);
         }
+        return neu;
     }
     @Override
     public User save(User user) {
@@ -76,7 +80,6 @@ public class UserService implements UserServiceIF, UserDetailsService {
     public List<User> getAll() {
         Iterable<User> userIterable = userRepository.findAll();
         Iterator<User> userIterator = userIterable.iterator();
-        //TODO: User-Collection "ordentlich" initialisieren
         List<User> userCollection = new ArrayList<User>();
         
         while(userIterator.hasNext()) {

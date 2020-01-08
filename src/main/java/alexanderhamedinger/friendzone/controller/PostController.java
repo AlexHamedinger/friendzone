@@ -98,7 +98,6 @@ public class PostController {
         model.addAttribute("posts", posts);
         model.addAttribute("user", user);
         model.addAttribute("loadMessage", show + "-" + order);
-        //TODO: Max Posts Auswahl und Sortieren Nach Name, Datum etc implementieren
         //TODO: falls es noch keine Posts gibt, Platzhalter-Message anzeigen
         return "post/latestPosts";
     }

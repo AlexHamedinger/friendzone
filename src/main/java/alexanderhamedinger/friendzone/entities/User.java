@@ -14,6 +14,7 @@ import java.util.Iterator;
 @AttributeOverride(name = "creationDate", column = @Column(name = "initialregistration"))
 public class User extends BasicEntity implements UserDetails {
 
+    @Column(unique = true)
     private String email;
     @NotEmpty(message = "username is required")
     @Column(unique = true)

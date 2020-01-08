@@ -47,7 +47,7 @@ public class UserController {
             @ModelAttribute("password") String password,
             Model model
     ) {
-        //TODO: Der User Darf nicht "Nice" heisen
+        //TODO: Der User Darf nicht "Nice", "Username" oder "EMail" heissen
         //neuen User anlegen und ins Repository schreiben
         User user = new User();
         user.setEmail(email);
@@ -57,10 +57,14 @@ public class UserController {
         user.setCreationDate(new GregorianCalendar());
         user = userService.createUser(user);
 
-        //Falls der Username bereits existiert wird null returned
-        if(user == null) {
+        //Falls der Username bereits existiert
+        if(user.getUsername() == "Username") {
             System.out.println("Could not create User. Username " + username + " was already taken!");
-            model.addAttribute("invalidUsername", "Ungültiger Username! Der Username ist bereits vergeben.");
+            model.addAttribute("invalidInput", "Ungültiger Username! Der Username ist bereits vergeben.");
+            return "user/register";
+        } else if(user.getUsername() == "EMail") {
+            System.out.println("Could not create User. E-Mail " + email + " is already in use!");
+            model.addAttribute("invalidInput", "Diese E-Mail Adresse wird bereits verwendet!");
             return "user/register";
         } else {
             System.out.println("Created User: \n" + user);
