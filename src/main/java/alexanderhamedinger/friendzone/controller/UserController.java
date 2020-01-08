@@ -47,7 +47,11 @@ public class UserController {
             @ModelAttribute("password") String password,
             Model model
     ) {
-        //TODO: Der User Darf nicht "Nice", "Username" oder "EMail" heissen
+        //Der User Darf nicht "Nice", "Username" oder "EMail" heissen
+        if(username.equals("Nice") || username.equals("Username") || username.equals("EMail")) {
+            model.addAttribute("invalidInput", "Ungültiger Username! Der Username \"" + username +  "\" wird nicht vergeben!");
+            return "user/register";
+        }
         //neuen User anlegen und ins Repository schreiben
         User user = new User();
         user.setEmail(email);
@@ -60,11 +64,12 @@ public class UserController {
         //Falls der Username bereits existiert
         if(user.getUsername() == "Username") {
             System.out.println("Could not create User. Username " + username + " was already taken!");
-            model.addAttribute("invalidInput", "Ungültiger Username! Der Username ist bereits vergeben.");
+            model.addAttribute("invalidInput", "Ungültiger Username! Der Username \"" + username + " \" ist bereits vergeben.");
             return "user/register";
+        //Falls die EMail bereits existiert
         } else if(user.getUsername() == "EMail") {
             System.out.println("Could not create User. E-Mail " + email + " is already in use!");
-            model.addAttribute("invalidInput", "Diese E-Mail Adresse wird bereits verwendet!");
+            model.addAttribute("invalidInput", "Die E-Mail Adresse \"" + email + "\" wird bereits verwendet! Jede E-Mail darf nur einmal verwendet werden.");
             return "user/register";
         } else {
             System.out.println("Created User: \n" + user);

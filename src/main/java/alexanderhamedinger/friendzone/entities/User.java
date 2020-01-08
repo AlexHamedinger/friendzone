@@ -145,10 +145,6 @@ public class User extends BasicEntity implements UserDetails {
         }
         return answer;
     }
-    public String getFriendsSince() {
-        //TODO: keinen Dummy sondern echten Wert zurückgeben
-        return "Freund seit 01.04.2019";
-    }
 
     //UserDetails Override
     @Override
