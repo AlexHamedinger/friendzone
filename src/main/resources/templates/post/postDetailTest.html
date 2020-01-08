@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head th:replace="common/fragments :: friendzone_head" />
+<head>
+    <title>FriendZone</title>
+
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><!-- Bootstrap CSS --><link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"><!-- Bootstrap JS --><script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script><script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+<body>
+<div th:replace="common/fragments :: friendzone_navbar" />
+<div th:fragment="friendzone_navbar"><nav class="sticky-top navbar-toggler navbar-expand-sm navbar-light" style="background-color: #e3f2fd;"><div class="container navbar-collapse" id="collapsibleNavbar"><ul class="nav navbar-nav mr-auto align-items-center"><li class="nav-item p-2"><a class="nav-link" href="#">Meine Pinnwand</a></li><li class="nav-item p-2"><a class="nav-link" href="#">Freunde</a></li><li class="nav-item p-2"><a class="nav-link" href="#">Suchen...</a></li><li class="nav-item p-2"><a class="nav-link" href="#">Mein Profil</a></li><li class="nav-item p-2"><a class="nav-link" href="#">Neueste Posts</a></li></ul><form th:action="@{/logout}" method="post" style="text-align:right"><input type="submit" value="Sign Out" class="btn btn-light btn-outline-dark my-sm-0"/></form></div></nav></div>
+
+
+<div class="container" th:object="${user}">
+    <div class="row" name="post" th:object="${post}">
+        <h2 class="text-dark col-11" th:text="${post.getTitle()}" style="margin-top: 15px">Anna beim Burgerking</h2>
+        <a th:href="${post.getDeleteURL()}" id="deletePostButton" class="col" style="color: white; margin-top: 2px;" th:text="${post.isMyOwnPost(user)}"><i style="font-size:18px;"class="fa fa-trash-o"></i> löschen </a>
+        <img src="/static/img/no_post_found.png" name="image" class="img-fluid rounded float-center" style="width: 100%">
+        <div class="col ">
+            <p th:text="${post.getCreationDateDifference()}" th:name="datum" style="margin-top: 2px;">vor 26 Minuten</p>
+        </div>
+        <div class="col-6">
+        </div>
+        <div class="col">
+            <a th:id="${post.getId()}" th:text="${post.likeOrUnlike(user.getLikeByPost(post))}" class="likeButton btn btn-light btn-outline-dark float-right" style="width: 126px;background-color: #e3f2fd; margin-top: 2px;">Nicenstein <i style="font-size:18px;"class="fa fa-diamond"></i></a>
+            <h4 class="float-right" th:text="${post.getNumberOfLikes()}" style="margin-top: 6px; margin-right: 10px" >7</h4>
+            <!--      <p th:text="${post.likeOrUnlike(user.getLikeByPost(post))}"></p>  -->
+        </div>
+    </div>
+</div>
+    
+<div class="container" th:object="${comments}">
+    <form class="row">
+        <div class="col-10">
+            <input type="text" name="commentInput" placeholder="Schreibe einen Kommentar" class="border-dark rounded m-2" style="width: 100%; padding-left: 15px; height: 40px"/>     
+            <input type="text" name="id" th:value="${post.getId()}" style="visibility: hidden; width: 0px; height: 0px" />
+        </div>
+        <div class="col">
+            <button type="submit" class="btn btn-block btn-light btn-outline-dark float-right m-2" style="background-color: #e3f2fd;"><i style="font-size:22px; margin-top: 1px"class="fa fa-comment-o"></i></button>
+        </div>
+    </form>
+    <div class="row border rounded m-2" th:each="comment, stat : ${comments}">
+        <div style="width: 80px;">
+            <a th:href="${comment.getUserURL()}"><img src="../../static/img/profile_img.gif" th:src="${comment.getImageURL()}" onerror="this.src='/img/profile_img.gif'" alt="Kein Profilbild vorhanden." class="m-1" style="height: 85px; width: 85px; border-radius: 50%; object-fit: cover;"></a>
+        </div>
+        <div class="col-10">
+            <a th:href="${comment.getUserURL()}" class="btn-dark"><h5 th:inline="text" style="margin-top: 5px" class="text-dark" th:text="${comment.getUsername()}">FattyBoomBoom</h5></a>
+            <p th:inline="text" th:text="${comment.getText()}" style="margin-left: 10px">Das ist mein Kommentar ich schreibe eine kleine Nachricht</p>
+        </div>
+        <div class="col text-center">
+            <p th:inline="text" th:text="${comment.getCreationDateDifference()}" style="font-size: 11px">vor 7 Minuten</p>
+            <a th:href="#" class="btn btn-outline-dark" style="background-color: #e3f2fd;"><i style="font-size:18px;"class="fa fa-trash-o"></i></a>
+        </div>
+    </div>      
+</div>    
+
+</body>
+</html>

@@ -48,10 +48,14 @@ public class UserController {
             Model model
     ) {
         //Der User Darf nicht "Nice", "Username" oder "EMail" heissen
-        if(username.equals("Nice") || username.equals("Username") || username.equals("EMail")) {
-            model.addAttribute("invalidInput", "Ungültiger Username! Der Username \"" + username +  "\" wird nicht vergeben!");
-            return "user/register";
+        String[] prohibitedUsernames = {"Nice", "Username", "EMail"};
+        for(int i = 0; i < prohibitedUsernames.length; i++ ) {
+            if(username.equals(prohibitedUsernames[i])) {
+                model.addAttribute("invalidInput", "Ungültiger Username! Der Username \"" + username +  "\" wird nicht vergeben!");
+                return "user/register";
+            }
         }
+
         //neuen User anlegen und ins Repository schreiben
         User user = new User();
         user.setEmail(email);

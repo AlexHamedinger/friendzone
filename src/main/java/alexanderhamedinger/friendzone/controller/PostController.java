@@ -5,6 +5,7 @@ import alexanderhamedinger.friendzone.entities.Post;
 import alexanderhamedinger.friendzone.entities.User;
 import alexanderhamedinger.friendzone.service.PostServiceIF;
 import alexanderhamedinger.friendzone.service.UserServiceIF;
+import org.hibernate.validator.constraints.pl.REGON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -37,12 +38,15 @@ public class PostController {
     //Post-Detail Seite wird angezeigt
     @RequestMapping("/postDetail")
     public String postdetail(
-            @RequestParam(required = false, name = "id", defaultValue = "") String id,
+            @RequestParam(name = "id") String id,
+            @RequestParam(required = false, name = "commentText", defaultValue = "") String commentText,
             Principal prince,
             Model model
     ) {
         //der Post zur angegebenen Id wird geladen
         Post post = postService.getPosts(Long.parseLong(id));
+        //TODO: Kommentar erstellen und Kommentare zu jeweiligem Post übergeben
+
 
         //abschließende Model-Vorbereitungen
         {
