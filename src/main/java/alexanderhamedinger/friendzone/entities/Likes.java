@@ -33,6 +33,6 @@ public class Likes extends BasicEntity {
     }
     @Override
     public String toString() {
-        return liker + " likes " + post;
+        return liker + " likes " + post + " (Likes-ID: " + getId() + ")";
     }
 }

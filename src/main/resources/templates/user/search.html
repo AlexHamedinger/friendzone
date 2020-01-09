@@ -29,11 +29,11 @@
     </div>
     <div class="row container border rounded m-2" th:each="result, stat : ${results}">
         <div class="col ">
-            <a th:href="${result.getUserURL()}"><img th:src="${result.getImageURL()}" onerror="this.src='/img/profile_img.gif'" alt="Kein Profilbild vorhanden." class="m-2" style="height: 115px; width: 115px; border-radius: 50%; object-fit: cover;"></a>
+            <a th:href="${result.getUserURL(user)}"><img th:src="${result.getImageURL()}" onerror="this.src='/img/profile_img.gif'" alt="Kein Profilbild vorhanden." class="m-2" style="height: 115px; width: 115px; border-radius: 50%; object-fit: cover;"></a>
         </div>
         <div class="col-7">
             <p style="margin-top: 25px; margin-bottom: 0px" th:text="${'Mitglied seit ' + result.getCreationDateAsStringShort()}"></p>
-            <a th:href="${result.getUserURL()}" class="btn-light"><h1 th:inline="text" class="text-dark" th:text="${result.getUsername()}"></h1></a>
+            <a th:href="${result.getUserURL(user)}" class="btn-light"><h1 th:inline="text" class="text-dark" th:text="${result.getUsername()}"></h1></a>
         </div>
         <div class="col-3">                                   
             <a th:id="${result.getId()}" class="friendsButton btn btn-lg btn-light btn-outline-dark" style="background-color: #e3f2fd; margin-top: 40px; width: 220px" th:text="${user.friendOrNotFriend(result)}"></a>

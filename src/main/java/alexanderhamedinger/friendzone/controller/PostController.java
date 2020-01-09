@@ -1,5 +1,6 @@
 package alexanderhamedinger.friendzone.controller;
 
+import alexanderhamedinger.friendzone.entities.Comment;
 import alexanderhamedinger.friendzone.entities.Likes;
 import alexanderhamedinger.friendzone.entities.Post;
 import alexanderhamedinger.friendzone.entities.User;
@@ -14,10 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 public class PostController {
@@ -45,13 +43,25 @@ public class PostController {
     ) {
         //der Post zur angegebenen Id wird geladen
         Post post = postService.getPosts(Long.parseLong(id));
-        //TODO: Kommentar erstellen und Kommentare zu jeweiligem Post übergeben
+        User user = userService.getUser(prince.getName());
+        //neuen Kommentar erstellen
+        if(!commentText.equals("")) {
+            Comment comment = new Comment();
+            comment.setCommenter(user.getId());
+            comment.setUser(user);
+            comment.setCommentedPost(post.getId());
+            comment.setText(commentText);
+            comment.setCreationDate(new GregorianCalendar());
+            comment = postService.createComment(comment);
+            System.out.println(comment);
+        }
 
-
+        List<Comment> comments = postService.getComments(post.getId());
         //abschließende Model-Vorbereitungen
         {
-            model.addAttribute("user", userService.getUser(prince.getName()));
+            model.addAttribute("user", user);
             model.addAttribute("post", post);
+            model.addAttribute("comments", comments);
             return "post/postDetail";
         }
     }

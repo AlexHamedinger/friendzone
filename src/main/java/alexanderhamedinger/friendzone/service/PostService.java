@@ -1,8 +1,10 @@
 package alexanderhamedinger.friendzone.service;
 
+import alexanderhamedinger.friendzone.entities.Comment;
 import alexanderhamedinger.friendzone.entities.Likes;
 import alexanderhamedinger.friendzone.entities.Post;
 import alexanderhamedinger.friendzone.entities.User;
+import alexanderhamedinger.friendzone.repository.CommentRepository;
 import alexanderhamedinger.friendzone.repository.LikeRepository;
 import alexanderhamedinger.friendzone.repository.PostRepository;
 import alexanderhamedinger.friendzone.repository.UserRepository;
@@ -21,9 +23,12 @@ public class PostService implements PostServiceIF{
     private UserRepository userRepository;
     @Autowired
     private LikeRepository likeRepository;
+    @Autowired
+    private CommentRepository commentRepository;
 
 
     @Override
+    @Transactional
     public Post createPost(Post post) {
         Post neu = postRepository.save(post);
         return neu;
@@ -106,12 +111,14 @@ public class PostService implements PostServiceIF{
         return neu;
     }
     @Override
+    @Transactional
     public void deletePost(long id) {
         postRepository.deleteById(id);
     }
 
 
     @Override
+    @Transactional
     public Likes createLike(Likes like) {
         Likes neu;
         if(likeRepository.findByLikerAndPost(like.getLiker(), like.getPost()) == null) {
@@ -123,6 +130,12 @@ public class PostService implements PostServiceIF{
         return neu;
     }
     @Override
+    public Likes getLike(Likes like) {
+        like = likeRepository.findByLikerAndPost(like.getLiker(), like.getPost());
+        return like;
+    }
+    @Override
+    @Transactional
     public void deleteLike(Likes like) {
         long id;
         if(like.hasId()) {
@@ -133,12 +146,27 @@ public class PostService implements PostServiceIF{
         }
         likeRepository.deleteById(id);
     }
+
+
     @Override
-    public Likes getLike(Likes like) {
-        like = likeRepository.findByLikerAndPost(like.getLiker(), like.getPost());
-        return like;
+    @Transactional
+    public Comment createComment(Comment comment) {
+        Comment neu = commentRepository.save(comment);
+        return comment;
     }
-
-
+    @Override
+    public List<Comment> getComments(long postID) {
+        List<Comment> comments = commentRepository.findByCommentedPostOrderByIdDesc(postID);
+        if(comments.isEmpty()) {
+            comments = null;
+        }
+        return comments;
+    }
+    @Override
+    @Transactional
+    public void deletePostComments(long postID) {
+        Iterable<Comment> comments = commentRepository.findByCommentedPost(postID);
+        commentRepository.deleteAll(comments);
+    }
 
 }

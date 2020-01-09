@@ -1,5 +1,6 @@
 package alexanderhamedinger.friendzone.controller;
 
+import alexanderhamedinger.friendzone.entities.Comment;
 import alexanderhamedinger.friendzone.entities.Likes;
 import alexanderhamedinger.friendzone.entities.Post;
 import alexanderhamedinger.friendzone.entities.User;
@@ -85,14 +86,14 @@ public class HomeController {
 
         }
 
-        //home?action=deletePost123
+        //home?action=deletePost
         //Ein Post wird gelöscht
         if(action.contains("deletePost")) {
             String postid = action.split("deletePost")[1];
             long id = Long.parseLong(postid);
 
 
-            //Beim Post löschen zugehörige Likes löschen
+            //Beim Post löschen zugehörige Likes löschen (auch bei den jeweiligen Usern)
             Post post = postService.getPosts(id);
             Collection<Likes> likes = post.getLikes();
             Likes like;
@@ -108,6 +109,8 @@ public class HomeController {
                 postService.deleteLike(like);
                 i = likes.iterator();
             }
+            //Beim Post löschen zugehörige Comments löschen
+            postService.deletePostComments(Long.parseLong(postid));
 
             //der Post wird gelöscht
             postService.deletePost(id);

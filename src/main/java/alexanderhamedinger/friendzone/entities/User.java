@@ -132,6 +132,16 @@ public class User extends BasicEntity implements UserDetails {
     }
 
     //Methoden
+    public String getUserURL(User user) {
+        //es wird überprüft ob man selbst angemeldet ist, dann darf die User-Detail Seite nicht aufgerufen werden
+        String response;
+        if(user.getId() == this.getId()) {
+            response = "/home";
+        } else {
+            response = "/user?id=" + this.getId();
+        }
+        return response;
+    }
     public String getUserURL() {
         return "/user?id=" + this.getId();
     }
@@ -145,6 +155,7 @@ public class User extends BasicEntity implements UserDetails {
         }
         return answer;
     }
+
 
     //UserDetails Override
     @Override

@@ -39,15 +39,15 @@
     </form>
     <div class="row border rounded m-2" th:each="comment, stat : ${comments}">
         <div style="width: 80px;">
-            <a th:href="${comment.getUserURL()}"><img src="../../static/img/profile_img.gif" th:src="${comment.getImageURL()}" onerror="this.src='/img/profile_img.gif'" alt="Kein Profilbild vorhanden." class="m-1" style="height: 85px; width: 85px; border-radius: 50%; object-fit: cover;"></a>
+            <a th:href="${comment.getUser().getUserURL(user)}"><img th:src="${comment.getUser().getImageURL()}" onerror="this.src='/img/profile_img.gif'" alt="Kein Profilbild vorhanden." class="m-1" style="height: 85px; width: 85px; border-radius: 50%; object-fit: cover;"></a>
         </div>
         <div class="col-10">
-            <a th:href="${comment.getUserURL()}" class="btn-dark"><h5 th:inline="text" style="margin-top: 5px" class="text-dark" th:text="${comment.getUsername()}">FattyBoomBoom</h5></a>
-            <p th:inline="text" th:text="${comment.getText()}" style="margin-left: 10px">Das ist mein Kommentar ich schreibe eine kleine Nachricht</p>
+            <a th:href="${comment.getUser().getUserURL(user)}" class="btn-dark"><h5 th:inline="text" style="margin-top: 5px" class="text-dark" th:text="${comment.getUser().getUsername()}"></h5></a>
+            <p th:inline="text" th:text="${comment.getText()}" style="margin-left: 10px"></p>
         </div>
         <div class="col text-center">
-            <p th:inline="text" th:text="${comment.getCreationDateDifference()}" style="font-size: 11px">vor 7 Minuten</p>
-            <a th:href="#" class="btn btn-outline-dark" style="background-color: #e3f2fd;"><i style="font-size:18px;"class="fa fa-trash-o"></i></a>
+            <p th:inline="text" th:text="${comment.getCreationDateDifference()}" style="font-size: 11px"></p>
+            <a class="btn btn-outline-dark" style="background-color: #e3f2fd;"><i style="font-size:18px;"class="fa fa-trash-o"></i></a>
         </div>
     </div>      
 </div>     

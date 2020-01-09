@@ -8,6 +8,8 @@ import java.util.Objects;
 public class Comment extends BasicEntity {
 
     private long commenter;
+    @ManyToOne
+    private User user;
     private long commentedPost;
     private String text;
 
@@ -17,6 +19,12 @@ public class Comment extends BasicEntity {
     }
     public void setCommenter(long commenter) {
         this.commenter = commenter;
+    }
+    public User getUser() {
+        return user;
+    }
+    public void setUser(User user) {
+        this.user = user;
     }
     public long getCommentedPost() {
         return commentedPost;
@@ -31,4 +39,8 @@ public class Comment extends BasicEntity {
         this.text = text;
     }
 
+    @Override
+    public String toString() {
+        return commenter + " commmented \"" + text + "\" on " + commentedPost + " (Comment-ID: " + getId() + ")";
+    }
 }
