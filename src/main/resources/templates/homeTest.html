@@ -27,7 +27,7 @@
     
 <div class="container" style="margin-bottom: 25px;" th:object="${posts}">    
     <div class="row" th:each="post, stat : ${posts}">
-        <h2 class="text-dark" th:text="${post.getTitle()}" style="margin-top: 15px">Mein Auto</h2>
+        <h2 class="text-dark col text-center" th:text="${post.getTitle()}" style="margin-top: 15px; text-align: center">Mein Auto</h2>
         <img src="../../../../../../../../../../Desktop/img/IMG-20151109-WA0005.jpg" name="image" class="img-fluid rounded float-center" style="width: 100%">
         <div class="col ">
             <p th:text="${post.getCreationDateDifference()}" th:name="datum" style="margin-top: 2px;"></p>

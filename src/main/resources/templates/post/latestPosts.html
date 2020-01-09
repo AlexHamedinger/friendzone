@@ -37,16 +37,18 @@
     <p style="visibility: hidden"><span id="loadMessage" th:text="${loadMessage}"/></p>
 
     <div class="row" th:each="post, stat : ${posts}" style="margin-bottom: 30px">
-        <div class="col-4">
-            <h2 class="text-dark" th:text="${post.getTitle()}" style="margin-top: 20px;"></h2>
+        <div class="col-6">
+            <h2 class="text-dark text-center" th:text="${post.getTitle()}" style="margin-top: 20px;"></h2>
         </div>
         <div class="col-2">
             <a th:href="${post.getUser().getUserURL()}"><img th:src="${post.getUserImageURL()}" onerror="this.src='/img/profile_img.gif'" alt="Kein Profilbild vorhanden." style="height: 60px; width: 60px; border-radius: 50%; margin-top: 10px; object-fit: cover; float: right; margin-bottom: 2px;"></a>
         </div>
-        <div class="col-5">
+        <div class="col-3">
             <a th:href="${post.getUser().getUserURL()}"><h2 class="text-dark" th:text="${post.getUser().getUsername()}" style="margin-top: 20px;margin-bottom: 2px;"></h2></a>
         </div>
-        <img th:src="${post.getImageURL()}" name="image" onerror="this.src='/img/no_post_found.png'" alt="Zu diesem Post wurde kein Bild hochgeladen." class="img-fluid rounded float-center" style="width: 100%">
+        <div class="border text-center" style="height: 550px; width: 100%">
+            <img th:src="${post.getImageURL()}" name="image" onerror="this.src='/img/no_post_found.png'" alt="Zu diesem Post wurde kein Bild hochgeladen." class="img-fluid border border-dark rounded float-center" style="height: 100%">
+        </div>
         <div class="col ">
             <p th:text="${post.getCreationDateDifference()}" name="datum" style="margin-top: 2px;"></p>
         </div>
