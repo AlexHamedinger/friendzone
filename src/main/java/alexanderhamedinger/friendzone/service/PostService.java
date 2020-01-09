@@ -64,11 +64,10 @@ public class PostService implements PostServiceIF{
             for(Iterator<Post> postIterator = postIterable.iterator(); postIterator.hasNext(); ) {
                 post = postIterator.next();
                 if(post.getUser().getId() != userid) {  //eigene Posts werden nicht angezeigt
-                    posts.add(post);
+                    postsCache.add(post);
                 }
             }
-        }
-        else { // show friends - die Posts müssen von Freunden sein
+        } else { // show friends - die Posts müssen von Freunden sein
             for(Iterator<Post> postIterator = postIterable.iterator(); postIterator.hasNext(); ) {
                 post = postIterator.next();
                 if(post.getUser().getId() != userid) {  //eigene Posts werden nicht angezeigt
@@ -84,11 +83,10 @@ public class PostService implements PostServiceIF{
 
         //falls nach Nicensteinen sortiert werden soll (nach Datum sortiert ist automatisch)
         if(order.equals("nice")) {
-            //alle Posts außer die eigenen werden in eine Post-Collection geschrieben
-            Collections.sort(posts, new Comparator<Post>() {
+            Collections.sort(postsCache, new Comparator<Post>() {
                 @Override
-                public int compare(Post o1, Post o2) {
-                    if(o1.getLikes().size() > o2.getLikes().size()) {
+                public int compare(Post p1, Post p2) {
+                    if(p1.getLikes().size() > p2.getLikes().size()) {
                         return -1;
                     }
                     return 1;
