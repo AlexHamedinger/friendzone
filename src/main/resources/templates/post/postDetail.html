@@ -14,7 +14,7 @@
     <div class="row" name="post" th:object="${post}">
         <h2 class="text-dark text-center col-11" th:text="${post.getTitle()}" style="margin-top: 15px"></h2>
         <a th:href="${post.getDeleteURL()}" id="deletePostButton" class="col" style="color: white; margin-top: 2px;" th:text="${post.isMyOwnPost(user)}"><i style="font-size:18px;"class="fa fa-trash-o"></i> löschen </a>
-        <div class="border text-center" style="height: 550px; width: 100%">
+        <div class="border text-center" style="height: 540px; width: 100%">
             <img th:src="${post.getImageURL()}" name="image" onerror="this.src='/img/no_post_found.png'" alt="Zu diesem Post wurde kein Bild hochgeladen." class="img-fluid border border-dark rounded float-center" style="height: 100%">
         </div>
         <div class="col ">
@@ -49,7 +49,7 @@
         </div>
         <div class="col text-center">
             <p th:inline="text" th:text="${comment.getCreationDateDifference()}" style="font-size: 11px"></p>
-            <a class="btn btn-outline-dark" style="background-color: #e3f2fd;"><i style="font-size:18px;"class="fa fa-trash-o"></i></a>
+            <a th:id="${comment.getId()}" class="deleteComment btn btn-outline-dark" style="background-color: #e3f2fd;"><i style="font-size:18px;"class="fa fa-trash-o"></i></a>
         </div>
     </div>      
 </div>     

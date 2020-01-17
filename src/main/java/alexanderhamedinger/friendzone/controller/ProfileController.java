@@ -26,7 +26,7 @@ public class ProfileController {
             Model model
     ) {
         //User "Initialisierung"
-        User user = userService.getUser(prince.getName());
+        User user = userService.getUser("username", prince.getName());
 
         //profile?edited=image
         //Falls der User ein neues Profilfoto hochgeladen hat

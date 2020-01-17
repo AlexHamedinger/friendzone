@@ -13,7 +13,7 @@ public interface UserServiceIF {
     //Create
     public User createUser(User user);
     //Read
-    public User getUser(String username);
+    public User getUser(String identificationCode, String identificationString);
     public User getUser(long id);
     public List<User> getUsers();
     public List<User> getUsersLike(String username);

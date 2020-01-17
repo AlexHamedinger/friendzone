@@ -49,8 +49,14 @@ public class UserService implements UserServiceIF, UserDetailsService {
         return neu;
     }
     @Override
-    public User getUser(String username) {
-        User user = userRepository.findByUsername(username);
+    public User getUser(String identificationCode, String identificationString) {
+        //sowohl E-Mail als auch Username sind unique
+        User user = new User();
+        if(identificationCode == "username") {
+            user = userRepository.findByUsername(identificationString);
+        } else if(identificationCode == "email") {
+            user = userRepository.findByEmail(identificationString);
+        }
         return user;
     }
     @Override

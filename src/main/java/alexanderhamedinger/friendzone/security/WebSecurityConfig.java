@@ -28,7 +28,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     private static final String[] ALLOW_ACCESS_WITHOUT_AUTHENTICATION = {
-      "/login", "/register", "/login/register"
+      "/login", "/register", "/login/register", "/postextern/{email}/{title}",
     };
 
     @Override

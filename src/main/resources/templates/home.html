@@ -20,7 +20,7 @@
 <div class="container" style="margin-bottom: 25px;" th:object="${posts}">    
     <div class="row" th:each="post, stat : ${posts}">
         <h2 class="text-dark col" th:text="${post.getTitle()}" style="margin-top: 15px; text-align: center"></h2>
-        <div class="border text-center" style="height: 550px; width: 100%">
+        <div class="border text-center" style="height: 540px; width: 100%">
             <img th:src="${post.getImageURL()}" name="image" onerror="this.src='/img/no_post_found.png'" alt="Zu diesem Post wurde kein Bild hochgeladen." class="img-fluid rounded float-center" style="height: 100%">
         </div>
         <div class="col ">

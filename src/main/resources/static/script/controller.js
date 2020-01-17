@@ -7,6 +7,7 @@ var notFriends = '<i style="font-size:18px;" class="fa fa-plus"></i> Freund hinz
 
 function friendZoneController() {
     //der EventListener lauscht nacht Klicks
+    $(".deleteComment").click(deleteComment);
     $(".likeButton").click(like);
     $(".friendsButton").click(befriend);
     $("#vorschauButton").click(preview);
@@ -104,6 +105,26 @@ function loadLikeButtons() {
 //#################
     //KLICK-LISTENER
 //#################
+//falls ein Kommentar gelöscht werden soll
+function deleteComment() {
+
+    var id = this.id;
+    var baseURL = window.location.origin;
+
+    $.get(
+        baseURL + "/deleteComment/" + id,
+        {},
+        function(data) {
+        }
+    );
+
+    console.log($(this).parent());
+
+    $(this).parent().fadeOut("normal", function() {
+        $(this).parent().remove();
+    });
+}
+
 
 //falls auf Like gedrückt wird
 function like() {

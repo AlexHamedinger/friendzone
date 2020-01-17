@@ -13,6 +13,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+
+import javax.xml.bind.PrintConversionEvent;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.*;
@@ -43,7 +47,7 @@ public class PostController {
     ) {
         //der Post zur angegebenen Id wird geladen
         Post post = postService.getPosts(Long.parseLong(id));
-        User user = userService.getUser(prince.getName());
+        User user = userService.getUser("username", prince.getName());
         //neuen Kommentar erstellen
         if(!commentText.equals("")) {
             Comment comment = new Comment();
@@ -90,7 +94,7 @@ public class PostController {
 
 
         int maxPosts = 10;
-        User user = userService.getUser(prince.getName());
+        User user = userService.getUser("username", prince.getName());
         List<Post> posts = new ArrayList<Post>();
 
         if(show.equals("all")) {
@@ -125,14 +129,13 @@ public class PostController {
                 .body(bytes);
     }
 
-
-    //Erstellt einen neuen Like zur angegebenen Post-Id
+    //Erstellt oder löscht einen neuen Like zur angegebenen Post-Id
     @RequestMapping(value = "/likes/{postid}", method = RequestMethod.GET)
     public ResponseEntity<Likes> likes(
             @PathVariable("postid") int postid,
             Principal prince
     ) {
-        User user = userService.getUser(prince.getName());
+        User user = userService.getUser("username", prince.getName());
         Post post = postService.getPosts(postid);
 
         //neuer Like wird erstellt
@@ -168,5 +171,55 @@ public class PostController {
                 .body(like);
     }
 
+    //Löscht einen Kommentar zur angegebenen Comment-Id
+    @RequestMapping(value = "/deleteComment/{commentID}", method = RequestMethod.GET)
+    public ResponseEntity<Comment> deleteComment(
+            @PathVariable("commentID") int commentID,
+            Principal prince
+    ) {
+        Comment comment = postService.getComment(commentID);
+        postService.deleteComment(commentID);
+        System.out.println("Comment " + comment.getId() + " deleted.");
+        //der Like wird zurückgegeben
+        return ResponseEntity
+                .ok()
+                .body(comment);
+    }
+
+
+    //Schnittstelle zu Parnershop - Hier kann ein externen Post erstellt werden
+    @RequestMapping(value = "/postextern/{email}/{title}", method = RequestMethod.GET)
+    public ResponseEntity<Post> postExt(
+            @PathVariable("title") String title,
+            @PathVariable("email") String email,
+            @RequestParam(required = false, name = "imagefile") MultipartFile file
+    ) {
+        User user = userService.getUser("email", email);
+        //Erstellen des neuen Posts
+        Post post = new Post();
+        post.setPoster(user.getId());
+        post.setUser(user);
+        post.setTitle(title);
+        post.setCreationDate(new GregorianCalendar());
+        //save post-image
+        try {
+            byte[] byteObjects = new byte[file.getBytes().length];
+            int i = 0;
+            for (byte b : file.getBytes()) {
+                byteObjects[i++] = b;
+            }
+            post.setPostImage(byteObjects);
+
+        } catch (Exception e) {
+            e.toString();
+        }
+
+        post = postService.createPost(post);
+        System.out.println(email +"\nExternen Post erstellt");
+
+        return ResponseEntity
+                .ok()
+                .body(post);
+    }
 
 }

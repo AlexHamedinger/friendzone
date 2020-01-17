@@ -35,8 +35,10 @@ public interface PostServiceIF {
     //Create
     public Comment createComment(Comment comment);
     //Read
+    public Comment getComment(long commentID);
     public List<Comment> getComments(long postID);
     //Delete
+    public void deleteComment(long commentID);
     public void deletePostComments(long postID);
 
 }

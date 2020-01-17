@@ -58,7 +58,7 @@ public class UserController {
 
         //neuen User anlegen und ins Repository schreiben
         User user = new User();
-        user.setEmail(email);
+        user.setEmail(email.toLowerCase());
         user.setUsername(username);
         user.setPassword(password);
         user.setLatestRegistration(new GregorianCalendar());
@@ -93,7 +93,7 @@ public class UserController {
         Collection<Post> posts = postService.getPosts(otherUser.getUsername());
 
         model.addAttribute("otherUser", otherUser);
-        model.addAttribute("user", userService.getUser(prince.getName()));
+        model.addAttribute("user", userService.getUser("username", prince.getName()));
         model.addAttribute("posts", posts);
         return "user/user";
     }
@@ -105,7 +105,7 @@ public class UserController {
         Principal prince,
         @RequestParam(required = false, name = "show", defaultValue = "friends") String show
     ) {
-        User user = userService.getUser(prince.getName());
+        User user = userService.getUser("username", prince.getName());
         List<User> friends = new ArrayList<User>();
 
         //je nach Auswahl-Option wird die friends-List anders befüllt
@@ -153,7 +153,7 @@ public class UserController {
         Principal prince,
         @ModelAttribute("searchQuery") String searchQuery
         ) {
-        User user = userService.getUser(prince.getName());
+        User user = userService.getUser("username", prince.getName());
         List<User> searchResult = new ArrayList<User>();
 
         //Die Suchfunktion soll nur ausgeführt werden wenn auch ein Suchstring eingegeben wurde, sonst werden alle User ausgegeben
@@ -194,7 +194,7 @@ public class UserController {
             Principal prince
     ) {
         String response = "";
-        User user = userService.getUser(prince.getName());
+        User user = userService.getUser("username", prince.getName());
         User otherUser = userService.getUser((long)otherid);
         Friend friend = new Friend();
 

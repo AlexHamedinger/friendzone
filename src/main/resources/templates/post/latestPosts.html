@@ -46,7 +46,7 @@
         <div class="col-3">
             <a th:href="${post.getUser().getUserURL()}"><h2 class="text-dark" th:text="${post.getUser().getUsername()}" style="margin-top: 20px;margin-bottom: 2px;"></h2></a>
         </div>
-        <div class="border text-center" style="height: 550px; width: 100%">
+        <div class="border text-center" style="height: 540px; width: 100%">
             <img th:src="${post.getImageURL()}" name="image" onerror="this.src='/img/no_post_found.png'" alt="Zu diesem Post wurde kein Bild hochgeladen." class="img-fluid border border-dark rounded float-center" style="height: 100%">
         </div>
         <div class="col ">

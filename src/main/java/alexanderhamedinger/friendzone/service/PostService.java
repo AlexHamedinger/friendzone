@@ -153,12 +153,22 @@ public class PostService implements PostServiceIF{
         return comment;
     }
     @Override
+    public Comment getComment(long commentID) {
+        Comment comment = commentRepository.findById(commentID).get();
+        return comment;
+    }
+    @Override
     public List<Comment> getComments(long postID) {
         List<Comment> comments = commentRepository.findByCommentedPostOrderByIdDesc(postID);
         if(comments.isEmpty()) {
             comments = null;
         }
         return comments;
+    }
+    @Override
+    @Transactional
+    public void deleteComment(long commentID) {
+        commentRepository.deleteById(commentID);
     }
     @Override
     @Transactional

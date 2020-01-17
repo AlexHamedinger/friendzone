@@ -26,7 +26,7 @@ public class HomeController {
     private UserServiceIF userService;
     @Autowired
     private PostServiceIF postService;
-
+    
 
     //Home-Pfad, wird nach dem einloggen ausgeführt
     @RequestMapping("/")
@@ -35,12 +35,12 @@ public class HomeController {
             Model model
     ) {
         if(principal != null) {
-            User user = userService.getUser(principal.getName());
+            User user = userService.getUser("username", principal.getName());
             user.setLatestRegistration(new GregorianCalendar());
             userService.save(user);
             System.out.println("User " + principal.getName() + " wurde eingeloggt. " + user);
             model.addAttribute("posts", postService.getPosts(principal.getName()));
-            model.addAttribute("user", userService.getUser(principal.getName()));
+            model.addAttribute("user", user);
         }
 
         return "home";
@@ -54,10 +54,10 @@ public class HomeController {
             Principal prince,
             @RequestParam(required = false, name = "action", defaultValue = "noaction") String action,
             @ModelAttribute("titel") String titel,
-            @RequestParam(required = false, name = "imagefile") MultipartFile file)
-    {
+            @RequestParam(required = false, name = "imagefile") MultipartFile file
+    ) {
         //User "Initialisierung"
-        User user = userService.getUser(prince.getName());
+        User user = userService.getUser("username", prince.getName());
 
         //home?action=newpost
         //Es wird ein neuer Post erstellt
@@ -74,6 +74,7 @@ public class HomeController {
                 int i = 0;
                 for(byte b : file.getBytes()){
                     byteObjects[i++] = b;
+                    System.out.println(b);
                 }
                 post.setPostImage(byteObjects);
 
