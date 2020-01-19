@@ -153,6 +153,7 @@ public class UserController {
         Principal prince,
         @ModelAttribute("searchQuery") String searchQuery
         ) {
+
         User user = userService.getUser("username", prince.getName());
         List<User> searchResult = new ArrayList<User>();
 
@@ -182,7 +183,7 @@ public class UserController {
             model.addAttribute("results", searchResult);
         }
         model.addAttribute("user", user);
-        return "/user/search";
+        return "user/search";
     }
 
 

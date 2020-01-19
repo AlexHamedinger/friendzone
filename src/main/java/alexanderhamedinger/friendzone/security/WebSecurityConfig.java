@@ -36,7 +36,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers(ALLOW_ACCESS_WITHOUT_AUTHENTICATION)
-                .permitAll().anyRequest().authenticated();
+                .permitAll().anyRequest().authenticated()
+                .and().csrf().disable();
         http
                 .formLogin()
                     .loginPage("/login").permitAll()

@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>alexanderhamedinger</groupId>
 	<artifactId>friendzone</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.1</version>
 	<name>friendzone</name>
 	<description>Social Media Plattform "FriendZone", Studienprojekt für das Fach Softwareentwicklung</description>
 
@@ -55,6 +55,11 @@
 				<groupId>org.thymeleaf.extras</groupId>
 				<artifactId>thymeleaf-extras-springsecurity5</artifactId>
 			</dependency>
+			<dependency>
+				<groupId>mysql</groupId>
+				<artifactId>mysql-connector-java</artifactId>
+				<version>5.1.48</version>
+			</dependency>
 	</dependencies>
 
 
@@ -63,6 +68,17 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>alexanderhamedinger.friendzone.FriendzoneApplication</mainClass>
+					<executable>true</executable>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

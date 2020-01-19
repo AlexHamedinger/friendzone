@@ -49,7 +49,7 @@
         </div>
         <div class="col text-center">
             <p th:inline="text" th:text="${comment.getCreationDateDifference()}" style="font-size: 11px"></p>
-            <a th:id="${comment.getId()}" class="deleteComment btn btn-outline-dark" style="background-color: #e3f2fd;"><i style="font-size:18px;"class="fa fa-trash-o"></i></a>
+            <a th:id="${comment.getId()}" th:if="${comment.getCommenter() == user.getId() || user.getId() == post.getPoster()}" class="deleteComment btn btn-outline-dark" style="background-color: #e3f2fd;"><i style="font-size:18px;"class="fa fa-trash-o"></i></a>
         </div>
     </div>      
 </div>     

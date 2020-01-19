@@ -87,12 +87,12 @@ public class Post extends BasicEntity {
 
     //wird benötigt damit die like-Buttons richtig dargestellt werden
     public String likeOrUnlike(Likes like) {
-        String likeOrUnlike = "like";
+        String likeOrUnlike = "Nicenstein";
         if(likes == null) {
             return likeOrUnlike;
         }
         if(likes.contains(like)) {
-            likeOrUnlike = "unlike";
+            likeOrUnlike = "Nicenstein ";
         }
         return likeOrUnlike;
     }

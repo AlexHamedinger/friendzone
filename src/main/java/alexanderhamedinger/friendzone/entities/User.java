@@ -25,7 +25,7 @@ public class User extends BasicEntity implements UserDetails {
     private byte[] profileImage;
     @Column(name = "latestregistration")
     private GregorianCalendar latestRegistration;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.REMOVE)
     private Collection<Likes> likes;
     @ManyToMany
     private Collection<User> friends;
@@ -149,9 +149,9 @@ public class User extends BasicEntity implements UserDetails {
         return "/userimages/" + this.getId();
     }
     public String friendOrNotFriend(User user) {
-        String answer = "notFriends";
+        String answer = "Freund hinzufügen";
         if(friends.contains(user)) {
-            answer = "friends";
+            answer = "Freund entfernen";
         }
         return answer;
     }

@@ -9,5 +9,5 @@ public interface PostRepository extends CrudRepository<Post, Long> {
     Collection<Post> findByPoster(long poster);  //automatisch OrderByIdDesc
     Collection<Post> findByPosterOrderByIdDesc(long poster);
     Collection<Post> findAllByOrderByIdDesc();
-
+    long findIdByPoster(long poster);
 }

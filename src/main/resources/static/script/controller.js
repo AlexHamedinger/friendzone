@@ -70,9 +70,9 @@ function loadFriendButton() {
     
     friendsButtons.each(function() {
 
-    if($(this).html() == "friends") {
+    if($(this).html() == "Freund entfernen") {
         $(this).html(friends);
-    } else if ($(this).html() == "notFriends") {
+    } else if ($(this).html() == "Freund hinzufügen") {
         $(this).html(notFriends);
     }
         
@@ -90,10 +90,10 @@ function loadLikeButtons() {
     
     likeButtons.each(function() {
 
-    if($(this).html() == 'unlike') {
+    if($(this).html() == 'Nicenstein ') {
         $(this).html(unlikeText);
     }
-    else if($(this).html() == 'like') {
+    else if($(this).html() == 'Nicenstein') {
         $(this).html(likeText);
     }
         

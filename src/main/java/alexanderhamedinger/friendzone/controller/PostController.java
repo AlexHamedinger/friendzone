@@ -187,39 +187,5 @@ public class PostController {
     }
 
 
-    //Schnittstelle zu Parnershop - Hier kann ein externen Post erstellt werden
-    @RequestMapping(value = "/postextern/{email}/{title}", method = RequestMethod.GET)
-    public ResponseEntity<Post> postExt(
-            @PathVariable("title") String title,
-            @PathVariable("email") String email,
-            @RequestParam(required = false, name = "imagefile") MultipartFile file
-    ) {
-        User user = userService.getUser("email", email);
-        //Erstellen des neuen Posts
-        Post post = new Post();
-        post.setPoster(user.getId());
-        post.setUser(user);
-        post.setTitle(title);
-        post.setCreationDate(new GregorianCalendar());
-        //save post-image
-        try {
-            byte[] byteObjects = new byte[file.getBytes().length];
-            int i = 0;
-            for (byte b : file.getBytes()) {
-                byteObjects[i++] = b;
-            }
-            post.setPostImage(byteObjects);
-
-        } catch (Exception e) {
-            e.toString();
-        }
-
-        post = postService.createPost(post);
-        System.out.println(email +"\nExternen Post erstellt");
-
-        return ResponseEntity
-                .ok()
-                .body(post);
-    }
 
 }
