@@ -148,7 +148,7 @@ public class UserController {
         return "user/friendsList";
     }
 
-    //verarbeitet Suchanfragen
+    //verarbeitet User-Suchanfragen
     @RequestMapping("/search")
     public String search(
         Model model,
@@ -188,6 +188,47 @@ public class UserController {
         return "user/search";
     }
 
+    //verarbeitet User-Suchanfragen wenn nach Usern in einem Partnershop gesucht wird
+    @RequestMapping("/searchPartnershop")
+    public String searchPartnershop(
+            Model model,
+            Principal prince,
+            @ModelAttribute("searchQuery") String searchQuery,
+            @RequestParam(name = "partnershop", defaultValue = "blank") String partnershop
+    ) {
+        System.out.println(partnershop);
+        User user = userService.getUser("username", prince.getName());
+        List<User> searchResult = new ArrayList<User>();
+
+        //Die Suchfunktion soll nur ausgeführt werden wenn auch ein Suchstring eingegeben wurde, sonst werden alle User ausgegeben
+        if(!searchQuery.equals("")) {
+            searchResult = userService.getUsersLike(searchQuery);
+        } else {
+            searchResult = userService.getUsers();
+        }
+
+        //Man soll nicht nach sich selbst suchen können
+        if(searchResult.contains(user)) {
+            searchResult.remove(user);
+        }
+
+        if(searchResult.isEmpty()) {
+            model.addAttribute("message", "Zu Ihrer Suchanfrage gab es leider keinen passenden User.");
+        }
+        if(!searchResult.isEmpty()) {
+            //die Liste wird alphabetisch sortiert
+            Collections.sort(searchResult, new Comparator<User>() {
+                @Override
+                public int compare(User u1, User u2) {
+                    return u1.getUsername().toLowerCase().compareTo(u2.getUsername().toLowerCase());
+                }
+            });
+            model.addAttribute("results", searchResult);
+        }
+        model.addAttribute("loadMessage", partnershop);
+        model.addAttribute("user", user);
+        return "user/searchPartnershop";
+    }
 
 
     //befreundet zwei User

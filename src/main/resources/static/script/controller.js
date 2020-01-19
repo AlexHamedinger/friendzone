@@ -13,6 +13,7 @@ function friendZoneController() {
     $("#vorschauButton").click(preview);
     //der EventListener lauscht nach Change
     $("#customFile").change(changeInputLable);
+    $("#partnershop").change(changeShopLink);
     //wird nach dem Seite laden ausgeführt
     $("body").ready(showCorrectRadioAndSelect);
     $("body").ready(showPostDeleteButton);
@@ -32,14 +33,18 @@ function showCorrectRadioAndSelect() {
     if(message == undefined) {
         return;
     }
-    var show = message.split("-")[0];
-    var order = message.split("-")[1];
-    
-    $("#" + show + "Label").addClass("border-dark");
-    $("#" + show).prop("checked", true);
-    $("#" + order).attr('selected',true);
+    var message1 = message.split("-")[0];
+    var message2 = message.split("-")[1];
+
+    //für die latestPosts Seite
+    $("#" + message1 + "Label").addClass("border-dark");
+    $("#" + message1).prop("checked", true);
+    $("#" + message2).attr('selected',true);
     $("#empty").remove();
-    
+
+    //für die Partnershop-Suche
+    $("#" + message1).attr('selected', true);
+
 }
 
 //zusätzlich falls es sich um die Post-Detail Seite handelt muss der "Post löschen" Button richtig angezeigt werden
@@ -206,6 +211,22 @@ function changeInputLable() {
     fileText = fileText.substr(1, fileText.length - 1);
     
     lable.html(fileText);
+}
+
+//ändert den ShopLink bei der Partnershop-Suche
+function changeShopLink() {
+    var partnershop = $("#partnershop").val();
+    $("#shoplink").attr('href', getPartnershop(partnershop));
+
+    function getPartnershop(shop) {
+        var blank = "#";
+        var bikerator = "http://im-codd:8862";
+        var comicshop = "http://im-codd:8854";
+
+        if(shop == "blank") return blank;
+        if(shop == "bikerator") return bikerator;
+        if(shop == "comicshop") return comicshop;
+    }
 }
 
 

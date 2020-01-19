@@ -9,18 +9,35 @@
 </head>
 <body onload="friendZoneController()">
 <div th:replace="common/fragments :: friendzone_navbar" />
-    
+
+<p style="visibility: hidden"><span id="loadMessage" th:text="${loadMessage}"/></p>
+
 <div class="container" style="margin-bottom: 25px;" th:object="${results}">    
     <div class="text-center" th:object="${user}">
-        <form class="row m-4" th:action="@{/search}" method="post">  
-            <div class="col-1">
+        <form class="m-4" th:action="@{/searchPartnershop}" method="post">  
+            <div class="row m-1">
+                <div class="col-1">
+                </div>
+                <div class="col-8">
+                    <select id="partnershop" name="partnershop" class="btn btn-lg btn-block btn-light border-dark" style="background-color: #e3f2fd;">
+                        <option id="blank" value="blank"></option>
+                        <option id="bikerator" name="bikerator" value="bikerator">Bikerator</option>
+                        <option id="comicshop" value="comicshop">ComicShop</option>
+                    </select>
+                </div>
+                <div class="col-2">
+                    <a id="shoplink" href="#" class="btn btn-lg btn-block btn-light btn-outline-dark" style="background-color: #e3f2fd;">zum Shop <i style="font-size:18px;"class="fa fa-shopping-cart"></i></a>
+                </div>
             </div>
-            <div class="col-8">
-                <h2><input type="text" name="searchQuery" placeholder="Username eingeben" class="border-dark rounded" style="width: 100%; padding-left: 15px"/></h2>
-                <h5>Nach anderen Usern in einem Partnershop suchen? Dann klick <a href="/searchPartnershop">hier</a>!</h5>  
-            </div>
-            <div class="col-2">
-                <button type="submit" class="btn btn-lg btn-light btn-outline-dark" style="background-color: #e3f2fd;">suchen <i style="font-size:18px;"class="fa fa-search"></i></button>
+            <div class="row m-1">
+                <div class="col-1">
+                </div>
+                <div class="col-8">
+                    <h2><input type="text" name="searchQuery" placeholder="Username eingeben" class="border-dark rounded" style="width: 100%; margin-top: 2px; padding-left: 15px"/></h2>
+                </div>
+                <div class="col-2">
+                    <button type="submit" class="btn btn-lg btn-light btn-block btn-outline-dark" style="background-color: #e3f2fd;">suchen <i style="font-size:18px;"class="fa fa-search"></i></button>
+                </div>
             </div>
         </form>
     </div>    

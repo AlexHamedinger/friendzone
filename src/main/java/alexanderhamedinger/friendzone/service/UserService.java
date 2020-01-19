@@ -1,10 +1,8 @@
 package alexanderhamedinger.friendzone.service;
 
 import alexanderhamedinger.friendzone.entities.Friend;
-import alexanderhamedinger.friendzone.entities.Likes;
 import alexanderhamedinger.friendzone.entities.User;
 import alexanderhamedinger.friendzone.repository.FriendRepository;
-import alexanderhamedinger.friendzone.repository.LikeRepository;
 import alexanderhamedinger.friendzone.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -14,11 +12,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.OneToMany;
 import javax.transaction.Transactional;
-import java.awt.print.Pageable;
 import java.util.*;
-import java.util.concurrent.ArrayBlockingQueue;
 
 @Service
 @Qualifier("labresources")
@@ -73,12 +68,14 @@ public class UserService implements UserServiceIF, UserDetailsService {
         Iterable<User> userIterable = userRepository.findAll();
         Iterator<User> userIterator = userIterable.iterator();
         List<User> userCollection = new ArrayList<User>();
-        
+
         while(userIterator.hasNext()) {
             userCollection.add(userIterator.next());
         }
 
         return userCollection;
+
+
     }
     @Override
     public List<User> getUsersLike(String username) {
