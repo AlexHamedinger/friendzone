@@ -7,6 +7,7 @@ import alexanderhamedinger.friendzone.entities.User;
 import alexanderhamedinger.friendzone.service.PostServiceIF;
 import alexanderhamedinger.friendzone.service.UserServiceIF;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -21,6 +22,7 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 
 @Controller
+@Scope("request")
 public class HomeController {
 
     @Autowired

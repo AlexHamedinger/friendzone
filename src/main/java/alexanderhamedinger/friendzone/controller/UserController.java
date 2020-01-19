@@ -8,6 +8,7 @@ import alexanderhamedinger.friendzone.service.PostService;
 import alexanderhamedinger.friendzone.service.PostServiceIF;
 import alexanderhamedinger.friendzone.service.UserServiceIF;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,7 @@ import java.security.Principal;
 import java.util.*;
 
 @Controller
+@Scope("request")
 public class UserController {
 
     @Autowired

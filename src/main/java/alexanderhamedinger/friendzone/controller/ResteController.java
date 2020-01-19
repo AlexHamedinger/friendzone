@@ -5,6 +5,7 @@ import alexanderhamedinger.friendzone.entities.User;
 import alexanderhamedinger.friendzone.service.PostServiceIF;
 import alexanderhamedinger.friendzone.service.UserServiceIF;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.GregorianCalendar;
 
 @RestController
+@Scope("request")
 public class ResteController {
 
     @Autowired

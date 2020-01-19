@@ -17,10 +17,6 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    @Qualifier("labresources")
-    private UserDetailsService userSecurityService;
-
-    @Autowired
     private WebSecurityUtilities securityUtilities;
 
     private BCryptPasswordEncoder passwordEncoder() {

@@ -29,8 +29,6 @@ public class UserService implements UserServiceIF, UserDetailsService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private LikeRepository likeRepository;
-    @Autowired
     private FriendRepository friendRepository;
 
 

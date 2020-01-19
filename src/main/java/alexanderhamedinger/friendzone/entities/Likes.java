@@ -4,6 +4,7 @@ import javax.persistence.*;
 
 //Die Tabelle muss "Likes" statt "Like" heissen da es sonst zu Problemen beim Erstellen der Tabelle kommt "CREATE TABLE LIKE..."
 @Entity
+@Embeddable
 public class Likes extends BasicEntity {
 
     private long liker;

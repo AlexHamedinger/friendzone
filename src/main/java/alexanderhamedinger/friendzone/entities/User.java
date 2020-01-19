@@ -12,6 +12,7 @@ import java.util.Iterator;
 
 @Entity
 @AttributeOverride(name = "creationDate", column = @Column(name = "initialregistration"))
+@Embeddable
 public class User extends BasicEntity implements UserDetails {
 
     @Column(unique = true)
@@ -131,7 +132,7 @@ public class User extends BasicEntity implements UserDetails {
         return size;
     }
 
-    //Methoden
+    //Methoden für die templates
     public String getUserURL(User user) {
         //es wird überprüft ob man selbst angemeldet ist, dann darf die User-Detail Seite nicht aufgerufen werden
         String response;
