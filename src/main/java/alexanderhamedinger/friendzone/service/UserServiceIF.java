@@ -15,8 +15,8 @@ public interface UserServiceIF {
     //Read
     public User getUser(String identificationCode, String identificationString);
     public User getUser(long id);
-    public List<User> getUsers();
-    public List<User> getUsersLike(String username);
+    public List<User> getUsers(String partnershop);
+    public List<User> getUsersLike(String username, String partnershop);
     public Collection<User> getMutualFriends(long id);
     //Update
     public User save(User user);

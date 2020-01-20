@@ -161,9 +161,9 @@ public class UserController {
 
         //Die Suchfunktion soll nur ausgeführt werden wenn auch ein Suchstring eingegeben wurde, sonst werden alle User ausgegeben
         if(!searchQuery.equals("")) {
-            searchResult = userService.getUsersLike(searchQuery);
+            searchResult = userService.getUsersLike(searchQuery, null);
         } else {
-            searchResult = userService.getUsers();
+            searchResult = userService.getUsers(null);
         }
 
         //Man soll nicht nach sich selbst suchen können
@@ -200,30 +200,34 @@ public class UserController {
         User user = userService.getUser("username", prince.getName());
         List<User> searchResult = new ArrayList<User>();
 
-        //Die Suchfunktion soll nur ausgeführt werden wenn auch ein Suchstring eingegeben wurde, sonst werden alle User ausgegeben
-        if(!searchQuery.equals("")) {
-            searchResult = userService.getUsersLike(searchQuery);
+        if(!partnershop.equals("blank")) {
+            //Die Suchfunktion soll nur ausgeführt werden wenn auch ein Suchstring eingegeben wurde, sonst werden alle User ausgegeben
+            if (!searchQuery.equals("")) {
+                searchResult = userService.getUsersLike(searchQuery, partnershop);
+            } else {
+                searchResult = userService.getUsers(partnershop);
+            }
+
+            //Man soll nicht nach sich selbst suchen können
+            if (searchResult.contains(user)) {
+                searchResult.remove(user);
+            }
+
+            if (searchResult.isEmpty()) {
+                model.addAttribute("message", "Zu Ihrer Suchanfrage gab es leider keinen passenden User oder in diesem Shop gibt es keine FriendZone User.");
+            }
+            if (!searchResult.isEmpty()) {
+                //die Liste wird alphabetisch sortiert
+                Collections.sort(searchResult, new Comparator<User>() {
+                    @Override
+                    public int compare(User u1, User u2) {
+                        return u1.getUsername().toLowerCase().compareTo(u2.getUsername().toLowerCase());
+                    }
+                });
+                model.addAttribute("results", searchResult);
+            }
         } else {
-            searchResult = userService.getUsers();
-        }
-
-        //Man soll nicht nach sich selbst suchen können
-        if(searchResult.contains(user)) {
-            searchResult.remove(user);
-        }
-
-        if(searchResult.isEmpty()) {
-            model.addAttribute("message", "Zu Ihrer Suchanfrage gab es leider keinen passenden User.");
-        }
-        if(!searchResult.isEmpty()) {
-            //die Liste wird alphabetisch sortiert
-            Collections.sort(searchResult, new Comparator<User>() {
-                @Override
-                public int compare(User u1, User u2) {
-                    return u1.getUsername().toLowerCase().compareTo(u2.getUsername().toLowerCase());
-                }
-            });
-            model.addAttribute("results", searchResult);
+            model.addAttribute("message", "Bitte wähle einen Partnershop aus.");
         }
         model.addAttribute("loadMessage", partnershop);
         model.addAttribute("user", user);

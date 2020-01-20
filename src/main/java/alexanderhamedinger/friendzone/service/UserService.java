@@ -11,20 +11,23 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
 import java.util.*;
 
 @Service
-@Qualifier("labresources")
 public class UserService implements UserServiceIF, UserDetailsService {
 
+    @Autowired
+    private RestTemplate restServiceClient;
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
     @Autowired
     private UserRepository userRepository;
     @Autowired
     private FriendRepository friendRepository;
+
 
 
     @Override
@@ -64,23 +67,58 @@ public class UserService implements UserServiceIF, UserDetailsService {
         return user;
     }
     @Override
-    public List<User> getUsers() {
-        Iterable<User> userIterable = userRepository.findAll();
-        Iterator<User> userIterator = userIterable.iterator();
+    public List<User> getUsers(String partnershop) {
         List<User> userCollection = new ArrayList<User>();
 
-        while(userIterator.hasNext()) {
-            userCollection.add(userIterator.next());
+        //für die "normale" Suche
+        if(partnershop == null) {
+            Iterable<User> userIterable = userRepository.findAll();
+            Iterator<User> userIterator = userIterable.iterator();
+            while (userIterator.hasNext()) {
+                userCollection.add(userIterator.next());
+            }
+        }
+        //für die Suche nach Usern in einem Partnershop
+        else {
+            //das sind dann bald die Partnershop E-Mails
+            List<String> emails = getPartnershopEmails(partnershop);
+            User user = new User();
+
+            for(Iterator<String> i = emails.iterator(); i.hasNext(); ) {
+                user = userRepository.findByEmail(i.next());
+                if(user != null) {
+                    userCollection.add(user);
+                }
+            }
         }
 
         return userCollection;
-
-
     }
     @Override
-    public List<User> getUsersLike(String username) {
-        List<User> answer = userRepository.findByUsernameContaining(username);
-        return answer;
+    public List<User> getUsersLike(String username, String partnershop) {
+        List<User> users = new ArrayList<>();
+        users = userRepository.findByUsernameContaining(username);
+
+        //für die Suche nach Usern in einem Partnershop
+        if(partnershop != null) {
+            List<String> emails = getPartnershopEmails(partnershop);
+            List<User> users2 = new ArrayList<>();
+            User currentUser;
+            String currentEmail;
+
+            for(Iterator<User> i = users.iterator(); i.hasNext(); ) {
+                currentUser = i.next();
+                for(Iterator<String> j = emails.iterator(); j.hasNext(); ) {
+                    currentEmail = j.next();
+                    if(currentUser.getEmail().equals(currentEmail)) {
+                        users2.add(currentUser);
+                        break;
+                    }
+                }
+            }
+            users = users2;
+        }
+        return users;
     }
     @Override
     public Collection<User> getMutualFriends(long userid) {
@@ -147,5 +185,42 @@ public class UserService implements UserServiceIF, UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
         return user;
+    }
+
+    //Hilfsfunktion für die Suche in Partnershops
+    private List<String> getPartnershopEmails(String partnershop) {
+        List<String> emails = new ArrayList<>();
+//        if(partnershop.equals("dummy")) {
+//            emails.add("hallo@email.com");
+//            emails.add("jahni@ssv.de");
+//            emails.add("popel@kaka.stink");
+//            emails.add("donald.trump@president.com");
+//            emails.add("luke.skywalker@imperium.de");
+//        }
+//        String email = restServiceClient.getForObject("", String.class);
+
+        String url = "";
+        if(partnershop.equals("bikerator")) {
+            url = "";
+        }
+        if(partnershop.equals("comicshop")) {
+            url = "";
+        }
+        if(partnershop.equals("dummy")) {
+            emails.add("jahni@ssv.de");
+            emails.add("jesus@christus.de");
+            emails.add("donald.trump@president.com");
+            emails.add("luke.skywalker@imperium.de");
+            return emails;
+        }
+
+        try {
+            emails = restServiceClient.postForObject("http://localhost:1889/restapi/customers/emails", "", ArrayList.class);
+
+        } catch(Exception e) {
+
+            e.printStackTrace();
+        }
+        return emails;
     }
 }

@@ -23,10 +23,10 @@ public class ResteController {
     private PostServiceIF postService;
 
     //Schnittstelle zu Parnershop - Hier kann ein externen Post erstellt werden
-    @RequestMapping(value = "/postextern/{email}/{title}", method = RequestMethod.POST)
+    @RequestMapping(value = "/restapi/post", method = RequestMethod.POST)
     public ResponseEntity<?> postExt(
-            @PathVariable("title") String title,
-            @PathVariable("email") String email,
+            @RequestParam("title") String title,
+            @RequestParam("email") String email,
             @RequestParam(required = false, name = "imagefile") MultipartFile file
     ) {
         User user = userService.getUser("email", email);
@@ -58,8 +58,12 @@ public class ResteController {
         post = postService.createPost(post);
         System.out.println(email +"\nExternen Post erstellt");
 
-        return ResponseEntity
-                .ok()
-                .body(post);
+        Post returnpost = post;
+        returnpost.setUser(null);
+
+        return new ResponseEntity<>("created", HttpStatus.CREATED);
+//        return ResponseEntity
+//                .ok()
+//                .body(post);
     }
 }
