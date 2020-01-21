@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.GregorianCalendar;
+import java.util.LinkedHashMap;
 
 @RestController
 @Scope("request")
@@ -24,44 +25,65 @@ public class ResteController {
 
     //Schnittstelle zu Parnershop - Hier kann ein externen Post erstellt werden
     @RequestMapping(value = "/restapi/post", method = RequestMethod.POST)
-    public ResponseEntity<?> postExt(
-            @RequestParam("title") String title,
-            @RequestParam("email") String email,
-            @RequestParam(required = false, name = "imagefile") MultipartFile file
+    public Post postExt(
+            @RequestBody Object inputObject
     ) {
+        System.out.println("Ich bin drin!");
+        System.out.println("Der übergebene Post ist: ");
+        String input = inputObject.toString();
+        String [] emailArray = input.split(" email=");
+        String email = emailArray[1].split(",")[0];
+        String [] titleArray = input.split(" title=");
+        String title = titleArray[1].split(",")[0];
+
         User user = userService.getUser("email", email);
         if(user == null) {
-            return ResponseEntity
-                    .ok()
-                    .body("Ungültige E-Mail - Es existiert kein User mit der E-Mail Adresse " + email);
+            return null;
         }
         //Erstellen des neuen Posts
-        Post post = new Post();
-        post.setPoster(user.getId());
-        post.setUser(user);
-        post.setTitle(title);
-        post.setCreationDate(new GregorianCalendar());
+        Post newpost = new Post();
+        newpost.setPoster(user.getId());
+        newpost.setUser(user);
+        newpost.setTitle(title);
+        newpost.setCreationDate(new GregorianCalendar());
 
-        //save post-image
-        try {
-            byte[] byteObjects = new byte[file.getBytes().length];
-            int i = 0;
-            for (byte b : file.getBytes()) {
-                byteObjects[i++] = b;
-            }
-            post.setPostImage(byteObjects);
+        newpost = postService.createPost(newpost);
+        System.out.println("Externen Post erstellt");
 
-        } catch (Exception e) {
-            e.toString();
-        }
-
-        post = postService.createPost(post);
-        System.out.println(email +"\nExternen Post erstellt");
-
-        Post returnpost = post;
+        Post returnpost = newpost;
         returnpost.setUser(null);
 
-        return new ResponseEntity<>("created", HttpStatus.CREATED);
+        return returnpost;
+//        return ResponseEntity
+//                .ok()
+//                .body(post);
+    }
+
+
+    //Schnittstelle zu Parnershop - Hier kann ein externen Post erstellt werden
+    @RequestMapping(value = "/restapi/posts", method = RequestMethod.POST)
+    public Post createPost(
+            @RequestBody Post post
+    ) {
+        User user = userService.getUser("email", post.getUser().getEmail());
+        if(user == null) {
+            return null;
+        }
+        //Erstellen des neuen Posts
+        Post newpost = new Post();
+        newpost.setPoster(user.getId());
+        newpost.setUser(user);
+        newpost.setTitle(post.getTitle());
+        newpost.setCreationDate(new GregorianCalendar());
+        newpost.setPostImage(post.getPostImage());
+
+        newpost = postService.createPost(newpost);
+        System.out.println("Externen Post erstellt");
+
+        Post returnpost = newpost;
+        returnpost.setUser(null);
+
+        return returnpost;
 //        return ResponseEntity
 //                .ok()
 //                .body(post);

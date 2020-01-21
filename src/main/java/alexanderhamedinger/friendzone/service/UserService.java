@@ -190,35 +190,27 @@ public class UserService implements UserServiceIF, UserDetailsService {
     //Hilfsfunktion für die Suche in Partnershops
     private List<String> getPartnershopEmails(String partnershop) {
         List<String> emails = new ArrayList<>();
-//        if(partnershop.equals("dummy")) {
-//            emails.add("hallo@email.com");
-//            emails.add("jahni@ssv.de");
-//            emails.add("popel@kaka.stink");
-//            emails.add("donald.trump@president.com");
-//            emails.add("luke.skywalker@imperium.de");
-//        }
-//        String email = restServiceClient.getForObject("", String.class);
 
         String url = "";
         if(partnershop.equals("bikerator")) {
-            url = "";
+            url = "http://im-codd:8864/restapi/customers/emails";
         }
         if(partnershop.equals("comicshop")) {
-            url = "";
+            url = "http://im-codd:8819/restapi/customers/emails";
         }
-        if(partnershop.equals("dummy")) {
-            emails.add("jahni@ssv.de");
-            emails.add("jesus@christus.de");
-            emails.add("donald.trump@president.com");
-            emails.add("luke.skywalker@imperium.de");
-            return emails;
-        }
+//        if(partnershop.equals("dummy")) {
+//            emails.add("jahni@ssv.de");
+//            emails.add("jesus@christus.de");
+//            emails.add("donald.trump@president.com");
+//            emails.add("luke.skywalker@imperium.de");
+//            return emails;
+//        }
 
         try {
-            emails = restServiceClient.postForObject("http://localhost:1889/restapi/customers/emails", "", ArrayList.class);
+            emails = restServiceClient.postForObject(url, "", ArrayList.class);
 
         } catch(Exception e) {
-
+            emails = new ArrayList<>();
             e.printStackTrace();
         }
         return emails;

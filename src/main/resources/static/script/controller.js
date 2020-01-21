@@ -220,8 +220,8 @@ function changeShopLink() {
 
     function getPartnershop(shop) {
         var blank = "#";
-        var bikerator = "http://im-codd:8862";
-        var comicshop = "http://im-codd:8854";
+        var bikerator = "http://im-codd:8864";
+        var comicshop = "http://im-codd:8819";
 
         if(shop == "blank") return blank;
         if(shop == "bikerator") return bikerator;

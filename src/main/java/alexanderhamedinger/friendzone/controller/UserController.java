@@ -196,7 +196,6 @@ public class UserController {
             @ModelAttribute("searchQuery") String searchQuery,
             @RequestParam(name = "partnershop", defaultValue = "blank") String partnershop
     ) {
-        System.out.println(partnershop);
         User user = userService.getUser("username", prince.getName());
         List<User> searchResult = new ArrayList<User>();
 
